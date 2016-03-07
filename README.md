@@ -121,3 +121,18 @@ Update order
 url - /order/:id
 method - PUT
 params - order object, order id
+
+
+Delete order
+url - /order/:id
+method - DELETE
+params - order id
+
+
+Batch order
+url - /batchOrder
+method - POST
+params - orders object, .csv file
+
+
+<h3>test code</h3>
