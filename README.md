@@ -135,4 +135,22 @@ method - POST
 params - orders object, .csv file
 
 
-<h3>test code</h3>
+Add a comment
+url - /addOrderComment
+method - POST
+params - comment object
+
+
+Acknowledge order
+url - /supplierAcknowledge/:id
+method - PUT
+params - acknoledgement object
+
+
+Accept Order
+url - /acceptSupplierOrder/:id
+method - PUT
+params - status, order_id
+
+
+<h3>test </h3>
