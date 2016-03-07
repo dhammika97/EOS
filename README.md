@@ -2,6 +2,13 @@
 
 Services list
 
+
+User Login
+url - /login
+method - POST
+params -email, password 
+
+
 Get all users
 url - /user
 method - GET
@@ -60,3 +67,57 @@ Delete location
 url - /location/:id
 method - DELETE
 params - location id
+
+
+Get all company list
+url - /company
+method - GET
+params - 
+
+
+Get company by id
+url - /company/:id
+method - GET
+params - company id
+
+
+Create company
+url - /company
+method - POST
+params - company object
+
+
+Update company
+url - /company/:id
+method - PUT
+params - company object, company id
+
+
+Delete company
+url - /company/:id
+method - DELETE
+params - company id
+
+
+Order list
+url - /order
+method - GET
+params
+
+
+Order by id
+url - /order
+method - GET
+params - order id
+
+
+Create order
+url - /order
+method - POST
+params - order object
+
+
+Update order
+url - /order/:id
+method - PUT
+params - order object, order id
