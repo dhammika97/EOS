@@ -21,7 +21,7 @@ params - user object
 
 
 Update user 
-url - /userlist
+url - /user/:id
 method - PUT
 params - user object, user_id
 
@@ -44,3 +44,19 @@ method - GET
 params - location id
 
 
+Create location
+url - /location
+method - POST
+params - location object
+
+
+Update location
+url - /location/:id
+method - PUT
+params - location object, location id
+
+
+Delete location
+url - /location/:id
+method - DELETE
+params - location id
