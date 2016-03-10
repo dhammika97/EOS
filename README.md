@@ -1,5 +1,5 @@
 # EOS
-
+/*
 Services list
 
 
@@ -153,4 +153,4 @@ method - PUT
 params - status, order_id
 
 
-<h3>test </h3>
+<h3>test </h3>*/
