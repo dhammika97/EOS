@@ -103,16 +103,23 @@ $app->post('/user', 'authenticate', function() use ($app) {
 		$response = array();
 		$request = $app->request();
 		$DbHandler = new DbHandler();
-
-		$users = $request->getBody();		
+        //echo 'test'; 
+		$users = $request->getBody();
+        	
 		//verifyRequiredParams(array("user_email", "user_password"));
-		if($DbHandler->createUser($users)){
-			$response["error"] = false;
-			$response["message"] = "user created successfully";
-			echoRespnse(200, $response);				
-			}else{
+		try{
+			if($DbHandler->createUser($users)){
+				$response["error"] = false;
+				$response["message"] = "user created successfully";
+				echoRespnse(200, $response);				
+				}else{
+				$response["error"] = true;
+				$response["message"] = "user creation failed!";
+				echoRespnse(400, $response);
+			}
+		}catch(Exception $e){
 			$response["error"] = true;
-			$response["message"] = "user creation failed!";
+			$response["message"] = $e->getMessage();
 			echoRespnse(400, $response);
 		}
 });
