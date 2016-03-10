@@ -19,7 +19,7 @@ class DbHandler {
 
 	public function isValidAccessToken($user_accessToken) {     
 		$db = new database();
-		$table = 'user';
+		$table = 'users';
 		$rows ='*';
 		$where = 'user_accessToken = "'.$user_accessToken.'"';	
 		$db->select($table,$rows,$where,'','');
@@ -55,7 +55,7 @@ class DbHandler {
 			$i++;
 		}
 		$db = new database();
-		$table = 'user';
+		$table = 'users';
 		$rows ='*';	
 		$db->selectJson($table,$rows,$where,'','','');
 		$user_list = $db->getJson();
@@ -64,7 +64,7 @@ class DbHandler {
 
 	public function GetUserDetail($user_id) {
 		$db = new database();
-		$table = 'user';
+		$table = 'users';
 		$rows ='*';
 		$where = 'user_id = "'.$user_id.'"';	
 		$db->selectJson($table,$rows,$where,'','','');
@@ -73,43 +73,46 @@ class DbHandler {
 	}
 	
    
-	public function createUser( $users) {
+	public function createUser($user) {
+		
 		$date= date('y-m-d');
 		$db = new database();
-		$table  = "user";
+		$table  = "users";
+		//return $user;
+        
 		
-		(isset($users['user_firstname']) ? $user_firstname = $users['user_firstname'] : $user_firstname = "" );
-		(isset($users['user_lastname']) ? $user_lastname = $users['user_lastname'] : $user_lastname = "" );
-		(isset($users['user_address1']) ? $user_address1 = $users['user_address1'] : $user_address1 = "" );
-		(isset($users['user_address2']) ? $user_address2 = $users['user_address2'] : $user_address2 = "" );
-		(isset($users['user_city']) ? $user_city = $users['user_city'] : $user_city = "" );
-		(isset($users['user_contactNo']) ? $user_contactNo = $users['user_contactNo'] : $user_contactNo = "" );
+		if(!isset($user['user_name'])){
+			 throw new Exception('Username cannot be blank!.');
+		}elseif(!isset($user['user_password'])){
+			 throw new Exception('Password cannot be blank!.');
+		}elseif(!isset($user['user_email'])){
+			 throw new Exception('Email cannot be blank!.');
+		}elseif(!isset($user['user_type'])){
+			throw new Exception('Please select user type!.');
+		}elseif(!isset($user['user_company'])){
+			throw new Exception('Please select company!.');
+		}
 		
-		$values = "'".md5 ($users['user_password'])."', 
-					  '".$users['user_email']."', 
-					  '".$user_firstname."', 
-					  '".$user_lastname."', 
-					  '".$user_address1."', 
-					  '".$user_address2."', 
-					  '".$user_city."',
-					  '".$user_contactNo."', 
-					  '".$date."', 
-					  '".$users['user_type']."',
-					  '1',
-					  '".strtoupper(md5(uniqid(rand(), true)))."'";		
+		(isset($user['user_contactNo']) ? $user_contactNo = $user['user_contactNo'] : $user_contactNo = "" );
+		
+		$values = "'".$user['user_name']."',
+                      '".md5 ($user['user_password'])."',
+                      '".strtoupper(md5(uniqid(rand(), true)))."', 
+					  '".$user['user_email']."', 
+					  '".$user['user_type']."',
+                      '".$user['user_company']."',
+                      '".$user_contactNo."',
+                      '1'";		
 					  
-		$rows   = "user_password,
+		$rows   = "user_name,
+                   user_password,
+                   user_accessToken,
 				   user_email,
-				   user_firstname,
-				   user_lastname,
-				   user_address1,
-				   user_address2,
-				   user_city,
-				   user_contactNo,
-				   user_registeredDate,
 				   user_type,
-				   user_status,
-				   user_accessToken";		
+				   user_company,
+				   user_contactNo,
+				   user_status";		
+        
 		if($db->insert($table,$values,$rows) ){
 			return $db->getInsertId();
 		}else{
@@ -132,7 +135,7 @@ class DbHandler {
 
 	public function deleteUser($user_id) { 
 		$db = new database();
-		$table = 'user';
+		$table = 'users';
 		$where = 'user_id = "'.$user_id.'" ';
 		if ($db->delete($table,$where) ){
 			return true;
