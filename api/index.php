@@ -103,24 +103,34 @@ $app->post('/user', 'authenticate', function() use ($app) {
 		$response = array();
 		$request = $app->request();
 		$DbHandler = new DbHandler();
-        //echo 'test'; 
 		$users = $request->getBody();
         	
-		//verifyRequiredParams(array("user_email", "user_password"));
-		try{
-			if($DbHandler->createUser($users)){
-				$response["error"] = false;
-				$response["message"] = "user created successfully";
-				echoRespnse(200, $response);				
-				}else{
-				$response["error"] = true;
-				$response["message"] = "user creation failed!";
-				echoRespnse(400, $response);
-			}
-		}catch(Exception $e){
+		if($users['user_password']!=isset($users['user_confirmPassword'])){
 			$response["error"] = true;
-			$response["message"] = $e->getMessage();
-			echoRespnse(400, $response);
+			$response["message"] = "Password mis-matched!";
+			echoRespnse(409, $response);
+			return;
+		}
+		if($DbHandler->checkUserAvailability($users['user_email'])){
+			$response["error"] = true;
+			$response["message"] = "User already exist! please check email address!";
+			echoRespnse(409, $response);
+		}else{
+			try{
+				if($DbHandler->createUser($users)){
+					$response["error"] = false;
+					$response["message"] = "user created successfully";
+					echoRespnse(200, $response);				
+					}else{
+					$response["error"] = true;
+					$response["message"] = "user creation failed!";
+					echoRespnse(400, $response);
+				}
+			}catch(Exception $e){
+				$response["error"] = true;
+				$response["message"] = $e->getMessage();
+				echoRespnse(400, $response);
+			}	
 		}
 });
 		
@@ -133,8 +143,14 @@ $app->put('/user/:id', 'authenticate', function($user_id) use ($app) {
 		$request = $app->request();
 		$DbHandler = new DbHandler();
 		$response = array();
-		$users =  $request->getBody();
-		$result = $DbHandler->updateUser($user_id, $users);
+		$user =  $request->getBody();
+		$result = $DbHandler->updateUser($user_id, $user);
+		if(isset($user['user_password'])){
+			$response["error"] = false;
+			$response["message"] = "You can't change the password. Please contact administrator";
+			echoRespnse(200, $response);
+			return;	
+		}
 		if ($result) {
 			$response["error"] = false;
 			$response["message"] = "User updated successfully";
@@ -145,6 +161,8 @@ $app->put('/user/:id', 'authenticate', function($user_id) use ($app) {
 			echoRespnse(400, $response);
 		}
 });
+
+/*-----------------------Change password function needs to be implemented---------------------------------*/
  					
 /**
  * Delete user 
@@ -176,7 +194,7 @@ $app->delete('/user/:id', 'authenticate', function($user_id) use($app) {
  * method - GET
  * params - api Key*/
 
-$app->get('/locations',  function() {
+$app->get('/locations', 'authenticate', function() use($app) {
 		$request = \Slim\Slim::getInstance()->request();
 		$params = $request->params();    
     
@@ -199,7 +217,7 @@ $app->get('/locations',  function() {
  * url - /locations/:id
  * method - GET
  * params - location id */ 
-$app->GET('/locations/:id',  function($location_id) {
+$app->GET('/locations/:id', 'authenticate', function($location_id) use($app) {
 		$DbHandler = new DbHandler();
 		$response = array();
 		$row = $DbHandler->getLocationDetail($location_id);
@@ -228,15 +246,23 @@ $app->post('/locations', 'authenticate', function() use ($app) {
 
 		$location = $request->getBody();		
 		//verifyRequiredParams(array("user_email", "user_password"));
-		if($DbHandler->createLocation($location)){
-			$response["error"] = false;
-			$response["message"] = "location created successfully";
-			echoRespnse(201, $response);				
-			}else{
+		try{
+			//echo $DbHandler->createLocation($location);
+			if($DbHandler->createLocation($location)){
+				$response["error"] = false;
+				$response["message"] = "location created successfully";
+				echoRespnse(201, $response);				
+				}else{
+				$response["error"] = true;
+				$response["message"] = "location creation failed";	
+				echoRespnse(200, $response);
+			}
+		}catch(Exception $e){
 			$response["error"] = true;
-			$response["message"] = "location creation failed";	
-			echoRespnse(200, $response);
+			$response["message"] = $e->getMessage();
+			echoRespnse(400, $response);
 		}
+		
 });
 		
 /**
@@ -277,7 +303,7 @@ $app->delete('/locations/:id', 'authenticate', function($location_id) use($app) 
 			echoRespnse(200, $response);
 		} else {
 			$response["error"] = true;
-			$response["message"] = "Location failed to delete. Please delete the coraspond subers!";
+			$response["message"] = "Location failed to delete. ";
 			echoRespnse(400, $response);
 		}
 });
@@ -326,46 +352,126 @@ $app->post('/login', function() use ($app) {
 });
 
 
+
 /**
- * User Registration
- * url - /register
+ * Create Companies 
+ * url - /company
  * method - POST
- * params - $users object
- */
-$app->post('/register', function() use ($app) {
-            
-        $users  = array();
+ * params -company object*/
+
+$app->post('/company', 'authenticate', function() use ($app) {
+		$company  = array();
 		$response = array();
 		$request = $app->request();
 		$DbHandler = new DbHandler();
 
-		$users = $request->getBody();
-		//echo print_r($users);	
-		$users['user_type']='3';
-		if($users['user_password']!=$users['user_confirmPassword']){
-			$response["error"] = true;
-			$response["message"] = "Password mis-matched!";
-			echoRespnse(409, $response);
-			return;
-		}
-		if($DbHandler->checkUserAvailability($users['user_email'])){
-			$response["error"] = true;
-			$response["message"] = "User already exist! please login to the system";
-			echoRespnse(409, $response);
-		}else{
-			if($userId = $DbHandler->createUser($users)){
-				$defaultPackageList = json_decode($DbHandler->getAllDefaultPackages(),true);
-				for($i=0; $i<count($defaultPackageList);$i++){
-					$DbHandler->CreateUserPackages($userId,$defaultPackageList[$i]['package_id'],$defaultPackageList[$i]['package_adLimit']);
-				}
+		$company = $request->getBody();
+		try{
+			//echo $DbHandler->createLocation($location);
+			if($DbHandler->createCompany($company)){
 				$response["error"] = false;
-				$response["message"] = "Congradulations! We have sent an activation email to ".$users['user_email']." Please activate your account first";
-				echoRespnse(200, $response);
-			}else{
+				$response["message"] = "Company created successfully";
+				echoRespnse(201, $response);				
+				}else{
 				$response["error"] = true;
-				$response["message"] = "User creation failed!, Please contact system administrator";
-				echoRespnse(412, $response);
+				$response["message"] = "Company creation failed";	
+				echoRespnse(200, $response);
 			}
+		}catch(Exception $e){
+			$response["error"] = true;
+			$response["message"] = $e->getMessage();
+			echoRespnse(400, $response);
+		}
+		
+});
+
+
+/**
+ * Get all companies
+ * url - /company
+ * method - GET
+ * params - api Key*/
+
+$app->get('/company', 'authenticate', function() use($app) {
+		$request = \Slim\Slim::getInstance()->request();
+		$params = $request->params();    
+    
+		$response = array();
+		$DbHandler = new DbHandler();		
+		$result = $DbHandler->getAllCompanies($params);
+		if (!$result) {
+			$response["error"] = TRUE;
+			$response["message"] = "The requested resource doesn't exists";
+			echoRespnse(404, $response);
+		} else {
+			$response["error"] = false;
+			$response['companies']=json_decode($result);
+			echoRespnse(200, $response);
+		}
+});
+
+/**
+ * get company details
+ * url - /company/:id
+ * method - GET
+ * params - company id */ 
+$app->GET('/company/:id', 'authenticate', function($company_id) use($app) {
+		$DbHandler = new DbHandler();
+		$response = array();
+		$row = $DbHandler->getCompanyDetail($company_id);
+		if ($row != NULL) {
+			$response["error"] = false;
+			$response["company"] = json_decode($row);
+			echoRespnse(200, $response);
+		} else {
+			$response["error"] = true;
+			$response["message"] = "The requested resource doesn't exists";
+			echoRespnse(404, $response);
+		}
+}); 
+
+
+/**
+ * Update company 
+ * url - /company
+ * method - PUT
+ * params - company object */
+$app->put('/company/:id', 'authenticate', function($company_id) use ($app) {
+		$request = $app->request();
+		$DbHandler = new DbHandler();
+		$response = array();
+		$company =  $request->getBody();
+		$result = $DbHandler->updateCompany($company_id, $company);
+		if ($result) {
+			$response["error"] = false;
+			$response["message"] = "Company updated successfully";
+			echoRespnse(200, $response);
+		} else {                
+			$response["error"] = true;
+			$response["message"] = "Company failed to update. Please try again!";
+			echoRespnse(400, $response);
+		}
+});
+
+
+/**
+ * Delete company
+ * url - /company/:id
+ * method - DELETE
+ * params - company id */ 
+$app->delete('/company/:id', 'authenticate', function($company_id) use($app) {
+		$DbHandler = new DbHandler();
+		$response = array();
+		$result = $DbHandler->deleteCompany($company_id);
+		
+		if ($result) {			
+			$response["error"] = false;
+			$response["message"] = "Company deleted succesfully";
+			echoRespnse(200, $response);
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Company failed to delete.";
+			echoRespnse(400, $response);
 		}
 });
 
