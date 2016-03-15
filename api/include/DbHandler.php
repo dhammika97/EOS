@@ -368,8 +368,8 @@ public function checkLogin($user_email, $user_password) {
 		$table = 'company';
 		$rows ='*';	
 		$db->selectJson($table,$rows,$where,'','');
-		$location_list = $db->getJson();
-		return $location_list;
+		$company_list = $db->getJson();
+		return $company_list;
 	}
 	
 	public function getCompanyDetail($company_id){
@@ -403,5 +403,90 @@ public function checkLogin($user_email, $user_password) {
 		}
 	}
 	
+	
+	public function createSupplier($supplier) {
+		
+		$db = new database();
+		$table  = "supplier";
+		//return $user;
+        
+		if(!isset($supplier['supplier_name'])){
+			 throw new Exception('Supplier name cannot be blank!.');
+		}elseif(!isset($supplier['supplier_email'])){
+			 throw new Exception('Supplier email cannot be blank!.');
+		}
+		
+		(isset($supplier['supplier_contactNo']) ? $supplier_contactNo = $supplier['supplier_contactNo'] : $supplier_contactNo = "" );
+		(isset($supplier['supplier_contactName']) ? $supplier_contactName = $supplier['supplier_contactName'] : $supplier_contactName = "" );
+		(isset($supplier['supplier_alternateContact']) ? $supplier_alternateContact = $supplier['supplier_alternateContact'] : $supplier_alternateContact = "" );
+		
+		$values = "'".$supplier['supplier_name']."',
+					  '".$supplier['supplier_email']."',
+					  '".$supplier_contactNo."', 
+					  '".$supplier_contactName."',
+                      '".$supplier_alternateContact."'";		
+					  
+		$rows   = "supplier_name,
+                   supplier_email,
+                   supplier_contact_no,
+				   supplier_contact_name,
+				   supplier_alternate_contact";		
+        
+		if($db->insert($table,$values,$rows) ){
+			return $db->getInsertId();
+		}else{
+			return false;
+		}				
+	}
+	
+	
+	public function getAllSuppliers($params){
+		$where = '';
+		$i = 1;
+		foreach($params as $key => $value){
+			if($i != count($params) )
+			$where .= $key .'='.$value.' AND ';
+			else
+			$where .= $key .'='.$value;
+			$i++;
+		}
+		$db = new database();
+		$table = 'supplier';
+		$rows ='*';	
+		$db->selectJson($table,$rows,$where,'','');
+		$supplier_list = $db->getJson();
+		return $supplier_list;
+	}
+	
+	public function getSuplierDetail($supplier_id){
+		$db = new database();
+		$table = 'supplier';
+		$rows ='*';
+		$where = 'supplier_id = "'.$supplier_id.'"';
+		$db->selectJson($table,$rows,$where,'','');
+		$page = $db->getJson();
+		return $page;
+	}
+	
+	public function updateSupplier($supplier_id, $supplier){
+		$db = new database();	
+		$table = 'supplier';
+		$rows  = $supplier ;
+		$where = 'supplier_id = "'.$supplier_id.'"';
+		if($db->update($table,$rows,$where) ){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public function deleteSupplier($supplier_id){
+		$db = new database();
+		$table = 'supplier';
+		$where = 'supplier_id = "'.$supplier_id.'" ';
+		if ($db->delete($table,$where) ){
+			return true;
+		}
+	}
 }
 ?>

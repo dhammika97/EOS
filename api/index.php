@@ -476,6 +476,130 @@ $app->delete('/company/:id', 'authenticate', function($company_id) use($app) {
 });
 
 
+/**
+ * Create Suppliers 
+ * url - /supplier
+ * method - POST
+ * params -supplier object*/
+
+$app->post('/supplier', 'authenticate', function() use ($app) {
+		$supplier  = array();
+		$response = array();
+		$request = $app->request();
+		$DbHandler = new DbHandler();
+
+		$supplier = $request->getBody();
+		try{
+			//echo $DbHandler->createLocation($location);
+			if($DbHandler->createSupplier($supplier)){
+				$response["error"] = false;
+				$response["message"] = "Supplier created successfully";
+				echoRespnse(201, $response);				
+				}else{
+				$response["error"] = true;
+				$response["message"] = "Supplier creation failed";	
+				echoRespnse(200, $response);
+			}
+		}catch(Exception $e){
+			$response["error"] = true;
+			$response["message"] = $e->getMessage();
+			echoRespnse(400, $response);
+		}
+		
+});
+
+
+/**
+ * Get all suppliers
+ * url - /supplier
+ * method - GET
+ * params - api Key*/
+
+$app->get('/supplier', 'authenticate', function() use($app) {
+		$request = \Slim\Slim::getInstance()->request();
+		$params = $request->params();    
+    
+		$response = array();
+		$DbHandler = new DbHandler();		
+		$result = $DbHandler->getAllSuppliers($params);
+		if (!$result) {
+			$response["error"] = TRUE;
+			$response["message"] = "The requested resource doesn't exists";
+			echoRespnse(404, $response);
+		} else {
+			$response["error"] = false;
+			$response['companies']=json_decode($result);
+			echoRespnse(200, $response);
+		}
+});
+
+/**
+ * get supplier details
+ * url - /supplier/:id
+ * method - GET
+ * params - supplier id */ 
+$app->GET('/supplier/:id', 'authenticate', function($supplier_id) use($app) {
+		$DbHandler = new DbHandler();
+		$response = array();
+		$row = $DbHandler->getSuplierDetail($supplier_id);
+		if ($row != NULL) {
+			$response["error"] = false;
+			$response["supplier"] = json_decode($row);
+			echoRespnse(200, $response);
+		} else {
+			$response["error"] = true;
+			$response["message"] = "The requested resource doesn't exists";
+			echoRespnse(404, $response);
+		}
+}); 
+
+
+/**
+ * Update supplier 
+ * url - /supplier
+ * method - PUT
+ * params - supplier object */
+$app->put('/supplier/:id', 'authenticate', function($supplier_id) use ($app) {
+		$request = $app->request();
+		$DbHandler = new DbHandler();
+		$response = array();
+		$supplier =  $request->getBody();
+		$result = $DbHandler->updateSupplier($supplier_id, $supplier);
+		if ($result) {
+			$response["error"] = false;
+			$response["message"] = "Supplier updated successfully";
+			echoRespnse(200, $response);
+		} else {                
+			$response["error"] = true;
+			$response["message"] = "Supplier failed to update. Please try again!";
+			echoRespnse(400, $response);
+		}
+});
+
+
+/**
+ * Delete supplier
+ * url - /supplier/:id
+ * method - DELETE
+ * params - supplier id */ 
+$app->delete('/supplier/:id', 'authenticate', function($supplier_id) use($app) {
+		$DbHandler = new DbHandler();
+		$response = array();
+		$result = $DbHandler->deleteSupplier($supplier_id);
+		
+		if ($result) {			
+			$response["error"] = false;
+			$response["message"] = "Supplier deleted succesfully";
+			echoRespnse(200, $response);
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Supplier failed to delete.";
+			echoRespnse(400, $response);
+		}
+});
+
+
+
 
 $app->run();
 		
