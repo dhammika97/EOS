@@ -6,16 +6,6 @@
  */
 class DbHandler {
 
-	public function getCategoryMatrix($params){
-		$where = 'category_status=1';
-		$db = new database();
-		$table = 'category c inner join category_sub s on c.category_id = s.category_sub_parentId';
-		$rows ='c.category_id,c.category_name,s.category_sub_id,s.category_sub_name,s.category_sub_tplType';	
-		$db->selectJson($table,$rows,$where,'','','');
-		$subcategories = $db->getJson();
-		return $subcategories;
-	}
-
 
 	public function isValidAccessToken($user_accessToken) {     
 		$db = new database();
@@ -27,21 +17,48 @@ class DbHandler {
 		return $user;	
 	}
 	
-	public function getUserId($api_key) {
-		$stmt = $this->conn->prepare("SELECT id FROM users WHERE api_key = ?");
-		$stmt->bind_param("s", $api_key);
-		if ($stmt->execute()) {
-			$stmt->bind_result($user_id);
-			$stmt->fetch();
-			$stmt->close();
-			return $user_id;
-		} else {
-			return NULL;
-		}
-	}
+	public function getUserId($user_accessToken) {
+        $db = new database();
+        $table = 'users';
+        $rows = '*';
+        $where = 'user_accessToken = "' . $user_accessToken . '"';
+        $db->select($table, $rows, $where, '', '');
+        $user = $db->getResults();
+        return $user;
+    }
 
 	private function generateApiKey() {
 		return strtoupper(md5(uniqid(rand(), true)));
+	}
+	
+	private function auditLogEntry($params){
+		$db = new database();
+		$tables = 'audit_log';
+		
+		(isset($params['action']) ? $action = $params['action'] : $action = "" );
+		(isset($params['table']) ? $table = $params['table'] : $table = "" );
+		(isset($params['user']) ? $user = $params['user'] : $user = "" );
+		(isset($params['status']) ? $status = $params['status'] : $status = "" );
+		(isset($params['field']) ? $field = $params['field'] : $field = "" );
+		(isset($params['old_value']) ? $old_value = $params['old_value'] : $old_value = "" );
+		(isset($params['new_value']) ? $new_value = $params['new_value'] : $new_value = "" );
+		
+		$values = "'".$action."',
+					'".$table."',
+					'".$field."',
+					'".$old_value."',
+					'".$new_value."',
+					'".$user."',
+					'".$status."'";
+		$rows = "log_action,
+				 log_table,
+				 log_field,
+				 log_old_value,
+				 log_new_value,
+				 log_user,
+				 log_status";
+				
+		$db->insert($tables,$values,$rows);
 	}
 
 	public function getAllUsers($params) {
@@ -113,7 +130,15 @@ class DbHandler {
 				   user_contactNo,
 				   user_status";		
         
+		global $user_id;
 		if($db->insert($table,$values,$rows) ){
+			$params['table'] = $table;
+			$params['action'] = 'create user';
+			$params['user'] = $user_id;
+			$params['field']='user_email';
+			$params['new_value'] = $user['user_email'];
+			$params['status'] = 1;
+			$this->auditLogEntry($params);
 			return $db->getInsertId();
 		}else{
 			return false;
@@ -125,7 +150,15 @@ class DbHandler {
 		$table = 'users';
 		$rows  = $user ;
 		$where = 'user_id = "'.$user_id.'"';
+		global $user_id;
+		
 		if($db->update($table,$rows,$where) ){
+			$params['table'] = $table;
+			$params['action'] = 'update user';
+			$params['user'] = $user_id;
+			$params['new_value']= json_encode($rows);
+			$params['status'] = 1;
+			$this->auditLogEntry($params);
 			return true;
 		}else{
 			return false;
@@ -133,11 +166,18 @@ class DbHandler {
 	}
 	
 
-	public function deleteUser($user_id) { 
+	public function deleteUser($user_delid) { 
 		$db = new database();
 		$table = 'users';
-		$where = 'user_id = "'.$user_id.'" ';
+		$where = 'user_id = "'.$user_delid.'" ';
+		global $user_id;
 		if ($db->delete($table,$where) ){
+			$params['table'] = $table;
+			$params['action'] = 'delete user';
+			$params['user'] = $user_id;
+			$params['new_value']= $user_delid;
+			$params['status'] = 1;
+			$this->auditLogEntry($params);
 			return true;
 		}		
 	}
@@ -222,25 +262,33 @@ class DbHandler {
 	}
 	
 	
-public function checkLogin($user_email, $user_password) {
-	$db = new database();	
-	$table = 'users';
-	$rows ='*';
-	$where = 'user_email= "'.$user_email.'" AND user_status = 1';
-	
-	$db->select($table,$rows,$where,'','');
-	$logged_User = $db->getResults();
-	//return true;
-	if ($logged_User != NULL) {
-		if ($logged_User["user_password"]== md5($user_password)) {
+	public function checkLogin($user_email, $user_password) {
+		$db = new database();
+		$params = array();	
+		$table = 'users';
+		$rows ='*';
+		$where = 'user_email= "'.$user_email.'" AND user_password="'.md5($user_password).'" AND user_status = 1';
+		
+		$db->select($table,$rows,$where,'','');
+		$logged_User = $db->getResults();
+		
+		if ($logged_User != NULL) {
+			$params['table'] = $table;
+			$params['action'] = 'login';
+			$params['user'] = $logged_User['user_id'];
+			$params['status'] = 1;
+			$this->auditLogEntry($params);
 			return TRUE;
-		} else {	      		
+		} else {
+			$params['table'] = $table;
+			$params['action'] = 'login';
+			$params['field'] = 'user_email';
+			$params['new_value'] = $user_email;
+			$params['status'] = 0;
+			$this->auditLogEntry($params);
 			return FALSE;
-		}
-	} else {                  
-		return FALSE;
-	}      
-}
+		}      
+	}
 
 	public function getUserByEmail($user_email) {
       $db = new database();
@@ -255,52 +303,6 @@ public function checkLogin($user_email, $user_password) {
 
    }
    	
-	
-	public function createRegisteredUser( $users) {
-		$date= date('y-m-d');
-		$db = new database();
-		$table  = "user";
-		
-		(isset($users['user_firstname']) ? $user_firstname = $users['user_firstname'] : $user_firstname = "" );
-		(isset($users['user_lastname']) ? $user_lastname = $users['user_lastname'] : $user_lastname = "" );
-		(isset($users['user_address1']) ? $user_address1 = $users['user_address1'] : $user_address1 = "" );
-		(isset($users['user_address2']) ? $user_address2 = $users['user_address2'] : $user_address2 = "" );
-		(isset($users['user_city']) ? $user_city = $users['user_city'] : $user_city = "" );
-		(isset($users['user_contactNo']) ? $user_contactNo = $users['user_contactNo'] : $user_contactNo = "" );
-		
-		$values = "'".$users['user_username']."', 
-					  '".md5 ($users['user_password'])."', 
-					  '".$users['user_email']."', 
-					  '".$user_firstname."', 
-					  '".$user_lastname."', 
-					  '".$user_address1."', 
-					  '".$user_address2."', 
-					  '".$user_city."',
-					  '".$user_contactNo."', 
-					  '".$date."', 
-					  '".$users['user_type']."',
-					  '1',
-					  '".strtoupper(md5(uniqid(rand(), true)))."'";		
-					  
-		$rows   = "user_username, 
-				   user_password,
-				   user_email,
-				   user_firstname,
-				   user_lastname,
-				   user_address1,
-				   user_address2,
-				   user_city,
-				   user_contactNo,
-				   user_registeredDate,
-				   user_type,
-				   user_status,
-				   user_accessToken";		
-		if($db->insert($table,$values,$rows) ){
-			return true;
-		}else{
-			return false;
-		}				
-	}
 	
 	public function checkUserAvailability($user_email) {
 		$db = new database();	
