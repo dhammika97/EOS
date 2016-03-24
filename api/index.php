@@ -37,6 +37,11 @@ function authenticate(\Slim\Route $route) {
             $response["message"] = "Access Denied. Invalid Access Token";
             echoRespnse(401, $response);
             $app->stop();
+        }else{
+            global $user_id;
+            // get user primary key id
+            $user = $db->getUserId($user_accessToken);
+			$user_id = $user['user_id'];
         }        
     } else {
         // User Access Token is missing in header
