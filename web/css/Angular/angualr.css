@@ -1,0 +1,20 @@
+.grid {
+  width: 100%;
+}
+
+
+.ui-grid-header-cell-wrapper{ background:#2E323D !important; color:#fff; font-weight:normal; font-size:13px;  border:none }
+.ui-grid-header-cell{ padding:10px; border:none}
+.ui-grid { border:none}
+.ui-grid-cell {  }
+.ui-grid-row:nth-child(odd) .ui-grid-cell{ background: #C7CBD6}
+.ui-grid-row:last-child .ui-grid-cell{ background: #E8EAEE }
+
+
+.ui-grid-column-menu-button {top:5px}
+
+
+.HeaderStyle1{ background:#2E323D}
+.HeaderStyle2{ background:#4A5264}
+.CellClassStyle1{ background:#FFE599 !important}
+.bold{ font-weight:bold !important;}
