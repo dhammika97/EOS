@@ -33,32 +33,54 @@ class DbHandler {
 	
 	private function auditLogEntry($params){
 		$db = new database();
-		$tables = 'audit_log';
-		
-		(isset($params['action']) ? $action = $params['action'] : $action = "" );
 		(isset($params['table']) ? $table = $params['table'] : $table = "" );
 		(isset($params['user']) ? $user = $params['user'] : $user = "" );
 		(isset($params['status']) ? $status = $params['status'] : $status = "" );
-		(isset($params['field']) ? $field = $params['field'] : $field = "" );
+		(isset($params['update_id']) ? $update_id = $params['update_id'] : $update_id = "");
 		(isset($params['old_value']) ? $old_value = $params['old_value'] : $old_value = "" );
 		(isset($params['new_value']) ? $new_value = $params['new_value'] : $new_value = "" );
-		
-		$values = "'".$action."',
-					'".$table."',
-					'".$field."',
-					'".$old_value."',
-					'".$new_value."',
-					'".$user."',
-					'".$status."'";
-		$rows = "log_action,
-				 log_table,
-				 log_field,
-				 log_old_value,
-				 log_new_value,
-				 log_user,
-				 log_status";
-				
-		$db->insert($tables,$values,$rows);
+		switch($params['action']){
+			case 'login':
+				$tables = 'audit_login';
+				$values = "'".$new_value."',
+							'".$status."'";
+				$rows = "audit_login_user_email,
+						 audit_login_status";
+				$db->insert($tables,$values,$rows);
+			break;
+			case 'create':
+				$tables = 'audit_create';
+				$values = "'".$table."',
+							'".strval($new_value)."',
+							'".$user."'";
+				$rows = "audit_create_table,
+						 audit_values,
+						 audit_user";
+				$db->insert($tables,$values,$rows);
+			break;
+			case 'update':
+				$tables = 'audit_update';
+				$values = "'".$table."',
+							'".$old_value."',
+							'".$new_value."',
+							'".$user."'";
+				$rows = "audit_update_table,
+						 update_old_value,
+						 update_new_value,
+						 update_log_user";
+				$db->insert($tables,$values,$rows);
+			break;
+			case 'delete':
+				$tables = 'audit_delete';
+				$values = "'".$table."',
+							'".$new_value."',
+							'".$user."'";
+				$rows = "audit_delete_table,
+						 audit_delete_value,
+						 audit_delete_user";
+				$db->insert($tables,$values,$rows);
+			break;
+		}
 	}
 
 	public function getAllUsers($params) {
@@ -131,13 +153,12 @@ class DbHandler {
 				   user_status";		
         
 		global $user_id;
+		
 		if($db->insert($table,$values,$rows) ){
 			$params['table'] = $table;
-			$params['action'] = 'create user';
+			$params['action'] = 'create';
 			$params['user'] = $user_id;
-			$params['field']='user_email';
-			$params['new_value'] = $user['user_email'];
-			$params['status'] = 1;
+			$params['new_value'] = $values;
 			$this->auditLogEntry($params);
 			return $db->getInsertId();
 		}else{
@@ -145,17 +166,18 @@ class DbHandler {
 		}				
 	}
 	
-	public function updateUser($user_id, $user) {       
+	public function updateUser($user_update_id, $user) {       
 		$db = new database();	
 		$table = 'users';
 		$rows  = $user ;
-		$where = 'user_id = "'.$user_id.'"';
+		$where = 'user_id = "'.$user_update_id.'"';
 		global $user_id;
-		
+		$params['old_value'] = $this->GetUserDetail($user_update_id);
 		if($db->update($table,$rows,$where) ){
 			$params['table'] = $table;
-			$params['action'] = 'update user';
+			$params['action'] = 'update';
 			$params['user'] = $user_id;
+			$params['update_id'] = $user_update_id;
 			$params['new_value']= json_encode($rows);
 			$params['status'] = 1;
 			$this->auditLogEntry($params);
@@ -168,15 +190,15 @@ class DbHandler {
 
 	public function deleteUser($user_delid) { 
 		$db = new database();
+		$rows = array('user_status'=>'0');
 		$table = 'users';
 		$where = 'user_id = "'.$user_delid.'" ';
 		global $user_id;
-		if ($db->delete($table,$where) ){
+		$params['new_value'] = $this->GetUserDetail($user_delid);
+		if ($db->update($table,$rows,$where) ){
 			$params['table'] = $table;
-			$params['action'] = 'delete user';
+			$params['action'] = 'delete';
 			$params['user'] = $user_id;
-			$params['new_value']= $user_delid;
-			$params['status'] = 1;
 			$this->auditLogEntry($params);
 			return true;
 		}		
@@ -273,16 +295,13 @@ class DbHandler {
 		$logged_User = $db->getResults();
 		
 		if ($logged_User != NULL) {
-			$params['table'] = $table;
 			$params['action'] = 'login';
-			$params['user'] = $logged_User['user_id'];
+			$params['new_value'] = $user_email;
 			$params['status'] = 1;
 			$this->auditLogEntry($params);
 			return TRUE;
 		} else {
-			$params['table'] = $table;
 			$params['action'] = 'login';
-			$params['field'] = 'user_email';
 			$params['new_value'] = $user_email;
 			$params['status'] = 0;
 			$this->auditLogEntry($params);
