@@ -1,0 +1,335 @@
+html, body {
+	min-width: 760px;
+	-ms-overflow-style: scrollbar;
+}
+body {
+	background-color: #ebeef0;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: normal;
+}
+/* Login ================================== */
+.main_container {
+}
+.wr_login_header {
+	background: #fff
+}
+.wr_login_footer {
+	padding: 10px;
+	text-align: center
+}
+.login_contents {
+	height: 800px;
+	background: url(../images/bg.jpg) no-repeat bottom center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+.login_contents {
+}
+.login_contents h1 {
+	font-family: "Segoe UI Light", "Helvetica LT Std", Arial;
+	color: #fff;
+	font-size: 36px;
+	margin: 20px 0px;
+	display: inline-block;
+	text-align: center
+}
+.wr_login_box {
+	width: 300px;
+	border: 5px solid #95B9CC;
+	height: 250px;
+	margin: 0px auto;
+	background: #fff;
+	padding: 20px
+}
+.wr_login_box button {
+	color: #fff;
+	background: #36A9E0;
+	width: 100%;
+	border-radius: 0px;
+	border: none
+}
+.wr_login_box input {
+	border-radius: 0px;
+	border: none;
+	background: #EEEEEE
+}
+.wr_login_box label {
+	font-size: 14px;
+	font-weight: bold
+}
+.PageTitle {
+	text-align: center
+}
+.WR_Header {
+	background: #fff;
+	position: fixed;
+	height: 70px;
+	width: 100%;
+	top: 0px;
+	z-index: 80
+}
+.WR_Body {
+	padding: 20px 0px;
+	margin-top: 10px;
+	overflow: auto;
+	padding-bottom: 100px
+}
+.WR_footer {
+	background: #CCC;
+	position: fixed;
+	bottom: 0px;
+	padding: px;
+	width: 100%;
+	z-index: 80;
+}
+.WR_Buttons {
+	padding: 10px;
+	text-align: right;
+	padding-right: 35px;
+	background: #121212
+}
+.Header_left {
+	padding-left: 0px;
+	padding-right: 0px;
+	background: #fff
+}
+.wr_logo {
+	background: #fff;
+}
+.Header_right {
+	text-align: right;
+	padding: 10px;
+	padding-right: 0px
+}
+.Header_right_bottom {
+	text-align: right
+}
+.WR_TitleBar {
+	background: #DBDBDB;
+	margin-top: 70px;
+	height: 46px;
+}
+.WR_TitleBar h1 {
+	color: #fff;
+	font-size: 22px;
+	padding: 0px;
+	margin: 0px;
+	font-weight: normal;
+	font-family: "Segoe UI Light", "Helvetica LT Std", Arial
+}
+.TitleBarRight {
+	text-align: right;
+	padding-right: 0px !important
+}
+.TitleBarLeft {
+	padding: 10px 15px
+}
+.WR_PageTitle {
+	margin-bottom: 5px;
+}
+.WR_PageTitle i {
+	color: #FF5C06;
+	font-size: 45px;
+	vertical-align: middle
+}
+.WR_PageTitle h1, .WR_PageTitle h1 a:link, .WR_PageTitle h1 a:visited {
+	color: #2E323D;
+	font-size: 28px;
+	font-family: "Segoe UI Light", "Helvetica LT Std", Arial;
+	text-decoration: none;
+	padding-bottom: 3px;
+	display: inline-block;
+	margin: 0px
+}
+.WR_PageTitle h1 a:hover {
+	text-decoration: underline
+}
+.WR_PageTitle small.span {
+	font-size: 20px;
+}
+.WR_Notifications {
+	color: #fff;
+	display: inline-block; display:none;
+}
+.itm_not {
+	height: 46px;
+	background: #3EA6D9;
+	float: left;
+	min-width: 160px;
+	text-align: left
+}
+.notbg {
+	background: #3EA6D9
+}
+.alertbg {
+	background: #FF5252
+}
+.itm_alert {
+}
+.not_nmbr {
+	font-size: 22px;
+	line-height: 22px;
+	padding: 10px 10px 10px 10px;
+	display: inline-block;
+	vertical-align: middle;
+	font-weight: bold
+}
+.not_text {
+	font-size: 16px;
+	line-height: 16px;
+	padding: 14px 15px 10px 0px;
+	display: inline-block;
+	vertical-align: middle
+}
+.not_text a:link, .not_text a:visited {
+	color: #fff;
+	text-decoration: none
+}
+.footer_bottom {
+	border-top: 1px solid #999;
+	padding: 10px
+}
+.link_list_1 {
+	list-style: none;
+	color: #FFF;
+	margin-bottom: 5px
+}
+.link_list_1 li {
+	list-style: none;
+	display: inline-block;
+	margin-right: 20px
+}
+.link_list_1 li:last {
+margin-right:0px
+}
+.link_list_1 li span {
+	margin-right: 10px;
+	color: #fff
+}
+.navbar-default {
+	border: none;
+	background-color: #fff;
+	margin-bottom: 0px;
+	z-index: 100
+}
+.navbar {
+	min-height: 30px
+}
+.navbar-default .navbar-nav>li>a {
+	font-size: 16px;
+	color: #333;
+	text-transform: uppercase
+}
+.navbar-collapse {
+	border-top: 0px
+}
+.dropdown-menu {
+	border-radius: 0px;
+	border: none
+}
+.navbar-default .navbar-toggle .icon-bar {
+	background-color: #fff
+}
+.CountryDropDown {
+	background: white;
+	border: none;
+	font-size: 15px;
+	padding: 3px 15px;
+	margin: 0px
+}
+.WR_GridButtons {
+	text-align: right;
+	margin-bottom: 10px
+}
+.btn{border-radius:0px ; border:none; }
+
+.btn-green {
+	background: #2FA889;
+	color: #fff;
+	min-width: 100px; 
+}
+.btn-green:hover {
+	background: #237C66;
+	color: #fff
+}
+.btn-blue {
+	background: #36A9E0;
+	color: #fff;
+	padding: 8px 20px
+}
+.btn-blue:hover {
+	background: #1C85B7;
+	color: #fff
+}
+.WR_Form {
+	margin-top: 30px
+}
+.form-control {
+	max-width: 300px;
+	color: #000;
+	font-family: Arial, Helvetica, sans-serif
+}
+
+
+
+
+
+/* ==================================================== */
+@media (max-width:768px) {
+.navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>.active>a:hover {
+	color: #fff;
+	background: #FF5C06
+}
+.navbar-default .navbar-toggle {
+	border: none; background:#003
+}
+.navbar-default .navbar-nav>.open>a:hover {
+	background: #FF5C06
+}
+.navbar-default .navbar-nav .open .dropdown-menu>li>a {
+	color: #333
+}
+.navbar-default .navbar-nav .open .dropdown-menu>li>a:hover {
+	color: #FF5C06
+}
+.navbar-default .navbar-nav>.open>a {
+	background: #FF5C06 !important;
+	color: #fff !important
+}
+.navbar-default .navbar-nav>.active>a {
+	background: #FF5C06;
+	color: #fff
+}
+.navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
+	background: #FF5C06;
+	color: #fff
+}
+.navbar-toggle {
+	margin-top: 0px;
+	margin-bottom: 0px
+}
+}
+ @media (min-width:768px) {
+.wr_logo {
+	max-width: 200px
+}
+.navbar-nav>li>a {
+	padding-bottom: 5px;
+	padding-top: 5px
+}
+.navbar-default .navbar-nav>.active>a {
+	background-color: transparent;
+	color: #FF5A05 !important;
+	border-bottom: 0px solid #FF5A05
+}
+.navbar-default .navbar-nav>li>a:hover {
+	 color:#FF5A05
+}
+}
+ @media (max-width:320px) {
+}
+ @media (max-width:320px) {
+}
