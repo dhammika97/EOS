@@ -133,14 +133,14 @@ private $numrows;
 		if($values != ""){
 			$insert .= " values (".$values.");";
 		}
-		echo $insert;
-		$ins = mysqli_query($this->con,$insert);
-		$this->insertid = mysqli_insert_id($this->con);
-		if($ins){
+		//echo $insert;
+		//$ins = mysqli_query($this->con,$insert);
+		//$this->insertid = mysqli_insert_id($this->con);
+		//if($ins){
 			return true;
-		}else{
-			return false;	
-		}
+		//}else{
+		//	return false;	
+		//}
 		$this->disconnect();
 	}
 	

@@ -1,60 +1,49 @@
 // JavaScript Document
 var App = angular.module('heos', ['ngRoute', 'ngResource'])
 
+window.routes =
+{
+    "/": {
+        templateUrl: 'app/partials/dashboard_hybrid.html', 
+        controller: '', 
+        requireLogin: true
+	},
+    "/users": {
+        templateUrl: 'app/partials/user_grid.html', 
+        controller: 'controllers.userController', 
+        requireLogin: true
+    },
+    "/add-new-users": {
+        templateUrl: 'app/partials/user_new.html', 
+        controller: 'controllers.userController', 
+        requireLogin: true
+    },
+    "/partners": {
+        templateUrl: 'app/partials/partners_grid.html', 
+        controller: 'controllers.partnerController', 
+        requireLogin: true
+    }
+};
+
 App.config(function ($routeProvider, $httpProvider) {
-
     //$httpProvider.defaults.headers.common.Authorization = getUser();
-
-    $routeProvider
-            .when('/',
-				{
-					controller: 'controllers.dashboardController',
-					templateUrl: 'app/partials/dashboard_hybrid.html'
-				}
-            )
-			
-			.when('/users',
-				{
-					controller: 'controllers.userController',
-					templateUrl: 'app/partials/user_grid.html'
-				}
-            )
-			
-			
-			.when('/add_new_users',
-				{
-					controller: 'controllers.addNewUserController',
-					templateUrl: 'app/partials/user_new.html'
-				}
-            )
-			
-			
-			.when('/partners',
-				{
-					controller: 'controllers.partnerController',
-					templateUrl: 'app/partials/partners_grid.html'
-				}
-            )
-			
-			
-			
-			
-            .otherwise({
-                redirectTo: '/'
-            });
+	$httpProvider.defaults.headers.common.Authorization = sessionStorage.getItem("accessKey");
+    for(var path in window.routes) {
+        $routeProvider.when(path, window.routes[path]);
+    }
+	$routeProvider.otherwise({
+		redirectTo:'/'
+	});
 
 })
-
-        /*.run(function ($rootScope, $location, User) {
-			//console.log(User)
-            // register listener to watch route changes
-            $rootScope.$on("$routeChangeStart", function (event, next, current) {
-                if ($rootScope.accessToken == null) {
-                    window.location.replace('../')
-                }
-            });
-        })*/
-
+.run(function ($rootScope, $location, auth) {
+	// register listener to watch route changes
+	$rootScope.$on("$routeChangeStart", function (event, next, current) {
+		if (sessionStorage.getItem("accessKey") == null) {
+			//window.location.replace('../')
+		}
+	});
+})
 /*var getUser = function () {
     var ArrayCookies = document.cookie.split(';')
     for (i = 0; i < ArrayCookies.length; i++) {
@@ -62,5 +51,4 @@ App.config(function ($routeProvider, $httpProvider) {
             return ArrayCookies[i].substr(ArrayCookies[i].indexOf('=') + 1)
         }
     }
-}
-*/
+}*/

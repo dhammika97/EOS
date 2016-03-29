@@ -155,10 +155,16 @@ class DbHandler {
 		global $user_id;
 		
 		if($db->insert($table,$values,$rows) ){
+			$tmp = explode(',',$values);
+			$str ='';
+			for($i=0; $i<count($tmp); $i++){
+				$str .= $tmp[$i].',';
+			}
+			echo json_decode($str);
 			$params['table'] = $table;
 			$params['action'] = 'create';
 			$params['user'] = $user_id;
-			$params['new_value'] = $values;
+			$params['new_value'] = json_decode($str);
 			$this->auditLogEntry($params);
 			return $db->getInsertId();
 		}else{
