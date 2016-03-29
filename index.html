@@ -45,16 +45,16 @@
           <div class="wr_login_box">
           <form>
           <div class="form-group">
-          <label for="idemail">Email address</label>
-    	  <input type="email" class="form-control" id="idemail" placeholder="Email">
+          <label for="email">Email address</label>
+    	  <input type="email" class="form-control" id="email" placeholder="Email">
           </div>
           
           <div class="form-group">
-          <label for="idpassword">Password</label>
-    	  <input type="email" class="form-control" id="idpassword" placeholder="Password">
+          <label for="password">Password</label>
+    	  <input type="password" class="form-control" id="password" placeholder="Password">
           </div>
           
-          <button type="submit" class="btn btn-default" onclick="location.href='hybrid_page.html';">Submit</button>
+          <button type="button" class="btn btn-default" id="loginBtn" >Submit</button>
           
           </form>
           </div>
@@ -76,24 +76,59 @@
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="js/jquery.js"></script>
+    <script src="portal/js/jquery.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="portal/js/bootstrap.min.js"></script>
     
     <script>
-	$(document).ready(function(){  
+	/*$(document).ready(function(){  
     resizeContent();
     //attach on resize event
     $(window).resize(function() {
        resizeContent();
     });
-	});
+	});*/
 
 	function resizeContent() {
     var height = $(window).height() - $('#header').height() - $('#footer').height();
     $('#content').css('height', height+'px' );
     }
-   
+	
+	$(function(){
+		var auth = function(){
+			var ArrayCookies = document.cookie.split(';')
+			for(i=0; i<ArrayCookies.length; i++){
+				if(ArrayCookies[i].indexOf('accessKey')!=-1){
+					return ArrayCookies[i].substr(ArrayCookies[i].indexOf('=')+1)
+				}
+			}
+		}
+		
+		$('#loginBtn').click(function(){
+			if($('#email').val()!='' && $('#password').val()!=''){
+				$.post( 'api/login', {
+						'email': ''+$('#email').val()+'',
+						'password' : ''+$('#password').val()+''
+					},function(data){
+						if(data.error==false){
+							//alert('login true')
+							document.cookie="accessKey="+data.accessToken
+							//localStorage.setItem('key', data.accessToken);
+							localStorage.setItem('key', data.accessToken);
+							window.location.replace("portal/")
+						}else if(data.error==true){
+							alert(data.message)
+						}
+				},'json')
+			}else{
+				alert("Please enter valid email or password!")	
+			}
+		})
+		
+		if(auth()){
+			window.location.replace('portal/')
+		}
+	})
     </script>
 
   </body>
