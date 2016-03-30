@@ -334,11 +334,12 @@ $app->post('/login', function() use ($app) {
 		$db = new DbHandler();
 		if ($db->checkLogin($email, $password)) {
 			//get the user by email
-			$logged_User = $db->getUserByEmail($email);
+			$logged_User = $db->getUserByEmail($email); 
 			
 			if ($logged_User != NULL) {
 				$response["error"] = false;
 				$response['accessToken'] = $logged_User['user_accessToken'];
+				$response['username'] = $logged_User['user_name'];
 				$response['message'] = "Successfully authenticated";
 				echoRespnse(200, $response);
 			} else {
