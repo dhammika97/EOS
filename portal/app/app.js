@@ -40,7 +40,7 @@ App.config(function ($routeProvider, $httpProvider) {
 	// register listener to watch route changes
 	$rootScope.$on("$routeChangeStart", function (event, next, current) {
 		if (sessionStorage.getItem("accessKey") == null) {
-			//window.location.replace('../')
+			window.location.replace('../')
 		}
 	});
 })
