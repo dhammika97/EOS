@@ -340,6 +340,7 @@ $app->post('/login', function() use ($app) {
 				$response["error"] = false;
 				$response['accessToken'] = $logged_User['user_accessToken'];
 				$response['username'] = $logged_User['user_name'];
+				$response['type'] = $logged_User['user_type'];;
 				$response['message'] = "Successfully authenticated";
 				echoRespnse(200, $response);
 			} else {

@@ -116,7 +116,14 @@
 						if(data.error==false){
 							sessionStorage.setItem("accessKey", data.accessToken);
 							sessionStorage.setItem("username", data.username)
-							window.location.replace("portal/")
+							sessionStorage.setItem("type", data.type)
+							if(data.type == 1){
+								window.location.replace("portal/")	
+							}else if(data.type == 2){
+								window.location.replace("portal/#/customer-landing")
+							}else if(data.type == 3){
+								window.location.replace("portal/#/supplier-landing")
+							}
 						}else if(data.error==true){
 							alert(data.message)
 						}
@@ -127,7 +134,14 @@
 		})
 		
 		if(auth()){
-			window.location.replace('portal/')
+			//window.location.replace('portal/')
+			if(sessionStorage.getItem("type") == 1){
+				window.location.replace("portal/")	
+			}else if(sessionStorage.getItem("type") == 2){
+				window.location.replace("portal/#/customer-landing")
+			}else if(sessionStorage.getItem("type") == 3){
+				window.location.replace("portal/#/supplier-landing")
+			}
 		}
 	})
     </script>
