@@ -1,11 +1,11 @@
 // JavaScript Document
-var App = angular.module('heos', ['ngRoute', 'ngResource'])
+var App = angular.module('heos', ['ngRoute', 'ngResource', 'ngSanitize','ui.grid'])
 
 window.routes =
 {
     "/": {
         templateUrl: 'app/partials/dashboard_hybrid.html', 
-        controller: '', 
+        controller: 'hybridDashController', 
         requireLogin: true,
 		accessType:1
 	},
@@ -41,17 +41,17 @@ window.routes =
     }
 };
 
-App.config(function ($routeProvider, $httpProvider) {
+App.config(function ($routeProvider, $httpProvider, $locationProvider) {
     //$httpProvider.defaults.headers.common.Authorization = getUser();
 	$httpProvider.defaults.headers.common.Authorization = sessionStorage.getItem("accessKey");
-	//$locationProvider.html5Mode(true);
+	
     for(var path in window.routes) {
         $routeProvider.when(path, window.routes[path]);
     }
 	$routeProvider.otherwise({
 		//redirectTo:'/'
 	});
-
+	$locationProvider.html5Mode(true);
 })
 .run(function ($rootScope, $location, auth) {
 	// register listener to watch route changes

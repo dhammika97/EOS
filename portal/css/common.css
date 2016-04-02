@@ -194,7 +194,7 @@ body {
 }
 .link_list_1 {
 	list-style: none;
-	color: #FFF;
+	color: #333;
 	margin-bottom: 5px
 }
 .link_list_1 li {
@@ -207,7 +207,7 @@ margin-right:0px
 }
 .link_list_1 li span {
 	margin-right: 10px;
-	color: #fff
+	color: #333
 }
 .navbar-default {
 	border: none;
@@ -270,12 +270,13 @@ margin-right:0px
 .form-control {
 	max-width: 300px;
 	color: #000;
-	font-family: Arial, Helvetica, sans-serif
+	font-family: Arial, Helvetica, sans-serif; border-radius:0px; border-color:#E0E0E0
 }
 
-
-
-
+.form-inline  .form-control{ min-width:200px !important}
+.form-inline  select.form-control{ min-width:200px !important}
+.form-group label{ display:block; font-weight:bold !important}
+.btn-form{ display:block; margin-top:25px}
 
 /* ==================================================== */
 @media (max-width:768px) {
