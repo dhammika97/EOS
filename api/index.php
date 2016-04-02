@@ -605,7 +605,32 @@ $app->delete('/supplier/:id', 'authenticate', function($supplier_id) use($app) {
 		}
 });
 
+/**
+ * Get access rights
+ * url - /access
+ * method - GET
+ * params - api Key*/
 
+$app->get('/access', 'authenticate', function() use($app) {
+		$request = \Slim\Slim::getInstance()->request();
+		$params = $request->params();    
+		$headers = apache_request_headers();
+    	$user_accessToken = $headers['Authorization'];
+		$response = array();
+		$db = new DbHandler();		
+		$result = $db->getUserId($user_accessToken);
+		if (!$result) {
+			$response["error"] = TRUE;
+			$response["message"] = "The requested resource doesn't exists";
+			echoRespnse(404, $response);
+		} else {
+			$response["error"] = false;
+			$response['userType']=$result['user_type'];
+			$response['userName']=$result['user_name'];
+			$response['userCompany']=$result['user_company'];
+			echoRespnse(200, $response);
+		}
+});
 
 
 $app->run();
