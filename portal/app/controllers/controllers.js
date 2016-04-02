@@ -1,15 +1,18 @@
 // JavaScript Document
 var controllers = {};
 ///ng-controller="masterController"
-controllers.masterController = function($scope, $location, $window){
+controllers.masterController = function($scope, $location, $window, auth){
 	$scope.username = ''
 	$scope.username = sessionStorage.getItem("username")
-	$scope.uesrType = sessionStorage.getItem("type")
-	//$scope.isCollapsed = true;
+	$scope.userType = sessionStorage.getItem("type")
 	
+	auth.getAccess()
+		
 	$scope.go = function(path){
 		$location.path(path)
 	}
+	//debugger
+	//$scope.userType = auth._session.data.userType
 	
 	$scope.logout = function(){
 		sessionStorage.removeItem('username')

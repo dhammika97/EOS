@@ -55,10 +55,36 @@ App.config(function ($routeProvider, $httpProvider) {
 })
 .run(function ($rootScope, $location, auth) {
 	// register listener to watch route changes
-	$rootScope.$on("$routeChangeStart", function (event, next, current) {
-		if ($rootScope.accessToken == null) {
-			//if(window.routes[i].accessType=='')
-			window.location.replace('../')
+	var userType = sessionStorage.getItem("type")
+	$rootScope.$on("$locationChangeStart", function (event, next, current) {
+		for(var i in window.routes) {
+			if(next.indexOf(i.split('/')[1]) != -1) {
+				if (window.routes[i].requireLogin && $rootScope.accessToken == null ) {
+					window.location.replace('../')
+				}else{
+					if(i=='/' && window.routes[i].accessType != userType){
+						if(userType==2)						
+						$location.path('/customer-landing')
+						else if(userType == 3)
+						$location.path('/supplier-landing')
+					}else if(i=='/customer-landing' && window.routes[i].accessType != userType){
+						if(userType==1)						
+						$location.path('/')
+						else if(userType == 3)
+						$location.path('/supplier-landing')
+					}else if(i=='/supplier-landing' && window.routes[i].accessType != userType){
+						if(userType==1)						
+						$location.path('/')
+						else if(userType == 2)
+						$location.path('/customer-landing')
+					}else if(window.routes[i].accessType != userType){
+						if(userType == 2)
+						$location.path('/customer-landing')
+						else if(userType == 3)
+						$location.path('/supplier-landing')
+					}
+				}
+			}
 		}
 	});
 })
