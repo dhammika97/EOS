@@ -3,7 +3,7 @@ controllers.hybridDashController = function($scope){
 	var myData = [
 		{
 			"Customer": "Magna",
-			"Supplier Canada": "Co-Ex-Tec to H&L",
+			"Supplier": "Co-Ex-Tec to H&L",
 			"Plant": "Newmarket",
 			"Pick-Up": "Yes",
 			"Pick-Up Date": "02 April 2016",
@@ -18,7 +18,7 @@ controllers.hybridDashController = function($scope){
 		},
 		{
 			"Customer": "aMagna",
-			"Supplier Canada": "Co-Ex-Tec to H&L",
+			"Supplier": "Co-Ex-Tec to H&L",
 			"Plant": "Newmarket",
 			"Pick-Up": "Yes",
 			"Pick-Up Date": "02 April 2016",
@@ -33,7 +33,7 @@ controllers.hybridDashController = function($scope){
 		},
 		{
 			"Customer": "aMagna",
-			"Supplier Canada": "Co-Ex-Tec to H&L",
+			"Supplier": "Co-Ex-Tec to H&L",
 			"Plant": "Newmarket",
 			"Pick-Up": "Yes",
 			"Pick-Up Date": "02 April 2016",
@@ -48,7 +48,7 @@ controllers.hybridDashController = function($scope){
 		},
 		{
 			"Customer": "aMagna",
-			"Supplier Canada": "Co-Ex-Tec to H&L",
+			"Supplier": "Co-Ex-Tec to H&L",
 			"Plant": "Newmarket",
 			"Pick-Up": "Yes",
 			"Pick-Up Date": "02 April 2016",
@@ -63,7 +63,7 @@ controllers.hybridDashController = function($scope){
 		},
 		{
 			"Customer": "aMagna",
-			"Supplier Canada": "Co-Ex-Tec to H&L",
+			"Supplier": "Co-Ex-Tec to H&L",
 			"Plant": "Newmarket",
 			"Pick-Up": "Yes",
 			"Pick-Up Date": "02 April 2016",
@@ -78,7 +78,7 @@ controllers.hybridDashController = function($scope){
 		},
 		{
 			"Customer": "aMagna",
-			"Supplier Canada": "Co-Ex-Tec to H&L",
+			"Supplier": "Co-Ex-Tec to H&L",
 			"Plant": "Newmarket",
 			"Pick-Up": "Yes",
 			"Pick-Up Date": "02 April 2016",
@@ -93,7 +93,7 @@ controllers.hybridDashController = function($scope){
 		},
 		{
 			"Customer": "aMagna",
-			"Supplier Canada": "Co-Ex-Tec to H&L",
+			"Supplier": "Co-Ex-Tec to H&L",
 			"Plant": "Newmarket",
 			"Pick-Up": "Yes",
 			"Pick-Up Date": "02 April 2016",
@@ -108,7 +108,7 @@ controllers.hybridDashController = function($scope){
 		},
 		{
 			"Customer": "aMagna",
-			"Supplier Canada": "Co-Ex-Tec to H&L",
+			"Supplier": "Co-Ex-Tec to H&L",
 			"Plant": "Newmarket",
 			"Pick-Up": "Yes",
 			"Pick-Up Date": "02 April 2016",
@@ -123,7 +123,7 @@ controllers.hybridDashController = function($scope){
 		},
 		{
 			"Customer": "aMagna",
-			"Supplier Canada": "Co-Ex-Tec to H&L",
+			"Supplier": "Co-Ex-Tec to H&L",
 			"Plant": "Newmarket",
 			"Pick-Up": "Yes",
 			"Pick-Up Date": "02 April 2016",
@@ -138,7 +138,7 @@ controllers.hybridDashController = function($scope){
 		},
 		{
 			"Customer": "aMagna",
-			"Supplier Canada": "Co-Ex-Tec to H&L",
+			"Supplier": "Co-Ex-Tec to H&L",
 			"Plant": "Newmarket",
 			"Pick-Up": "Yes",
 			"Pick-Up Date": "02 April 2016",
@@ -153,7 +153,7 @@ controllers.hybridDashController = function($scope){
 		},
 		{
 			"Customer": "aMagna",
-			"Supplier Canada": "Co-Ex-Tec to H&L",
+			"Supplier": "Co-Ex-Tec to H&L",
 			"Plant": "Newmarket",
 			"Pick-Up": "Yes",
 			"Pick-Up Date": "02 April 2016",
@@ -168,7 +168,7 @@ controllers.hybridDashController = function($scope){
 		},
 		{
 			"Customer": "aMagna",
-			"Supplier Canada": "Co-Ex-Tec to H&L",
+			"Supplier": "Co-Ex-Tec to H&L",
 			"Plant": "Newmarket",
 			"Pick-Up": "Yes",
 			"Pick-Up Date": "02 April 2016",
@@ -183,7 +183,7 @@ controllers.hybridDashController = function($scope){
 		},
 		{
 			"Customer": "aMagna",
-			"Supplier Canada": "Co-Ex-Tec to H&L",
+			"Supplier": "Co-Ex-Tec to H&L",
 			"Plant": "Newmarket",
 			"Pick-Up": "Yes",
 			"Pick-Up Date": "02 April 2016",
@@ -198,7 +198,7 @@ controllers.hybridDashController = function($scope){
 		},
 		{
 			"Customer": "aMagna",
-			"Supplier Canada": "Co-Ex-Tec to H&L",
+			"Supplier": "Co-Ex-Tec to H&L",
 			"Plant": "Newmarket",
 			"Pick-Up": "Yes",
 			"Pick-Up Date": "02 April 2016",
@@ -215,19 +215,27 @@ controllers.hybridDashController = function($scope){
 	
 	$scope.gridOptions = {
 		columnDefs: [
-		  { field: 'Customer', enableCellEdit: true, headerCellClass: 'HeaderStyle1', width: "10%",    },
-		  { field: 'Supplier', headerCellClass: 'HeaderStyle1' , width: "10%", },
-		  { field: 'Plant', headerCellClass: 'HeaderStyle1' },
-		  { field: 'Pick-Up', headerCellClass: 'HeaderStyle1' },
-		  { field: 'Pick-Up Date', headerCellClass: 'HeaderStyle1' },
-		  { field: 'Arrival Date', headerCellClass: 'HeaderStyle1' },
-		  { field: 'Stack', headerCellClass: 'HeaderStyle1' },
-		  { field: 'Comments', headerCellClass: 'HeaderStyle1' },
-		  { field: 'Supplier Status', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 bold' },
-		  { field: 'Assigned To', enableCellEdit: true, headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
-		  { field: 'Date', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
-		  { field: 'By', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
-		  { field: 'Status(Select)', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1'},
+		  { name: 'Customer', headerCellClass: 'HeaderStyle1', width: "10%", enableCellEdit: false  },
+		  { name: 'Supplier', headerCellClass: 'HeaderStyle1' , width: "10%", enableCellEdit: false},
+		  { name: 'Plant', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
+		  { name: 'Pick-Up', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
+		  { name: 'Pick-Up Date', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
+		  { name: 'Arrival Date', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
+		  { name: 'Stack', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
+		  { name: 'Comments', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
+		  { name: 'Supplier Status', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 bold', enableCellEdit: false },
+		  { name: 'assignedTo', displayName: 'Assigned To', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1', 
+		  editableCellTemplate: 'ui-grid/dropdownEditor',
+		  editDropdownOptionsArray: [
+      		{ id: 1, assignedTo: 'ABC' },
+      		{ id: 2, assignedTo: 'DEF' }
+    	  ], 
+		  editDropdownIdLabel:'assignedTo',
+		  editDropdownValueLabel: 'assignedTo'
+		  },
+		  { name: 'Date', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1', enableCellEdit: false },
+		  { name: 'By', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1', enableCellEdit: false },
+		  { name: 'Status(Select)', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1', enableCellEdit: false},
 		  ]
 		  
 		};

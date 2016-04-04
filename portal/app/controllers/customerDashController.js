@@ -1,5 +1,6 @@
 // JavaScript Document
-controllers.customerDashController = function($scope){
+controllers.customerDashController = function($scope, $location){
+	
 	var myData = [
 		{
 			"Customer": "Magna",
