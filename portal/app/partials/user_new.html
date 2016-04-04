@@ -1,48 +1,63 @@
-              <!--  Title  -->
-       		  <div class="WR_PageTitle">
-              <h1><i class="fa fa-chevron-circle-right"></i> Add New User </h1>
-              </div>
-              <!--  Title  -->
-              
-           
-              
-              <!--  FORM  -->
-              <div class="WR_Form">
-              <div class="row">
-              <div class="col-md-3">
-              
-               <form>
-                   <div class="form-group">
-                   <label for="txtuserdid">Email address</label>
-                   <input type="text" class="form-control" id="txtuserdid" placeholder="User Id">
-                   </div>
-                   
-                   <div class="form-group">
-                   <label for="txtFullname">Full Name</label>
-                   <input type="text" class="form-control" id="txtfullname" placeholder="Full Name">
-                   </div>
-                   
-                   <div class="form-group">
-                   <label for="txtCompany">Company</label>
-                   <input type="text" class="form-control" id="txtcompany" placeholder="Company">
-                   </div>
-                   
-                   <div class="form-group">
-                   <label for="txtEmail">Email Address</label>
-                   <input type="Email" class="form-control" id="txtemail" placeholder="Email Address">
-                   </div>
-                   
-                   <div class="form-group">
-                   <label for="txtPassword">Password</label>
-                   <input type="text" class="form-control" id="txtpassword" placeholder="Password">
-                   </div>
-                   
-                   <button type="submit" class="btn btn-green" onclick="location.href='user_grid.html';">Submit</button>
-                   
-               </form>
-              
-              
-              </div>
-              </div>
-              </div>
-              <!--  FORM  -->    
+<!--  Title  -->
+<div class="WR_PageTitle">
+<h1><i class="fa fa-chevron-circle-right"></i> Add New User </h1>
+</div>
+<!--  Title  -->
+
+
+
+<!--  FORM  -->
+<div class="WR_Form">
+<div class="row">
+<div class="col-md-12">
+
+<form  class="form-inline">
+   <div class="form-group">
+   <label for="txtCompany">User Type</label>
+   <select class="form-control">
+   	<option>Admin</option>
+    <option>Logistic</option>
+    <option>Accounting</option>
+   </select>
+   </div>
+   
+   <div class="form-group">
+   <label for="txtCompany">Company</label>
+   <select class="form-control" id="txtcompany">
+   	<option>Abc</option>
+    <option>Def</option>
+    <option>Ghi</option>
+   </select>
+   </div>
+     
+   <div class="form-group">
+   <label for="txtFullname">Full Name</label>
+   <input type="text" class="form-control" id="txtfullname" >
+   </div>
+   
+   <div class="form-group">
+   <label for="txtEmail">Email Address</label>
+   <input type="Email" class="form-control" id="txtemail" >
+   </div>
+
+   <div class="form-group">
+   <label for="txtPassword">Password</label>
+   <input type="password" class="form-control" id="txtpassword" >
+   </div>
+   
+   <div class="form-group">
+   <label for="txtPassword">Confirm Password</label>
+   <input type="password" class="form-control" id="txtpassword" >
+   </div>
+   
+   <button type="submit" class="btn-form btn btn-green" >Submit</button>
+
+   
+</form>
+
+
+
+</div>
+</div>
+</div>
+<!--  FORM  --> 

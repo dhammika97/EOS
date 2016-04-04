@@ -29,19 +29,43 @@ window.routes =
 	},
     "/users": {
         templateUrl: 'app/partials/user_grid.html', 
-        controller: 'controllers.userController', 
+        controller: '', 
         requireLogin: true,
 		accessType:1
     },
-    "/add-new-users": {
+    "/add-new-user": {
         templateUrl: 'app/partials/user_new.html', 
-        controller: 'controllers.userController', 
+        controller: '', 
         requireLogin: true,
 		accessType:1
     },
-    "/partners": {
+    "/customers": {
+        templateUrl: 'app/partials/customers_grid.html', 
+        controller: 'customerDashController', 
+        requireLogin: true,
+		accessType:1
+    },
+    "/add-new-customer": {
+        templateUrl: 'app/partials/customer_add.html', 
+        controller: '', 
+        requireLogin: true,
+		accessType:1
+    },
+	"/suppliers": {
+        templateUrl: 'app/partials/suppliers_grid.html', 
+        controller: '', 
+        requireLogin: true,
+		accessType:1
+    },
+    "/add-new-supplier": {
+        templateUrl: 'app/partials/supplier_add.html', 
+        controller: '', 
+        requireLogin: true,
+		accessType:1
+    },
+	"/logistics": {
         templateUrl: 'app/partials/partners_grid.html', 
-        controller: 'controllers.partnerController', 
+        controller: '', 
         requireLogin: true,
 		accessType:1
     },
