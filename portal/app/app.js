@@ -1,5 +1,11 @@
 // JavaScript Document
-var App = angular.module('heos', ['ngRoute', 'ngResource', 'ngSanitize','ui.grid'])
+var App = angular.module('heos', [
+	'ngRoute', 
+	'ngResource',
+	'ngSanitize',
+	'ui.grid',
+	'ui.grid.edit'
+])
 
 window.routes =
 {
@@ -11,13 +17,13 @@ window.routes =
 	},
 	"/customer-landing": {
         templateUrl: 'app/partials/dashboard_customer.html', 
-        controller: '', 
+        controller: 'customerDashController', 
         requireLogin: true,
 		accessType:2
 	},
 	"/supplier-landing": {
         templateUrl: 'app/partials/dashboard_supplier.html', 
-        controller: '', 
+        controller: 'supplierDashController', 
         requireLogin: true,
 		accessType:3
 	},
@@ -38,6 +44,11 @@ window.routes =
         controller: 'controllers.partnerController', 
         requireLogin: true,
 		accessType:1
+    },
+    "/add-new-order": {
+        templateUrl: 'app/partials/add_new_order.html', 
+        controller: '', 
+        requireLogin: true
     }
 };
 
@@ -49,7 +60,7 @@ App.config(function ($routeProvider, $httpProvider, $locationProvider) {
         $routeProvider.when(path, window.routes[path]);
     }
 	$routeProvider.otherwise({
-		//redirectTo:'/'
+		redirectTo:'/'
 	});
 	$locationProvider.html5Mode(true);
 })
@@ -77,7 +88,9 @@ App.config(function ($routeProvider, $httpProvider, $locationProvider) {
 						$location.path('/')
 						else if(userType == 2)
 						$location.path('/customer-landing')
-					}else if(window.routes[i].accessType != userType){
+					}else if(window.routes[i].accessType == null){
+						$location.path(i)
+					}else if(!window.routes[i].accessType === userType){
 						if(userType == 2)
 						$location.path('/customer-landing')
 						else if(userType == 3)
