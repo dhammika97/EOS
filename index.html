@@ -107,7 +107,29 @@
 			}
 		}
 		
+		
 		$('#loginBtn').click(function(){
+			login()
+		})
+		
+		$(document).keypress(function(e){
+			if(e.which==13)
+			login()
+		})
+		
+		if(auth()){
+			//window.location.replace('portal/')
+			if(sessionStorage.getItem("type") == 1){
+				window.location.replace("portal/")	
+			}else if(sessionStorage.getItem("type") == 2){
+				window.location.replace("portal/#/customer-landing")
+			}else if(sessionStorage.getItem("type") == 3){
+				window.location.replace("portal/#/supplier-landing")
+			}
+		}
+	})
+	
+	var login = function(){
 			if($('#email').val()!='' && $('#password').val()!=''){
 				$.post( 'api/login', {
 						'email': ''+$('#email').val()+'',
@@ -131,19 +153,7 @@
 			}else{
 				alert("Please enter valid email or password!")	
 			}
-		})
-		
-		if(auth()){
-			//window.location.replace('portal/')
-			if(sessionStorage.getItem("type") == 1){
-				window.location.replace("portal/")	
-			}else if(sessionStorage.getItem("type") == 2){
-				window.location.replace("portal/#/customer-landing")
-			}else if(sessionStorage.getItem("type") == 3){
-				window.location.replace("portal/#/supplier-landing")
-			}
 		}
-	})
     </script>
 
   </body>

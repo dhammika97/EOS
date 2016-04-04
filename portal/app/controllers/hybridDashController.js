@@ -215,7 +215,7 @@ controllers.hybridDashController = function($scope){
 	
 	$scope.gridOptions = {
 		columnDefs: [
-		  { field: 'Customer', headerCellClass: 'HeaderStyle1', width: "10%",    },
+		  { field: 'Customer', enableCellEdit: true, headerCellClass: 'HeaderStyle1', width: "10%",    },
 		  { field: 'Supplier', headerCellClass: 'HeaderStyle1' , width: "10%", },
 		  { field: 'Plant', headerCellClass: 'HeaderStyle1' },
 		  { field: 'Pick-Up', headerCellClass: 'HeaderStyle1' },
@@ -224,7 +224,7 @@ controllers.hybridDashController = function($scope){
 		  { field: 'Stack', headerCellClass: 'HeaderStyle1' },
 		  { field: 'Comments', headerCellClass: 'HeaderStyle1' },
 		  { field: 'Supplier Status', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 bold' },
-		  { field: 'Assigned To', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
+		  { field: 'Assigned To', enableCellEdit: true, headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
 		  { field: 'Date', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
 		  { field: 'By', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
 		  { field: 'Status(Select)', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1'},
