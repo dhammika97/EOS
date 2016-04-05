@@ -47,7 +47,7 @@ window.routes =
     },
     "/add-new-customer": {
         templateUrl: 'app/partials/customer_add.html', 
-        controller: '', 
+        controller: 'addCustomerController', 
         requireLogin: true,
 		accessType:1
     },

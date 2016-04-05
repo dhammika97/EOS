@@ -242,3 +242,15 @@ controllers.hybridDashController = function($scope){
 	$scope.gridOptions.data = myData;
 	
 }
+
+controllers.addCustomerController = function($scope){
+	$scope.keyPress = function(e){
+		if (e.which === 13)
+    	$scope.addPartner()
+	}
+	
+	$scope.addPartner = function(){
+		console.log($scope.partner)
+	}
+}
+//App.controller(controllers)
