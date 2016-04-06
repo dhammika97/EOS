@@ -11,44 +11,55 @@
 <div class="row">
 <div class="col-md-12">
 
-<form class="form-inline" ng-keypress="keyPress($event)">
+<!-- Error Messages -->
+<div class="bg-danger wr_error_messages" ng-show="partnerForm.$invalid && submitted">
+<ul class="lst-errors">
+<li ng-show="partnerForm.Type.$invalid && submitted">Please select partner type!</li>
+<li ng-show="partnerForm.txtCompany.$invalid && submitted">Company name cannot be blank!</li>
+<li ng-show="partnerForm.txtfullname.$invalid && submitted">Contact full name cannot be blank!</li>
+<li ng-show="partnerForm.txtPhoneNumber.$invalid && submitted">Partner contact no. cannot be blank!</li>
+<li ng-show="partnerForm.txtEmail.$invalid && submitted">Email should be a valid email address!</li>
+</ul>
+</div>
+<!-- Error Messages -->
+
+<form name="partnerForm" class="form-inline" ng-keypress="keyPress($event)" ng-submit="addPartner(partnerForm.$valid)" novalidate>
    
-   <div class="form-group">
+   <div class="form-group" ng-class="{ 'has-error' : partnerForm.Type.$invalid && submitted}">
    <label for="txtCompany">Company Type </label>
-   <select class="form-control" ng-model="partner.type" >
-   	<option value="1" selected="selected">Admin</option>
+   <select name="Type" class="form-control" ng-model="partner.company_type" required>
     <option value="2">Customer</option>
     <option value="3">Supplier</option>
     <option value="4">Logistic</option>
    </select>
    </div>
    
-   <div class="form-group">
-   <label for="txtCompany">Company Name </label>
-   <input type="text" class="form-control" id="txtCompany" ng-model="partner.company">
+   <div class="form-group" ng-class="{ 'has-error' : partnerForm.txtCompany.$invalid && submitted}">
+   <label for="txtCompany" >Company Name </label>
+   <input type="text" class="form-control" id="txtCompany" name="txtCompany" ng-model="partner.company_name" required>
    </div>
    
-   <div class="form-group">
+   <div class="form-group" ng-class="{ 'has-error' : partnerForm.txtfullname.$invalid && submitted}">
    <label for="txtfullname">Contact Full Name</label>
-   <input type="text" class="form-control" id="txtfullname" ng-model="partner.contactName">
+   <input type="text" class="form-control" id="txtfullname" name="txtfullname" ng-model="partner.company_contactName" required>
    </div>
    
-   <div class="form-group">
+   <div class="form-group" ng-class="{ 'has-error' : partnerForm.txtPhoneNumber.$invalid && submitted}">
    <label for="txtPhoneNumber">Contact Phone No.</label>
-   <input type="text" class="form-control" id="txtPhoneNumber" ng-model="partner.contactNo">
+   <input type="text" class="form-control" id="txtPhoneNumber" name="txtPhoneNumber" ng-model="partner.company_contactNo" required>
    </div>
    
-   <div class="form-group">
+   <div class="form-group" ng-class="{ 'has-error' : partnerForm.txtEmail.$invalid && submitted}">
    <label for="txtEmail">Email Address</label>
-   <input type="text" class="form-control" id="txtEmail" ng-model="partner.email">
+   <input type="email" class="form-control" id="txtEmail" name="txtEmail" ng-model="partner.company_email" required>
    </div>
    
-   <div class="form-group">
+   <div class="form-group" >
    <label for="txtAlternatePhone">Alternate Contact</label>
-   <input type="text" class="form-control" id="txtAlternatePhone" ng-model="partner.alternateContact">
+   <input type="text" class="form-control" id="txtAlternatePhone" ng-model="partner.company_alternateContact">
    </div>
    
-   <button type="button" class="btn btn-green btn-form" ng-click="addPartner()" >Submit</button>
+   <button type="submit" class="btn btn-green btn-form" >Submit</button>
    
 </form>
 

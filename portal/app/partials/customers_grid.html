@@ -15,3 +15,7 @@
 <div id="grid1" ui-grid="partnerGridOptions" class="grid"></div>
 </div>
 <!--  ANGULAR GRID  -->    
+<script type="text/javascript">
+	var tmp = $(window).height() - $('#header').height() - $('#footer').height()-220
+	$('.grid').css({'height':tmp})
+</script>

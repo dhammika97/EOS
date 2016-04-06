@@ -1,6 +1,5 @@
 // JavaScript Document
-controllers.hybridDashController = function($scope){
-	var myData = [
+var myData = [
 		{
 			"Customer": "Magna",
 			"Supplier": "Co-Ex-Tec to H&L",
@@ -212,6 +211,8 @@ controllers.hybridDashController = function($scope){
 			"Status(Select)": "",
 		}
 	];
+controllers.hybridDashController = function($scope){
+	
 	
 	$scope.gridOptions = {
 		columnDefs: [
@@ -222,7 +223,7 @@ controllers.hybridDashController = function($scope){
 		  { name: 'Pick-Up Date', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
 		  { name: 'Arrival Date', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
 		  { name: 'Stack', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
-		  { name: 'Comments', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
+		  { name: 'Comments', headerCellClass: 'HeaderStyle1', enableCellEdit: false, width: "250" },
 		  { name: 'Supplier Status', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 bold', enableCellEdit: false },
 		  { name: 'assignedTo', displayName: 'Assigned To', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1', 
 		  editableCellTemplate: 'ui-grid/dropdownEditor',
@@ -243,14 +244,35 @@ controllers.hybridDashController = function($scope){
 	
 }
 
-controllers.addCustomerController = function($scope){
+controllers.customerController = function($scope, customerFactory){
+	$scope.partnerGridOptions = {
+		columnDefs: [
+		  { name: 'company_type', displayName: 'Partner Type', headerCellClass: 'HeaderStyle1'},
+		  { name: 'company_name', displayName: 'Company Name', headerCellClass: 'HeaderStyle1'},
+		  { name: 'company_contact_name', displayName: 'Contact Full Name', headerCellClass: 'HeaderStyle1' },
+		  { name: 'company_contact_no', displayName: 'Contact Phone No.', headerCellClass: 'HeaderStyle1'},
+		  { name: 'company_email', displayName: 'Email Address', headerCellClass: 'HeaderStyle1' },
+		  { name: 'company_alternate_contact', displayName: 'Alternate Contact', headerCellClass: 'HeaderStyle1'}
+		  ]
+		};
+	
+	customerFactory.query().$promise.then(function(data){
+		//console.log(data.companies)	
+		$scope.partnerGridOptions.data = data.companies
+	})
+}
+
+controllers.addCustomerController = function($scope, customerAddFactory){
 	$scope.keyPress = function(e){
 		if (e.which === 13)
     	$scope.addPartner()
 	}
 	
-	$scope.addPartner = function(){
-		console.log($scope.partner)
+	$scope.addPartner = function(isValid){
+		$scope.submitted = true
+		if(isValid){
+			customerAddFactory.createPartner($scope.partner)
+		}
 	}
 }
 //App.controller(controllers)

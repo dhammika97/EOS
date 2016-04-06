@@ -351,7 +351,9 @@ class DbHandler {
 		$table  = "company";
 		//return $user;
         
-		if(!isset($company['company_name'])){
+		if(!isset($company['company_type'])){
+			throw new Exception('Please select company type!.');
+		}elseif(!isset($company['company_name'])){
 			 throw new Exception('Company name cannot be blank!.');
 		}elseif(!isset($company['company_email'])){
 			 throw new Exception('Company email cannot be blank!.');
@@ -361,13 +363,15 @@ class DbHandler {
 		(isset($company['company_contactName']) ? $company_contactName = $company['company_contactName'] : $company_contactName = "" );
 		(isset($company['company_alternateContact']) ? $company_alternateContact = $company['company_alternateContact'] : $company_alternateContact = "" );
 		
-		$values = "'".$company['company_name']."',
+		$values = "'".$company['company_type']."',
+					  '".$company['company_name']."',
 					  '".$company['company_email']."',
 					  '".$company_contactNo."', 
 					  '".$company_contactName."',
                       '".$company_alternateContact."'";		
 					  
-		$rows   = "company_name,
+		$rows   = "company_type,
+				   company_name,
                    company_email,
                    company_contact_no,
 				   company_contact_name,
