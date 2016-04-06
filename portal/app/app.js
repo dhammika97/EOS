@@ -4,7 +4,8 @@ var App = angular.module('heos', [
 	'ngResource',
 	'ngSanitize',
 	'ui.grid',
-	'ui.grid.edit'
+	'ui.grid.edit',
+	'ui-notification'
 ])
 
 window.routes =
@@ -41,7 +42,7 @@ window.routes =
     },
     "/customers": {
         templateUrl: 'app/partials/customers_grid.html', 
-        controller: 'customerDashController', 
+        controller: 'customerController', 
         requireLogin: true,
 		accessType:1
     },

@@ -5,7 +5,7 @@ html, body {
 body {
 	background-color: #ebeef0;
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: 14px;
+	font-size: 13px;
 	font-weight: normal;
 }
 /* Login ================================== */
@@ -73,7 +73,7 @@ body {
 }
 .WR_Body {
 	padding: 20px 0px;
-	margin-top: 10px;
+	margin-top: 80px;
 	overflow: auto;
 	padding-bottom: 100px
 }
@@ -89,7 +89,7 @@ body {
 	padding: 10px;
 	text-align: right;
 	padding-right: 35px;
-	background: #121212
+	background: #121212; position:fixed; width:100%; bottom:40px; left:0px
 }
 .Header_left {
 	padding-left: 0px;
@@ -110,7 +110,7 @@ body {
 .WR_TitleBar {
 	background: #DBDBDB;
 	margin-top: 70px;
-	height: 46px;
+	height: 46px; display:none;
 }
 .WR_TitleBar h1 {
 	color: #fff;
@@ -237,7 +237,7 @@ margin-right:0px
 	background: white;
 	border: none;
 	font-size: 15px;
-	padding: 3px 15px;
+	padding: 5px 15px;
 	margin: 0px
 }
 .WR_GridButtons {
@@ -334,3 +334,57 @@ margin-right:0px
 }
  @media (max-width:320px) {
 }
+
+
+
+
+
+
+/* NEW STYLES */ 
+
+
+/* CLEAR FLOAT AND CLEAR FIX */ 
+.clearfloat {	clear:both;	height:0;	font-size: 1px;	line-height: 0px;}
+.clearfix:after {	content: ".";	display: block;	clear: both; visibility: hidden;	line-height: 0;	height: 0px;}
+.clearfix {	display: inline-block;}
+html[xmlns] .clearfix {	display: block;}
+* html .clearfix { height: 1%;}
+
+
+
+.ui-grid-viewport .ui-grid-cell-contents {
+  word-wrap: break-word;
+  white-space: normal !important;
+}
+
+.ui-grid-row, .ui-grid-cell {
+  height: auto !important;
+}
+
+.ui-grid-row div[role=row] {
+  display: flex ;
+  align-content: stretch;
+}
+
+
+label.has-error{
+ color:#ff0000;
+}
+.form-control.has-error{
+ color:#ff0000;
+ border:1px solid #ff0000;
+}
+
+
+
+.has-success .form-control { border:none; border-bottom:2px solid #060}
+.has-error .form-control { border:none; border-bottom:2px solid #F03}
+.has-warning .form-control { border:none; border-bottom:2px solid #F90}
+
+.has-success .control-label { color: #060 }
+.has-error .control-label { color:#C00 }
+.has-warning .control-label { color:#F90 }
+
+.wr_error_messages{ margin:20px 0px; padding:5px; }
+.lst-errors{ margin:0px; padding:0px; margin-left:25px}
+
