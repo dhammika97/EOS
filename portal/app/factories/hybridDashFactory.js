@@ -4,8 +4,7 @@ App.factory('customerFactory',function($resource, $location, Notification){
 	factory.companyList = {}
 	
 	var partner = $resource('../api/company/:id', {}, {
-		query: {method: 'GET', params: {}, isArray: false},
-		save: {method: 'POST'}
+		query: {method: 'GET', params: {}, isArray: false}
     });
 	
 	return partner	
@@ -16,7 +15,8 @@ App.factory('customerAddFactory',function($resource, $location, Notification){
 	
 	var partner = $resource('../api/company/:id', {}, {
 		query: {method: 'GET', params: {}, isArray: false},
-		save: {method: 'POST'}
+		save: {method: 'POST'},
+		update: {method: 'PUT', params: {id: '@id'}}
     });
 	
 	factory.createPartner = function(params){
@@ -31,6 +31,13 @@ App.factory('customerAddFactory',function($resource, $location, Notification){
 		)
 	}
 	
+	factory.updatePartner = function(id, params){
+		partner.update({id:id},params).$promise.then(function(data){
+			Notification.success(data.message);
+		},function(data){
+			Notification.error(data.message);	
+		})
+	}
 	/*factory.getPartners = function(){
 		return partner.query().$promise.then(
 			function(data){

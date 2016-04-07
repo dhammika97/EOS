@@ -60,3 +60,19 @@ controllers.masterController = function($scope, $location, $window, auth){
 }*/
 
 App.controller(controllers)
+.filter('mapCompanyType', function() {
+  var genderHash = {
+    1: 'Admin',
+    2: 'Customer',
+	3: 'Supplier',
+	4: 'Logistic'
+  };
+ 
+  return function(input) {
+    if (!input){
+      return '';
+    } else {
+      return genderHash[input];
+    }
+  };
+});

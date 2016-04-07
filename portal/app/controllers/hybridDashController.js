@@ -244,22 +244,44 @@ controllers.hybridDashController = function($scope){
 	
 }
 
-controllers.customerController = function($scope, customerFactory){
+controllers.customerController = function($scope, customerFactory, customerAddFactory){
+	objCombos = [{company_type:1,name: "test" },{company_type:2,name: "test2" },{company_type:3,name: "test3" }]
 	$scope.partnerGridOptions = {
 		columnDefs: [
-		  { name: 'company_type', displayName: 'Partner Type', headerCellClass: 'HeaderStyle1'},
+		  { name: 'company_type', displayName: 'Partner Type', headerCellClass: 'HeaderStyle1',	
+		  	filter: {}, 
+			cellFilter: 'mapCompanyType',
+			editableCellTemplate: 'ui-grid/dropdownEditor',
+			editDropdownValueLabel: 'company_type_name', 
+			editDropdownIdLabel: 'company_type',
+			editDropdownOptionsArray: [
+			  { company_type: 1, company_type_name: 'Admin' },
+			  { company_type: 2, company_type_name: 'Customer' },
+			  { company_type: 3, company_type_name: 'Supplier' },
+			  { company_type: 4, company_type_name: 'Logistic' }
+			]
+		  },
 		  { name: 'company_name', displayName: 'Company Name', headerCellClass: 'HeaderStyle1'},
 		  { name: 'company_contact_name', displayName: 'Contact Full Name', headerCellClass: 'HeaderStyle1' },
 		  { name: 'company_contact_no', displayName: 'Contact Phone No.', headerCellClass: 'HeaderStyle1'},
 		  { name: 'company_email', displayName: 'Email Address', headerCellClass: 'HeaderStyle1' },
-		  { name: 'company_alternate_contact', displayName: 'Alternate Contact', headerCellClass: 'HeaderStyle1'}
+		  { name: 'company_alternate_contact', displayName: 'Alternate Contact', headerCellClass: 'HeaderStyle1'},
+		  { name: 'Delete', displayName: '', headerCellClass: 'HeaderStyle1', width: 50, cellTemplate:"<div class='text-center'><i class='fa fa-trash'></i><div>", enableCellEdit: false}
 		  ]
 		};
-	
+	 
 	customerFactory.query().$promise.then(function(data){
-		//console.log(data.companies)	
 		$scope.partnerGridOptions.data = data.companies
 	})
+	
+	$scope.partnerGridOptions.onRegisterApi = function(gridApi){
+		$scope.gridApi = gridApi;
+		gridApi.edit.on.afterCellEdit($scope, function(rowEntity, colDef, newValue, oldValue) {
+			if(newValue != oldValue){
+				customerAddFactory.updatePartner(rowEntity.company_id,rowEntity)
+			}
+		});
+	}
 }
 
 controllers.addCustomerController = function($scope, customerAddFactory){
