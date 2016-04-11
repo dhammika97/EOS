@@ -1,0 +1,50 @@
+<!--  Title  -->
+<div class="WR_PageTitle">
+<h1><i class="fa fa-chevron-circle-right"></i> Add New Location</h1>
+</div>
+<!--  Title  -->
+
+
+
+<!--  FORM  -->
+<div class="WR_Form">
+<div class="row">
+<div class="col-md-12">
+
+<!-- Error Messages -->
+<div class="bg-danger wr_error_messages" ng-show="partnerForm.$invalid && submitted">
+<ul class="lst-errors">
+<li ng-show="partnerForm.Type.$invalid && submitted">Please select partner type!</li>
+<li ng-show="partnerForm.txtCompany.$invalid && submitted">Company name cannot be blank!</li>
+<li ng-show="partnerForm.txtfullname.$invalid && submitted">Contact full name cannot be blank!</li>
+<li ng-show="partnerForm.txtPhoneNumber.$invalid && submitted">Partner contact no. cannot be blank!</li>
+<li ng-show="partnerForm.txtEmail.$invalid && submitted">Email should be a valid email address!</li>
+</ul>
+</div>
+<!-- Error Messages -->
+
+<form name="partnerForm" class="form-inline" ng-keypress="keyPress($event)" ng-submit="addPartner(partnerForm.$valid)" novalidate>
+   
+   <div class="form-group" ng-class="{ 'has-error' : partnerForm.txtCompany.$invalid && submitted}">
+   <label for="txtCompany" >Location Name </label>
+   <input type="text" class="form-control" id="txtCompany" name="txtCompany" ng-model="partner.company_name" required>
+   </div>
+   
+   <div class="form-group" ng-class="{ 'has-error' : partnerForm.txtfullname.$invalid && submitted}">
+   <label for="txtfullname">Location Description</label>
+   <input type="text" class="form-control" id="txtfullname" name="txtfullname" ng-model="partner.company_contactName" required>
+   </div>
+   
+   <div class="form-group" ng-class="{ 'has-error' : partnerForm.txtPhoneNumber.$invalid && submitted}">
+   <label for="txtPhoneNumber">Location Cordinates</label>
+   <input type="text" class="form-control" id="txtPhoneNumber" name="txtPhoneNumber" ng-model="partner.company_contactNo" required>
+   </div>
+   <button type="submit" class="btn btn-green btn-form" >Submit</button>
+   
+</form>
+
+
+</div>
+</div>
+</div>
+<!--  FORM  --> 

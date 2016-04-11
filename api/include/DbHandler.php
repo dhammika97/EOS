@@ -26,6 +26,29 @@ class DbHandler {
         $user = $db->getResults();
         return $user;
     }
+	
+	public function getLastLogin($user_email) {
+		$db = new database();
+		//echo $user_email;
+		$table = 'audit_login';
+        $rows = 'audit_login_date_time';
+        $where = 'audit_login_user_email = "' . $user_email . '"';
+		$order = 'audit_login_date_time DESC';
+		$limit = '1';
+        $db->select($table, $rows, $where, $order, $limit);
+        $user_last_login = $db->getResults();
+        return $user_last_login;
+	}
+	
+	public function getCompanyName($user_company){
+		$db = new database();
+		$table = 'company';
+        $rows = 'company_name';
+        $where = 'company_id = "' . $user_company . '"';
+        $db->select($table, $rows, $where, '', '');
+        $user_company_name = $db->getResults();
+        return $user_company_name;
+	}
 
 	private function generateApiKey() {
 		return strtoupper(md5(uniqid(rand(), true)));

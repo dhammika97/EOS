@@ -2,17 +2,18 @@
 var controllers = {};
 ///ng-controller="masterController"
 controllers.masterController = function($scope, $location, $window, auth){
-	$scope.username = ''
-	$scope.username = sessionStorage.getItem("username")
-	$scope.userType = sessionStorage.getItem("type")
-	
-	auth.getAccess()
+	auth.query().$promise.then(function(data){
+	var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	var d = new Date(data.lastLogin)
+	$scope.lastLogin = monthNames[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear()+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()
+	$scope.username = data.userName
+	$scope.userType = data.userType
+	$scope.userCompany = data.userCompany
+})
 		
 	$scope.go = function(path){
 		$location.path(path)
 	}
-	//debugger
-	//$scope.userType = auth._session.data.userType
 	
 	$scope.logout = function(){
 		sessionStorage.removeItem('username')

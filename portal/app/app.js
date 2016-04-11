@@ -5,67 +5,82 @@ var App = angular.module('heos', [
 	'ngSanitize',
 	'ui.grid',
 	'ui.grid.edit',
+	'ui.grid.rowEdit', 
+	'ui.grid.cellNav',
 	'ui-notification'
 ])
 
 window.routes =
 {
     "/": {
-        templateUrl: 'app/partials/dashboard_hybrid.html', 
+        templateUrl: 'app/partials/dashboard/dashboard_hybrid.html', 
         controller: 'hybridDashController', 
         requireLogin: true,
 		accessType:1
 	},
 	"/customer-landing": {
-        templateUrl: 'app/partials/dashboard_customer.html', 
+        templateUrl: 'app/partials/dashboard/dashboard_customer.html', 
         controller: 'customerDashController', 
         requireLogin: true,
 		accessType:2
 	},
 	"/supplier-landing": {
-        templateUrl: 'app/partials/dashboard_supplier.html', 
+        templateUrl: 'app/partials/dashboard/dashboard_supplier.html', 
         controller: 'supplierDashController', 
         requireLogin: true,
 		accessType:3
 	},
     "/users": {
-        templateUrl: 'app/partials/user_grid.html', 
+        templateUrl: 'app/partials/user/user_grid.html', 
         controller: '', 
         requireLogin: true,
 		accessType:1
     },
     "/add-new-user": {
-        templateUrl: 'app/partials/user_new.html', 
+        templateUrl: 'app/partials/user/user_new.html', 
         controller: '', 
         requireLogin: true,
 		accessType:1
     },
     "/customers": {
-        templateUrl: 'app/partials/customers_grid.html', 
+        templateUrl: 'app/partials/customer/customers_grid.html', 
         controller: 'customerController', 
         requireLogin: true,
 		accessType:1
     },
     "/add-new-customer": {
-        templateUrl: 'app/partials/customer_add.html', 
+        templateUrl: 'app/partials/customer/customer_add.html', 
         controller: 'addCustomerController', 
         requireLogin: true,
 		accessType:1
-    },
+    }/*,
 	"/suppliers": {
         templateUrl: 'app/partials/suppliers_grid.html', 
         controller: '', 
         requireLogin: true,
 		accessType:1
-    },
-    "/add-new-supplier": {
-        templateUrl: 'app/partials/supplier_add.html', 
+    }*/,
+	"/locations": {
+        templateUrl: 'app/partials/location/locations_grid.html', 
         controller: '', 
         requireLogin: true,
 		accessType:1
     },
+    "/add-new-location": {
+        templateUrl: 'app/partials/location/location_add.html', 
+        controller: '', 
+        requireLogin: true,
+		accessType:1
+    }/*,
 	"/logistics": {
         templateUrl: 'app/partials/partners_grid.html', 
+        controller: '', 
+        requireLogin: true,
+		accessType:1
+    }*/
+	,
+    "/accounts": {
+        templateUrl: 'app/partials/accounts/accounts_wrapper.html', 
         controller: '', 
         requireLogin: true,
 		accessType:1

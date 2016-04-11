@@ -624,10 +624,13 @@ $app->get('/access', 'authenticate', function() use($app) {
 			$response["message"] = "The requested resource doesn't exists";
 			echoRespnse(404, $response);
 		} else {
+			$login = $db->getLastLogin($result['user_email']);
+			$company = $db->getCompanyName($result['user_company']);
 			$response["error"] = false;
 			$response['userType']=$result['user_type'];
 			$response['userName']=$result['user_name'];
-			$response['userCompany']=$result['user_company'];
+			$response['userCompany']=$company['company_name'];
+			$response['lastLogin'] = $login['audit_login_date_time'];
 			echoRespnse(200, $response);
 		}
 });
