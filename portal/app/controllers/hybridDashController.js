@@ -245,7 +245,6 @@ controllers.hybridDashController = function($scope){
 }
 
 controllers.customerController = function($scope, customerFactory, customerAddFactory){
-	objCombos = [{company_type:1,name: "test" },{company_type:2,name: "test2" },{company_type:3,name: "test3" }]
 	$scope.partnerGridOptions = {
 		columnDefs: [
 		  { name: 'company_type', displayName: 'Partner Type', headerCellClass: 'HeaderStyle1',	

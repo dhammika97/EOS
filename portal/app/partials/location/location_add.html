@@ -12,32 +12,28 @@
 <div class="col-md-12">
 
 <!-- Error Messages -->
-<div class="bg-danger wr_error_messages" ng-show="partnerForm.$invalid && submitted">
+<div class="bg-danger wr_error_messages" ng-show="locationForm.$invalid && submitted">
 <ul class="lst-errors">
-<li ng-show="partnerForm.Type.$invalid && submitted">Please select partner type!</li>
-<li ng-show="partnerForm.txtCompany.$invalid && submitted">Company name cannot be blank!</li>
-<li ng-show="partnerForm.txtfullname.$invalid && submitted">Contact full name cannot be blank!</li>
-<li ng-show="partnerForm.txtPhoneNumber.$invalid && submitted">Partner contact no. cannot be blank!</li>
-<li ng-show="partnerForm.txtEmail.$invalid && submitted">Email should be a valid email address!</li>
+<li ng-show="locationForm.location_name.$invalid && submitted">Location name could not be blank!</li>
 </ul>
 </div>
 <!-- Error Messages -->
 
-<form name="partnerForm" class="form-inline" ng-keypress="keyPress($event)" ng-submit="addPartner(partnerForm.$valid)" novalidate>
+<form name="locationForm" class="form-inline" ng-keypress="keyPress($event)" ng-submit="addLocation(locationForm.$valid)" novalidate>
    
    <div class="form-group" ng-class="{ 'has-error' : partnerForm.txtCompany.$invalid && submitted}">
    <label for="txtCompany" >Location Name </label>
-   <input type="text" class="form-control" id="txtCompany" name="txtCompany" ng-model="partner.company_name" required>
+   <input type="text" class="form-control" id="txtCompany" name="location_name" ng-model="location.location_name" required>
    </div>
    
-   <div class="form-group" ng-class="{ 'has-error' : partnerForm.txtfullname.$invalid && submitted}">
+   <div class="form-group" >
    <label for="txtfullname">Location Description</label>
-   <input type="text" class="form-control" id="txtfullname" name="txtfullname" ng-model="partner.company_contactName" required>
+   <input type="text" class="form-control" id="txtfullname" name="location_description" ng-model="location.location_description" >
    </div>
    
-   <div class="form-group" ng-class="{ 'has-error' : partnerForm.txtPhoneNumber.$invalid && submitted}">
+   <div class="form-group" >
    <label for="txtPhoneNumber">Location Cordinates</label>
-   <input type="text" class="form-control" id="txtPhoneNumber" name="txtPhoneNumber" ng-model="partner.company_contactNo" required>
+   <input type="text" class="form-control" id="txtPhoneNumber" name="location_cordinates" ng-model="location.location_cordinates" required>
    </div>
    <button type="submit" class="btn btn-green btn-form" >Submit</button>
    

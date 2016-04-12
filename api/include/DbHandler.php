@@ -43,7 +43,7 @@ class DbHandler {
 	public function getCompanyName($user_company){
 		$db = new database();
 		$table = 'company';
-        $rows = 'company_name';
+        $rows = 'company_name, company_type';
         $where = 'company_id = "' . $user_company . '"';
         $db->select($table, $rows, $where, '', '');
         $user_company_name = $db->getResults();
@@ -118,7 +118,7 @@ class DbHandler {
 		}
 		$db = new database();
 		$table = 'users';
-		$rows ='*';	
+		$rows ='user_id, user_name, user_email, user_type, user_company, user_contactNo, user_status';	
 		$db->selectJson($table,$rows,$where,'','','');
 		$user_list = $db->getJson();
 		return $user_list;
@@ -421,6 +421,25 @@ class DbHandler {
 		$db = new database();
 		$table = 'company';
 		$rows ='*';	
+		$db->selectJson($table,$rows,$where,'','');
+		$company_list = $db->getJson();
+		return $company_list;
+	}
+	
+	
+	public function getCompanies($params){
+		$where = '';
+		$i = 1;
+		foreach($params as $key => $value){
+			if($i != count($params) )
+			$where .= $key .'='.$value.' AND ';
+			else
+			$where .= $key .'='.$value;
+			$i++;
+		}
+		$db = new database();
+		$table = 'company';
+		$rows ='company_id, company_name';	
 		$db->selectJson($table,$rows,$where,'','');
 		$company_list = $db->getJson();
 		return $company_list;

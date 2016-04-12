@@ -32,13 +32,13 @@ window.routes =
 	},
     "/users": {
         templateUrl: 'app/partials/user/user_grid.html', 
-        controller: '', 
+        controller: 'userController', 
         requireLogin: true,
 		accessType:1
     },
     "/add-new-user": {
         templateUrl: 'app/partials/user/user_new.html', 
-        controller: '', 
+        controller: 'userController', 
         requireLogin: true,
 		accessType:1
     },
@@ -62,13 +62,13 @@ window.routes =
     }*/,
 	"/locations": {
         templateUrl: 'app/partials/location/locations_grid.html', 
-        controller: '', 
+        controller: 'locationController', 
         requireLogin: true,
 		accessType:1
     },
     "/add-new-location": {
         templateUrl: 'app/partials/location/location_add.html', 
-        controller: '', 
+        controller: 'locationAddController', 
         requireLogin: true,
 		accessType:1
     }/*,
@@ -108,6 +108,7 @@ App.config(function ($routeProvider, $httpProvider, $locationProvider) {
 	// register listener to watch route changes
 	var userType = sessionStorage.getItem("type")
 	$rootScope.$on("$locationChangeStart", function (event, next, current) {
+		//console.log('init' + new Date())
 		for(var i in window.routes) {
 			if(next.indexOf(i.split('/')[1]) != -1) {
 				if (window.routes[i].requireLogin && $rootScope.accessToken == null ) {

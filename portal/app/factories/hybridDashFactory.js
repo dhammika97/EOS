@@ -10,6 +10,19 @@ App.factory('customerFactory',function($resource, $location, Notification){
 	return partner	
 })
 
+App.factory('customerFactory',function($resource, $location, Notification){
+	var factory = {}
+	factory.companyList = {}
+	
+	var partner = $resource('../api/company/:id', {}, {
+		query: {method: 'GET', params: {}, isArray: false}
+    });
+	
+	return partner	
+})
+
+
+
 App.factory('customerAddFactory',function($resource, $location, Notification){
 	var factory = {}
 	
@@ -26,7 +39,7 @@ App.factory('customerAddFactory',function($resource, $location, Notification){
 				document.partnerForm.reset()
 				$('input').blur();
 			},function(data){
-				Notification.error(data.message);	
+				Notification.error(data.data.message);	
 			}
 		)
 	}
@@ -35,7 +48,7 @@ App.factory('customerAddFactory',function($resource, $location, Notification){
 		partner.update({id:id},params).$promise.then(function(data){
 			Notification.success(data.message);
 		},function(data){
-			Notification.error(data.message);	
+			Notification.error(data.data.message);	
 		})
 	}
 	/*factory.getPartners = function(){

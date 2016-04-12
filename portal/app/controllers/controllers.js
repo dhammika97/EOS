@@ -3,12 +3,14 @@ var controllers = {};
 ///ng-controller="masterController"
 controllers.masterController = function($scope, $location, $window, auth){
 	auth.query().$promise.then(function(data){
+	//console.log('now only data came' + new Date())
 	var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 	var d = new Date(data.lastLogin)
 	$scope.lastLogin = monthNames[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear()+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()
 	$scope.username = data.userName
 	$scope.userType = data.userType
 	$scope.userCompany = data.userCompany
+	$scope.userCompanyType = data.cType
 })
 		
 	$scope.go = function(path){
@@ -76,4 +78,47 @@ App.controller(controllers)
       return genderHash[input];
     }
   };
-});
+})
+.filter('mapUserType', function() {
+  var userHash = {
+    1: 'Admin',
+    2: 'Customer',
+	3: 'Supplier'
+  };
+ 
+  return function(input) {
+    if (!input){
+      return '';
+    } else {
+      return userHash[input];
+    }
+  };
+})
+.filter('mapStatus', function() {
+  var userHash = {
+    1: 'Active',
+	2: 'Disabled'
+  };
+ 
+  return function(input) {
+    if (!input){
+      return '';
+    } else {
+      return userHash[input];
+    }
+  };
+})
+.filter('griddropdown', function () {
+    return function (input, map, idField, valueField, initial) {
+        if (typeof map !== "undefined") {
+            for (var i = 0; i < map.length; i++) {
+                if (map[i][idField] == input) {
+                    return map[i][valueField];
+                }
+            }
+        } else if (initial) {
+            return initial;
+        }
+        return input;
+    };
+})
