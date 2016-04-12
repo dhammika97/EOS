@@ -1,0 +1,46 @@
+<!--  Title  -->
+<div class="WR_PageTitle">
+<h1><i class="fa fa-chevron-circle-right"></i> Add New Location</h1>
+</div>
+<!--  Title  -->
+
+
+
+<!--  FORM  -->
+<div class="WR_Form">
+<div class="row">
+<div class="col-md-12">
+
+<!-- Error Messages -->
+<div class="bg-danger wr_error_messages" ng-show="locationForm.$invalid && submitted">
+<ul class="lst-errors">
+<li ng-show="locationForm.location_name.$invalid && submitted">Location name could not be blank!</li>
+</ul>
+</div>
+<!-- Error Messages -->
+
+<form name="locationForm" class="form-inline" ng-keypress="keyPress($event)" ng-submit="addLocation(locationForm.$valid)" novalidate>
+   
+   <div class="form-group" ng-class="{ 'has-error' : partnerForm.txtCompany.$invalid && submitted}">
+   <label for="txtCompany" >Location Name </label>
+   <input type="text" class="form-control" id="txtCompany" name="location_name" ng-model="location.location_name" required>
+   </div>
+   
+   <div class="form-group" >
+   <label for="txtfullname">Location Description</label>
+   <input type="text" class="form-control" id="txtfullname" name="location_description" ng-model="location.location_description" >
+   </div>
+   
+   <div class="form-group" >
+   <label for="txtPhoneNumber">Location Cordinates</label>
+   <input type="text" class="form-control" id="txtPhoneNumber" name="location_cordinates" ng-model="location.location_cordinates" required>
+   </div>
+   <button type="submit" class="btn btn-green btn-form" >Submit</button>
+   
+</form>
+
+
+</div>
+</div>
+</div>
+<!--  FORM  --> 

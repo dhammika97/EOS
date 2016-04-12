@@ -1,0 +1,80 @@
+<!--  Title  -->
+<div class="WR_PageTitle">
+<h1><i class="fa fa-chevron-circle-right"></i> Add New User </h1>
+</div>
+<!--  Title  -->
+
+
+
+<!--  FORM  -->
+<div class="WR_Form">
+<div class="row">
+<div class="col-md-12">
+<!-- Error Messages -->
+<div class="bg-danger wr_error_messages" ng-show="userForm.$invalid && submitted">
+    <ul class="lst-errors">
+        <li ng-show="userForm.user_type.$invalid && submitted">Please select user type!</li>
+        <li ng-show="userForm.user_company.$invalid && submitted">Please select a company!</li>
+        <li ng-show="userForm.user_email.$invalid && submitted">Email should be a valid email address!</li>
+        <li ng-show="userForm.user_confirm_password.$invalid && submitted">Confirm Password cannot be blank!</li>
+        <li ng-show="userForm.user_password.$invalid && submitted">Password cannot be blank!</li>
+        <li ng-show="userForm.user_display_name.$invalid && submitted">Display name cannot be blank!</li>
+    </ul>
+</div>
+<!-- Error Messages -->
+
+<form  class="form-inline" name="userForm" ng-keypress="keyPress($event)" ng-submit="addUser(userForm.$valid)" novalidate>
+   <div class="form-group" ng-class="{ 'has-error' : userForm.user_type.$invalid && submitted}">
+   <label for="txtCompany">User Type</label>
+   <select class="form-control" name="user_type" ng-model="user.user_type" required>
+   	<option value="1">Admin</option>
+    <option value="2">Customer</option>
+    <option value="3">Supplier</option>
+   </select>
+   </div>
+   
+   <div class="form-group" ng-class="{ 'has-error' : userForm.user_company.$invalid && submitted}">
+   <label for="txtCompany">Company</label>
+   <select class="form-control" id="txtcompany" name="user_company" ng-model="user.user_company" ng-options="obj.company_id as obj.company_name for obj in companies" required>
+   	<option>Abc</option>
+    <option>Def</option>
+    <option>Ghi</option>
+   </select>
+   </div>
+   
+   <div class="form-group" ng-class="{ 'has-error' : userForm.user_email.$invalid && submitted}">
+   <label for="txtEmail">Email Address</label>
+   <input type="Email" class="form-control" id="txtemail" name="user_email" ng-model="user.user_email" required>
+   </div>
+   
+   <div class="form-group" ng-class="{ 'has-error' : userForm.user_password.$invalid && submitted}">
+   <label for="txtPassword">Password</label>
+   <input type="password" class="form-control" id="txtpassword" name="user_password" ng-model="user.user_password" required>
+   </div>
+   
+   <div class="form-group" ng-class="{ 'has-error' : userForm.user_confirm_password.$invalid && submitted}">
+   <label for="txtPassword">Confirm Password</label>
+   <input type="password" class="form-control" id="txtpassword" name="user_confirm_password" ng-model="user.user_confirmPassword" required>
+   </div>
+   
+   <div class="form-group" ng-class="{ 'has-error' : userForm.user_display_name.$invalid && submitted}">
+   <label for="txtFullname">Display Name</label>
+   <input type="text" class="form-control" id="txtfullname" name="user_display_name" ng-model="user.user_name" required>
+   </div>
+   
+   <div class="form-group">
+   <label for="txtcontact">Contact No.</label>
+   <input type="tel" class="form-control" id="txtcontact" name="user_contact_no" ng-model="user.user_contactNo">
+   </div>
+   
+   <button type="submit" class="btn-form btn btn-green" >Submit</button>
+
+   
+</form>
+
+
+
+</div>
+</div>
+</div>
+<!--  FORM  --> 

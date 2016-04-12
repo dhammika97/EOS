@@ -216,15 +216,15 @@ controllers.hybridDashController = function($scope){
 	
 	$scope.gridOptions = {
 		columnDefs: [
-		  { name: 'Customer', headerCellClass: 'HeaderStyle1', width: "10%", enableCellEdit: false  },
-		  { name: 'Supplier', headerCellClass: 'HeaderStyle1' , width: "10%", enableCellEdit: false},
-		  { name: 'Plant', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
-		  { name: 'Pick-Up', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
-		  { name: 'Pick-Up Date', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
-		  { name: 'Arrival Date', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
-		  { name: 'Stack', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
-		  { name: 'Comments', headerCellClass: 'HeaderStyle1', enableCellEdit: false, width: "250" },
-		  { name: 'Supplier Status', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 bold', enableCellEdit: false },
+		  { name: 'Customer', headerCellClass: 'HeaderStyle1', width: "10%" },
+		  { name: 'Supplier', headerCellClass: 'HeaderStyle1' , width: "10%"},
+		  { name: 'Plant', headerCellClass: 'HeaderStyle1'},
+		  { name: 'Pick-Up', headerCellClass: 'HeaderStyle1'},
+		  { name: 'Pick-Up Date', headerCellClass: 'HeaderStyle1'},
+		  { name: 'Arrival Date', headerCellClass: 'HeaderStyle1'},
+		  { name: 'Stack', headerCellClass: 'HeaderStyle1'},
+		  { name: 'Comments', headerCellClass: 'HeaderStyle1', width: "250" },
+		  { name: 'Supplier Status', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 bold'},
 		  { name: 'assignedTo', displayName: 'Assigned To', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1', 
 		  editableCellTemplate: 'ui-grid/dropdownEditor',
 		  editDropdownOptionsArray: [
@@ -234,9 +234,9 @@ controllers.hybridDashController = function($scope){
 		  editDropdownIdLabel:'assignedTo',
 		  editDropdownValueLabel: 'assignedTo'
 		  },
-		  { name: 'Date', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1', enableCellEdit: false },
-		  { name: 'By', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1', enableCellEdit: false },
-		  { name: 'Status(Select)', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1', enableCellEdit: false},
+		  { name: 'Date', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
+		  { name: 'By', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1'},
+		  { name: 'Status(Select)', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1'},
 		  ]
 		  
 		};
@@ -245,7 +245,6 @@ controllers.hybridDashController = function($scope){
 }
 
 controllers.customerController = function($scope, customerFactory, customerAddFactory){
-	objCombos = [{company_type:1,name: "test" },{company_type:2,name: "test2" },{company_type:3,name: "test3" }]
 	$scope.partnerGridOptions = {
 		columnDefs: [
 		  { name: 'company_type', displayName: 'Partner Type', headerCellClass: 'HeaderStyle1',	

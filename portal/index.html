@@ -42,8 +42,8 @@
       <!-- Header right top -->
       <div class="Header_right_top">
           <ul class="link_list_1">
-          <li><span>User:</span>{{username}}, Hybrid</li>
-          <li><span>Last Login:</span>Feb 1, 2016 09:45</li>
+          <li><span>User:</span>{{username}}, {{userCompany}}</li>
+          <li><span>Last Login:</span>{{lastLogin}}</li>
           </ul>
       </div>
       <!-- Header right top -->
@@ -75,7 +75,8 @@
         <ul class="dropdown-menu">
             <li><a href="" ng-click="go('users')">Users</a></li>
             <li><a href="" ng-click="go('customers')">Partners</a></li>
-            <li><a href="" ng-click="go('customers')">Locations</a></li>
+            <li><a href="" ng-click="go('locations')">Locations</a></li>
+            <li><a href="" ng-click="go('accounts')">Accounts</a></li>
             <!--<li><a href="" ng-click="go('suppliers')">Suppliers</a></li>
             <li><a href="" ng-click="go('logistics')">Logistics</a></li>-->
         </ul>
@@ -174,8 +175,14 @@
     <script src="app/controllers/hybridDashController.js" type="text/javascript"></script>
     <script src="app/controllers/customerDashController.js" type="text/javascript"></script>
     <script src="app/controllers/supplierDashController.js" type="text/javascript"></script>
+    <script src="app/controllers/userController.js" type="text/javascript"></script>
+    <script src="app/controllers/locationController.js" type="text/javascript"></script>
+    
     
     <script src="app/factories/hybridDashFactory.js" type="text/javascript"></script>
+    <script src="app/factories/userFactory.js" type="text/javascript"></script>
+    <script src="app/factories/locationFactory.js" type="text/javascript"></script>
+    
     <script>
 	$(document).ready(function(){  
     	resizeContent();

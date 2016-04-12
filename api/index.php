@@ -110,7 +110,7 @@ $app->post('/user', 'authenticate', function() use ($app) {
 		$DbHandler = new DbHandler();
 		$users = $request->getBody();
         	
-		if($users['user_password']!=isset($users['user_confirmPassword'])){
+		if($users['user_password']!=$users['user_confirmPassword']){
 			$response["error"] = true;
 			$response["message"] = "Password mis-matched!";
 			echoRespnse(409, $response);
@@ -417,6 +417,32 @@ $app->get('/company', 'authenticate', function() use($app) {
 		}
 });
 
+
+/**
+ * Get all companylist for dropdowns
+ * url - /company
+ * method - GET
+ * params - api Key*/
+
+$app->get('/companies', 'authenticate', function() use($app) {
+		$request = \Slim\Slim::getInstance()->request();
+		$params = $request->params();    
+    
+		$response = array();
+		$DbHandler = new DbHandler();		
+		$result = $DbHandler->getCompanies($params);
+		if (!$result) {
+			$response["error"] = TRUE;
+			$response["message"] = "The requested resource doesn't exists";
+			echoRespnse(404, $response);
+		} else {
+			$response["error"] = false;
+			$response['companies']=json_decode($result);
+			echoRespnse(200, $response);
+		}
+});
+
+
 /**
  * get company details
  * url - /company/:id
@@ -624,10 +650,14 @@ $app->get('/access', 'authenticate', function() use($app) {
 			$response["message"] = "The requested resource doesn't exists";
 			echoRespnse(404, $response);
 		} else {
+			$login = $db->getLastLogin($result['user_email']);
+			$company = $db->getCompanyName($result['user_company']);
 			$response["error"] = false;
 			$response['userType']=$result['user_type'];
 			$response['userName']=$result['user_name'];
-			$response['userCompany']=$result['user_company'];
+			$response['userCompany']=$company['company_name'];
+			$response['cType']=$company['company_type'];
+			$response['lastLogin'] = $login['audit_login_date_time'];
 			echoRespnse(200, $response);
 		}
 });
