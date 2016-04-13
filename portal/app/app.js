@@ -86,8 +86,8 @@ window.routes =
 		accessType:1
     },
     "/add-new-order": {
-        templateUrl: 'app/partials/add_new_order.html', 
-        controller: '', 
+        templateUrl: 'app/partials/orders/add_new_order.html', 
+        controller: 'addNewOrderController', 
         requireLogin: true
     }
 };

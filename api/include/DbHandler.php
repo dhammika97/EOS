@@ -524,8 +524,28 @@ class DbHandler {
 			$i++;
 		}
 		$db = new database();
-		$table = 'supplier';
-		$rows ='*';	
+		$table = 'company';
+		$rows ='*';
+		$where = 'company_type = 3';
+		$db->selectJson($table,$rows,$where,'','');
+		$supplier_list = $db->getJson();
+		return $supplier_list;
+	}
+	
+	public function getAllCustomers($params){
+		$where = '';
+		$i = 1;
+		foreach($params as $key => $value){
+			if($i != count($params) )
+			$where .= $key .'='.$value.' AND ';
+			else
+			$where .= $key .'='.$value;
+			$i++;
+		}
+		$db = new database();
+		$table = 'company';
+		$rows ='*';
+		$where = 'company_type = 2';
 		$db->selectJson($table,$rows,$where,'','');
 		$supplier_list = $db->getJson();
 		return $supplier_list;

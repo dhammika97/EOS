@@ -24,5 +24,15 @@ App.factory('locationAddFactory',function($resource, Notification){
 		})
 	}
 	
+	factory.createLocation = function(params){
+		location.save(params).$promise.then(function(data){
+			Notification.success(data.message);
+			document.locationForm.reset()
+			$('input').blur();	
+		},function(data){
+			Notification.error(data.data.message);
+		})	
+	}
+	
 	return factory
 })
