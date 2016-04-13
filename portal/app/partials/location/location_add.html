@@ -21,7 +21,7 @@
 
 <form name="locationForm" class="form-inline" ng-keypress="keyPress($event)" ng-submit="addLocation(locationForm.$valid)" novalidate>
    
-   <div class="form-group" ng-class="{ 'has-error' : partnerForm.txtCompany.$invalid && submitted}">
+   <div class="form-group" ng-class="{ 'has-error' : locationForm.location_name.$invalid && submitted}">
    <label for="txtCompany" >Location Name </label>
    <input type="text" class="form-control" id="txtCompany" name="location_name" ng-model="location.location_name" required>
    </div>
@@ -33,7 +33,7 @@
    
    <div class="form-group" >
    <label for="txtPhoneNumber">Location Cordinates</label>
-   <input type="text" class="form-control" id="txtPhoneNumber" name="location_cordinates" ng-model="location.location_cordinates" required>
+   <input type="text" class="form-control" id="txtPhoneNumber" name="location_cordinates" ng-model="location.location_cordinates">
    </div>
    <button type="submit" class="btn btn-green btn-form" >Submit</button>
    

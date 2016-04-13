@@ -16,8 +16,21 @@ controllers.locationController = function($scope, locationFactory, locationAddFa
 		gridApi.edit.on.afterCellEdit($scope, function(rowEntity, colDef, newValue, oldValue) {
 			if(newValue != oldValue){
 				locationAddFactory.updateLocation(rowEntity.location_id,rowEntity)
-				//console.log('asdasdasd asdasd')
 			}
 		});
+	}
+}
+
+controllers.locationAddController = function($scope, locationAddFactory){
+	$scope.keyPress = function(e){
+		if (e.which === 13)
+    	$scope.addLocation()
+	}
+	
+	$scope.addLocation = function(isValid){
+		$scope.submitted = true
+		if(isValid){
+			locationAddFactory.createLocation($scope.location)
+		}
 	}
 }
