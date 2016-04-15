@@ -693,7 +693,7 @@ $app->get('/access', 'authenticate', function() use($app) {
  * method - POST
  * params -order object*/
 
-$app->post('/singelOrder', 'authenticate', function() use ($app) {
+$app->post('/orders', 'authenticate', function() use ($app) {
 		$order  = array();
 		$response = array();
 		$request = $app->request();
@@ -719,6 +719,30 @@ $app->post('/singelOrder', 'authenticate', function() use ($app) {
 			echoRespnse(400, $response);
 		}
 		
+});
+
+/**
+ * Get orders List
+ * url - /orders
+ * method - GET
+ * params - api Key*/
+
+$app->get('/orders', 'authenticate', function() use($app) {
+		$request = \Slim\Slim::getInstance()->request();
+		$params = $request->params();    
+    
+		$response = array();
+		$DbHandler = new DbHandler();		
+		$result = $DbHandler->getAllOrders($params);
+		if (!$result) {
+			$response["error"] = TRUE;
+			$response["message"] = "The requested resource doesn't exists";
+			echoRespnse(404, $response);
+		} else {
+			$response["error"] = false;
+			$response['orders']=json_decode($result);
+			echoRespnse(200, $response);
+		}
 });
 
 

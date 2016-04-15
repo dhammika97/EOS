@@ -123,3 +123,31 @@ App.controller(controllers)
         return input;
     };
 })
+.filter('mapPickup', function() {
+  var userHash = {
+    1: 'Yes',
+	2: 'No'
+  };
+ 
+  return function(input) {
+    if (!input){
+      return '';
+    } else {
+      return userHash[input];
+    }
+  };
+})
+.filter('mapSuplierStatus', function() {
+  var userHash = {
+    0: 'PENDING',
+	1: 'ACCEPTED'
+  };
+ 
+  return function(input) {
+    if (!input){
+      return '';
+    } else {
+      return userHash[input];
+    }
+  };
+})
