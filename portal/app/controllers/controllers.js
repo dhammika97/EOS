@@ -10,6 +10,7 @@ controllers.masterController = function($scope, $location, $window, auth){
 	$scope.username = data.userName
 	$scope.userType = data.userType
 	$scope.userCompany = data.userCompany
+	$scope.userCompanyID = data.cID
 	$scope.userCompanyType = data.cType
 })
 		

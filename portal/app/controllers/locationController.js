@@ -31,6 +31,8 @@ controllers.locationAddController = function($scope, locationAddFactory){
 		$scope.submitted = true
 		if(isValid){
 			locationAddFactory.createLocation($scope.location)
+			$scope.submitted = false
+			$scope.location = {}
 		}
 	}
 }

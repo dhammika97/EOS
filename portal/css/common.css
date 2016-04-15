@@ -1,7 +1,9 @@
 html, body {
-	min-width: 760px;
+	min-width: 1000px;
 	-ms-overflow-style: scrollbar;
 }
+
+
 body {
 	background-color: #ebeef0;
 	font-family: Arial, Helvetica, sans-serif;
@@ -31,7 +33,7 @@ body {
 .login_contents h1 {
 	font-family: "Segoe UI Light", "Helvetica LT Std", Arial;
 	color: #fff;
-	font-size: 36px;
+	font-size: 2.571em;
 	margin: 20px 0px;
 	display: inline-block;
 	text-align: center
@@ -57,7 +59,7 @@ body {
 	background: #EEEEEE
 }
 .wr_login_box label {
-	font-size: 14px;
+	font-size: 1em;
 	font-weight: bold
 }
 .PageTitle {
@@ -66,7 +68,7 @@ body {
 .WR_Header {
 	background: #fff;
 	position: fixed;
-	height: 70px;
+	height: 78px;
 	width: 100%;
 	top: 0px;
 	z-index: 80
@@ -114,7 +116,7 @@ body {
 }
 .WR_TitleBar h1 {
 	color: #fff;
-	font-size: 22px;
+	font-size: 1.5em;
 	padding: 0px;
 	margin: 0px;
 	font-weight: normal;
@@ -135,20 +137,28 @@ body {
 	font-size: 45px;
 	vertical-align: middle
 }
-.WR_PageTitle h1, .WR_PageTitle h1 a:link, .WR_PageTitle h1 a:visited {
-	color: #2E323D;
-	font-size: 28px;
+.WR_PageTitle h1 {
+	font-size: 2.0em;
 	font-family: "Segoe UI Light", "Helvetica LT Std", Arial;
 	text-decoration: none;
 	padding-bottom: 3px;
 	display: inline-block;
 	margin: 0px
 }
+
+.WR_PageTitle h1, .WR_PageTitle h1 a:link, .WR_PageTitle h1 a:visited {
+	color: #2E323D;
+	text-decoration: none;
+}
+
+
+
+
 .WR_PageTitle h1 a:hover {
 	text-decoration: underline
 }
 .WR_PageTitle small.span {
-	font-size: 20px;
+	font-size: 1.429em;
 }
 .WR_Notifications {
 	color: #fff;
@@ -170,7 +180,7 @@ body {
 .itm_alert {
 }
 .not_nmbr {
-	font-size: 22px;
+	font-size: 1.571em;
 	line-height: 22px;
 	padding: 10px 10px 10px 10px;
 	display: inline-block;
@@ -178,7 +188,7 @@ body {
 	font-weight: bold
 }
 .not_text {
-	font-size: 16px;
+	font-size: 1.143em;
 	line-height: 16px;
 	padding: 14px 15px 10px 0px;
 	display: inline-block;
@@ -219,7 +229,7 @@ margin-right:0px
 	min-height: 30px
 }
 .navbar-default .navbar-nav>li>a {
-	font-size: 16px;
+	font-size: 1.143em;
 	color: #333;
 	text-transform: uppercase
 }
@@ -236,7 +246,7 @@ margin-right:0px
 .CountryDropDown {
 	background: white;
 	border: none;
-	font-size: 15px;
+	font-size: 1.071em;
 	padding: 5px 15px;
 	margin: 0px
 }
@@ -388,3 +398,10 @@ label.has-error{
 .wr_error_messages{ margin:20px 0px; padding:5px; }
 .lst-errors{ margin:0px; padding:0px; margin-left:25px}
 
+
+
+.fr {   text-align:center; margin-right:5px !important; padding:0px !important}
+.fr a{padding:5px; margin:0px; color:#F60; display:block; text-decoration:none}
+.Header_right_top{ padding-right:10px}
+
+.btn{ font-size:1em}

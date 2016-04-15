@@ -1,5 +1,5 @@
 // JavaScript Document
-App.factory('getOrderDetailsFactory',function($resource){
+App.factory('getOrderDetailsFactory',function($resource, Notification){
 	var factory = {}
 	
 	factory.suppliers = $resource('../api/supplier/:id', {}, {
@@ -14,11 +14,21 @@ App.factory('getOrderDetailsFactory',function($resource){
 		query: {method: 'GET', params: {}, isArray: false}
     });
 	
-	/*factory.getSuppliers = function(){
-		suppliers.query().$promise.then(function(data){
-			console.log(data.companies)
-		})	
-	}*/
+	var orders = $resource('../api/singelOrder/:id',{},{
+		query: {method: 'GET', params: {}, isArray: false},
+		save: {method: 'POST'},
+		update: {method: 'PUT', params: {id: '@id'}}	
+	})
+	
+	factory.saveOrder = function(params){
+		orders.save(params).$promise.then(function(data){
+			Notification.success(data.message);
+			document.orderForm.reset()
+			$('input').blur();
+		},function(data){
+			Notification.success(data.data.message);
+		})
+	}
 	
 	return factory
 })

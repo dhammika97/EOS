@@ -264,8 +264,7 @@ controllers.customerController = function($scope, customerFactory, customerAddFa
 		  { name: 'company_contact_name', displayName: 'Contact Full Name', headerCellClass: 'HeaderStyle1' },
 		  { name: 'company_contact_no', displayName: 'Contact Phone No.', headerCellClass: 'HeaderStyle1'},
 		  { name: 'company_email', displayName: 'Email Address', headerCellClass: 'HeaderStyle1' },
-		  { name: 'company_alternate_contact', displayName: 'Alternate Contact', headerCellClass: 'HeaderStyle1'},
-		  { name: 'Delete', displayName: '', headerCellClass: 'HeaderStyle1', width: 50, cellTemplate:"<div class='text-center'><i class='fa fa-trash'></i><div>", enableCellEdit: false}
+		  { name: 'company_alternate_contact', displayName: 'Alternate Contact', headerCellClass: 'HeaderStyle1'}
 		  ]
 		};
 	 
@@ -293,6 +292,8 @@ controllers.addCustomerController = function($scope, customerAddFactory){
 		$scope.submitted = true
 		if(isValid){
 			customerAddFactory.createPartner($scope.partner)
+			$scope.submitted = false
+			$scope.partner = {}
 		}
 	}
 }

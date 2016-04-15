@@ -68,6 +68,8 @@ controllers.userController = function($scope, userFactory, customerFactory, user
 		$scope.submitted = true
 		if(isValid){
 			userAddFactory.createUser($scope.user)
+			$scope.submitted = false
+			$scope.user = {}
 		}
 	}
 	
