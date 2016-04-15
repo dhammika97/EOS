@@ -7,9 +7,10 @@ var App = angular.module('heos', [
 	'ui.grid.edit',
 	'ui.grid.rowEdit', 
 	'ui.grid.cellNav',
-	'ui-notification'
+	'ui-notification',
+	'720kb.datepicker'
 ])
-
+	
 window.routes =
 {
     "/": {

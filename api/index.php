@@ -680,9 +680,43 @@ $app->get('/access', 'authenticate', function() use($app) {
 			$response['userName']=$result['user_name'];
 			$response['userCompany']=$company['company_name'];
 			$response['cType']=$company['company_type'];
+			$response['cID']=$result['user_company'];
 			$response['lastLogin'] = $login['audit_login_date_time'];
 			echoRespnse(200, $response);
 		}
+});
+
+
+/**
+ * Create new order 
+ * url - /singelOrder
+ * method - POST
+ * params -order object*/
+
+$app->post('/singelOrder', 'authenticate', function() use ($app) {
+		$order  = array();
+		$response = array();
+		$request = $app->request();
+		$DbHandler = new DbHandler();
+
+		$order = $request->getBody();
+		try{
+			//echo $DbHandler->createLocation($location);
+			if($DbHandler->createSingleOrder($order)){
+				$response["error"] = false;
+				$response["message"] = "Order added successfully";
+				echoRespnse(201, $response);				
+				}else{
+				$response["error"] = true;
+				$response["message"] = "Order creation failed";	
+				echoRespnse(200, $response);
+			}
+		}catch(Exception $e){
+			$response["error"] = true;
+			$response["message"] = $e->getMessage();
+			echoRespnse(400, $response);
+		}
+		
 });
 
 

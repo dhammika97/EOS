@@ -581,5 +581,63 @@ class DbHandler {
 			return true;
 		}
 	}
+	
+	public function createSingleOrder($order){
+		$db = new database();
+		$table  = "orders";
+		
+		if(!isset($order['order_company_id'])){
+			 throw new Exception('Company sould be selected!');
+		}elseif(!isset($order['order_supplier_id'])){
+			 throw new Exception('Supplier sould be selected!');
+		}elseif(!isset($order['order_location_id'])){
+			 throw new Exception('Location sould be selected!');
+		}elseif(!isset($order['order_plant'])){
+			 throw new Exception('Plant cannot be blank!');
+		}elseif(!isset($order['order_pickup'])){
+			 throw new Exception('Pick-up sould be selected!');
+		}elseif(!isset($order['order_pickup_day'])){
+			 throw new Exception('Pick-up date sould be selected!');
+		}elseif(!isset($order['order_arrival_day'])){
+			 throw new Exception('Arrival Date sould be selected!');
+		}elseif(!isset($order['order_stack'])){
+			 throw new Exception('Stack cannot be blank!');
+		}elseif(!isset($order['order_status'])){
+			 throw new Exception('Order status cannot be blank!');
+		}
+		
+		(isset($order['order_comments']) ? $order_comments = $order['order_comments'] : $order_comments = "" );
+		
+		global $user_id;
+		
+		$values = "'".$order['order_company_id']."',
+					  '".$order['order_supplier_id']."',
+					  '".$order['order_location_id']."',
+					  '".$order['order_plant']."',
+					  '".$order['order_pickup']."',
+					  '".$order['order_pickup_day']."',
+					  '".$order['order_arrival_day']."',
+					  '".$order['order_stack']."',
+					  '".$user_id."',
+					  '".$order['order_status']."'";		
+					  
+		$rows   = "order_company_id,
+                   order_supplier_id,
+                   order_location_id,
+				   order_plant,
+				   order_pickup,
+				   order_pickup_day,
+				   order_arrival_day,
+				   order_stack,
+				   order_added_by,
+				   order_status";		
+        
+		if($db->insert($table,$values,$rows) ){
+			return $db->getInsertId();
+		}else{
+			return false;
+		}
+	}
+	
 }
 ?>
