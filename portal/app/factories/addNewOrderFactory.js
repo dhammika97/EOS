@@ -14,7 +14,7 @@ App.factory('getOrderDetailsFactory',function($resource, Notification){
 		query: {method: 'GET', params: {}, isArray: false}
     });
 	
-	var orders = $resource('../api/singelOrder/:id',{},{
+	var orders = $resource('../api/orders/:id',{},{
 		query: {method: 'GET', params: {}, isArray: false},
 		save: {method: 'POST'},
 		update: {method: 'PUT', params: {id: '@id'}}	

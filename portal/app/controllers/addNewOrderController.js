@@ -32,7 +32,7 @@ controllers.addNewOrderController = function($scope, getOrderDetailsFactory){
 	$scope.addOrder = function(isValid){
 		$scope.submitted = true
 		if(isValid){
-			$scope.order.order_status = 1
+			//$scope.order.order_status = 1
 			getOrderDetailsFactory.saveOrder($scope.order)
 			$scope.submitted = false
 			$scope.order = {}

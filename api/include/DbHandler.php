@@ -602,8 +602,6 @@ class DbHandler {
 			 throw new Exception('Arrival Date sould be selected!');
 		}elseif(!isset($order['order_stack'])){
 			 throw new Exception('Stack cannot be blank!');
-		}elseif(!isset($order['order_status'])){
-			 throw new Exception('Order status cannot be blank!');
 		}
 		
 		//(isset($order['order_comments']) ? $order_comments = $order['order_comments'] : $order_comments = "" );
@@ -618,8 +616,7 @@ class DbHandler {
 					  '".$order['order_pickup_day']."',
 					  '".$order['order_arrival_day']."',
 					  '".$order['order_stack']."',
-					  '".$user_id."',
-					  '".$order['order_status']."'";		
+					  '".$user_id."'";		
 					  
 		$rows   = "order_company_id,
                    order_supplier_id,
@@ -629,8 +626,7 @@ class DbHandler {
 				   order_pickup_day,
 				   order_arrival_day,
 				   order_stack,
-				   order_added_by,
-				   order_status";		
+				   order_added_by";		
         
 		if($db->insert($table,$values,$rows) ){
 			$insertedId = $db->getInsertId();
@@ -652,6 +648,26 @@ class DbHandler {
 		}else{
 			return false;
 		}
+	}
+	
+	
+	public function getAllOrders($params){
+		$where = '';
+		$i = 1;
+		foreach($params as $key => $value){
+			if($i != count($params) )
+			$where .= $key .'='.$value.' AND ';
+			else
+			$where .= $key .'='.$value;
+			$i++;
+		}
+		$db = new database();
+		$table = 'tmpData';
+		$rows ='*';
+		//$where = 'company_type = 2';
+		$db->selectJson($table,$rows,$where,'','');
+		$orders_list = $db->getJson();
+		return $orders_list;
 	}
 	
 }
