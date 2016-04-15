@@ -700,9 +700,11 @@ $app->post('/singelOrder', 'authenticate', function() use ($app) {
 		$DbHandler = new DbHandler();
 
 		$order = $request->getBody();
+		$result = $DbHandler->createSingleOrder($order);
 		try{
 			//echo $DbHandler->createLocation($location);
-			if($DbHandler->createSingleOrder($order)){
+			if($result){
+				//$response["inserted"] = $result;
 				$response["error"] = false;
 				$response["message"] = "Order added successfully";
 				echoRespnse(201, $response);				

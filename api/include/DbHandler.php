@@ -606,7 +606,7 @@ class DbHandler {
 			 throw new Exception('Order status cannot be blank!');
 		}
 		
-		(isset($order['order_comments']) ? $order_comments = $order['order_comments'] : $order_comments = "" );
+		//(isset($order['order_comments']) ? $order_comments = $order['order_comments'] : $order_comments = "" );
 		
 		global $user_id;
 		
@@ -633,7 +633,22 @@ class DbHandler {
 				   order_status";		
         
 		if($db->insert($table,$values,$rows) ){
-			return $db->getInsertId();
+			$insertedId = $db->getInsertId();
+			if(isset($order['order_comments'])){
+				$tableComment = "order_comment";
+				$valuesComment = "'".$insertedId."',
+								  '".$order['order_comments']."',
+								  '".$user_id."'";
+								  
+				$rowsComment = "comment_order_id,
+								comment_description,
+								comment_user_id";
+								
+				if($db->insert($tableComment,$valuesComment,$rowsComment)){
+					return $insertedId;
+				}
+				//return $db->getInsertId();	
+			}
 		}else{
 			return false;
 		}
