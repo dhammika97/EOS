@@ -32,6 +32,11 @@ controllers.addNewOrderController = function($scope, getOrderDetailsFactory){
 	$scope.addOrder = function(isValid){
 		$scope.submitted = true
 		if(isValid){
+			if($scope.userCompanyType == 3){
+				$scope.order.order_status = 0
+			}else{
+				$scope.order.order_status = 1
+			}
 			//$scope.order.order_status = 1
 			getOrderDetailsFactory.saveOrder($scope.order)
 			$scope.submitted = false
