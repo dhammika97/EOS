@@ -7,11 +7,9 @@
 <!--  Grid Buttons  -->
 <div class="WR_GridButtons">
     <div class="pull-left">
-        <select name="" class="CountryDropDown">
-            <option>All Countries</option>
-            <option>Canada</option>
-            <option>Mexico</option>
-            <option>USA</option>
+        <select name="" class="CountryDropDown" ng-change="getCountryFiltered()" ng-model="countryFilter" >
+        	<option value="0" selected>All Countries</option>
+            <option ng-repeat="option in locationsList" value="{{option.location_id}}">{{option.location_name}}</option>
         </select>
     </div>
     <div class="pull-right">

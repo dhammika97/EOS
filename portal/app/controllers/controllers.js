@@ -151,3 +151,18 @@ App.controller(controllers)
     }
   };
 })
+.filter('mapOrderStatus', function() {
+  var userHash = {
+    1: 'PENDING',
+	2: 'Supplier',
+	3: 'Logistic',
+  };
+ 
+  return function(input) {
+    if (!input){
+      return '';
+    } else {
+      return userHash[input];
+    }
+  };
+})
