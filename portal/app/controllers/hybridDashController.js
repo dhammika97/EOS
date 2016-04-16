@@ -20,23 +20,38 @@ controllers.hybridDashController = function($scope, hybridDashFactory, locationF
 		  
 		};
 	
+	var curr = new Date;
+	var firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()+1));
+	var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay()+7));
+	//$scope.currentWeek = week.getMonth()+1+'/'+week.getDate()+'/'+week.getFullYear()
+	$scope.firstDate = firstday.getFullYear()+'-'+(firstday.getMonth()+1)+'-'+firstday.getDate()
+	$scope.lastDate = lastday.getFullYear()+'-'+(lastday.getMonth()+1)+'-'+lastday.getDate()
+	
+	
 	locationFactory.query().$promise.then(function(data){
 		$scope.locationsList = data.locations
 		$scope.countryFilter = 0
-		hybridDashFactory.query({'order_location_id':$scope.countryFilter}).$promise.then(function(data){
-			$scope.gridOptions.data = data.orders	
+		
+		hybridDashFactory.query({'order_pickup_start':$scope.firstDate, 'order_pickup_end':$scope.lastDate}).$promise.then(function(data){
+			$scope.gridOptions.data = data.orders
+			Notification.success('Data retrieved!');
+			$scope.noData = false;
 		},function(data){
 			$scope.gridOptions.data = {}
-			Notification.error(data.data.message);	
+			Notification.error(data.data.message);
+			$scope.noData = true;	
 		});
 	})
 	
 	$scope.getCountryFiltered = function(){
-		hybridDashFactory.query({'order_location_id':$scope.countryFilter}).$promise.then(function(data){
-			$scope.gridOptions.data = data.orders	
+		hybridDashFactory.query({'order_location_id':$scope.countryFilter,'order_pickup_start':$scope.firstDate, 'order_pickup_end':$scope.lastDate}).$promise.then(function(data){
+			$scope.gridOptions.data = data.orders
+			Notification.success('Data retrieved!');
+			$scope.noData = false;
 		},function(data){
 			$scope.gridOptions.data = {}
 			Notification.error(data.data.message);	
+			$scope.noData = true;
 		});	
 	}
 	

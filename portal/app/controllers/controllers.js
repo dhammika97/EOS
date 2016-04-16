@@ -154,8 +154,8 @@ App.controller(controllers)
 .filter('mapOrderStatus', function() {
   var userHash = {
     1: 'PENDING',
-	2: 'Supplier',
-	3: 'Logistic',
+	2: 'PENDING',
+	3: 'PENDING',
   };
  
   return function(input) {

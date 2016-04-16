@@ -659,7 +659,35 @@ class DbHandler {
 		$where = '';
 		$i = 1;
 		foreach($params as $key => $value){
-			if($i != count($params) ){
+			if($key == 'order_pickup_end'){
+				$pickup_end = $value;
+			}elseif($key == 'order_pickup_start'){
+				$pickup_start = $value;
+			}elseif($key == 'order_location_id' && $value != 0){
+				$location = $value;
+			}elseif($key == 'order_customer_id'){
+				$customer_id = $value;
+			}
+			
+			
+			if(isset($pickup_start) && isset($pickup_end)){
+				$where = '(order_pickup_day BETWEEN "'.$pickup_start.'" and "'. $pickup_end .'" ) ';
+			}
+			if(isset($location)){
+				$where .= 'AND order_location_id = '.$location ;
+			}
+			if(isset($customer_id)){
+				$where .= 'AND 	order_company_id = '.$customer_id ;
+			}
+			//if($key == 'order_location_id' && $value != 0){
+			//	$where .= $key .'='.$value.' AND ';	
+			//}elseif($key == 'order_pickup_start' ){
+			//	$where .= '('.$key .' BETWEEN '.$value. ' AND ';
+			//}elseif($key == 'order_pickup_end'){
+			//	$where .= $value. ' ) ';
+			//}
+			
+			/*if($i != count($params) ){
 				if($key == 'order_location_id' && $value == 0){ 
 
 				}else{
@@ -671,7 +699,7 @@ class DbHandler {
 				}else{
 					$where .= $key .'='.$value;	
 				}
-			}
+			}*/
 			$i++;
 		}
 		$db = new database();

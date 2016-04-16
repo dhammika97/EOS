@@ -1,6 +1,6 @@
 <!--  Title  -->
 <div class="WR_PageTitle">
-<h1><i class="fa fa-chevron-circle-right"></i> <a href="#">Scheduled Events Week 1/11/2016</a> <span class="small">(Generated 1/8/2016 11:48)</span></h1>
+<h1><i class="fa fa-chevron-circle-right"></i> <a href="#">Scheduled Events Week {{firstDate}}</a> <span class="small">(Generated 1/8/2016 11:48)</span></h1>
 </div>
 <!--  Title  -->
 
@@ -22,7 +22,14 @@
 
 <!--  ANGULAR GRID  -->
 <div>
-	<div id="grid1" ui-grid="gridOptions" class="grid" ></div>
+<!-- Error Messages -->
+<div class="bg-danger wr_error_messages" ng-if="noData">
+	<ul class="lst-errors">
+		<li>No records found!</li>
+	</ul>
+</div>
+<!-- Error Messages -->
+	<div id="grid1" ui-grid="gridOptions" class="grid" ng-if="!noData"></div>
 </div>
 <!--  ANGULAR GRID  -->  
 
