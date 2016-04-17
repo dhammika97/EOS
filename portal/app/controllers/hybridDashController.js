@@ -21,8 +21,8 @@ controllers.hybridDashController = function($scope, hybridDashFactory, locationF
 		};
 	
 	var curr = new Date;
-	var firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()+1));
-	var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay()+7));
+	var firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
+	var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay()+6));
 	//$scope.currentWeek = week.getMonth()+1+'/'+week.getDate()+'/'+week.getFullYear()
 	$scope.firstDate = firstday.getFullYear()+'-'+(firstday.getMonth()+1)+'-'+firstday.getDate()
 	$scope.lastDate = lastday.getFullYear()+'-'+(lastday.getMonth()+1)+'-'+lastday.getDate()
