@@ -644,10 +644,8 @@ class DbHandler {
 								comment_description,
 								comment_user_id";
 								
-				if($db->insert($tableComment,$valuesComment,$rowsComment)){
-					return $insertedId;
-				}
-				//return $db->getInsertId();	
+				$db->insert($tableComment,$valuesComment,$rowsComment);
+				return $insertedId;	
 			}
 		}else{
 			return false;
@@ -665,7 +663,7 @@ class DbHandler {
 				$pickup_start = $value;
 			}elseif($key == 'order_location_id' && $value != 0){
 				$location = $value;
-			}elseif($key == 'order_customer_id'){
+			}elseif($key == 'order_company_id'){
 				$customer_id = $value;
 			}
 			
@@ -674,32 +672,12 @@ class DbHandler {
 				$where = '(order_pickup_day BETWEEN "'.$pickup_start.'" and "'. $pickup_end .'" ) ';
 			}
 			if(isset($location)){
-				$where .= 'AND order_location_id = '.$location ;
+				$where .= 'AND order_location_id = '.$location.' ' ;
 			}
 			if(isset($customer_id)){
 				$where .= 'AND 	order_company_id = '.$customer_id ;
 			}
-			//if($key == 'order_location_id' && $value != 0){
-			//	$where .= $key .'='.$value.' AND ';	
-			//}elseif($key == 'order_pickup_start' ){
-			//	$where .= '('.$key .' BETWEEN '.$value. ' AND ';
-			//}elseif($key == 'order_pickup_end'){
-			//	$where .= $value. ' ) ';
-			//}
 			
-			/*if($i != count($params) ){
-				if($key == 'order_location_id' && $value == 0){ 
-
-				}else{
-					$where .= $key .'='.$value.' AND ';
-				}
-			}else{
-				if($key == 'order_location_id' && $value == 0){
-					
-				}else{
-					$where .= $key .'='.$value;	
-				}
-			}*/
 			$i++;
 		}
 		$db = new database();

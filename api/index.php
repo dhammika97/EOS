@@ -700,18 +700,18 @@ $app->post('/orders', 'authenticate', function() use ($app) {
 		$DbHandler = new DbHandler();
 
 		$order = $request->getBody();
-		$result = $DbHandler->createSingleOrder($order);
+		
 		try{
 			//echo $DbHandler->createLocation($location);
-			if($result){
+			if($result = $DbHandler->createSingleOrder($order)){
 				//$response["inserted"] = $result;
 				$response["error"] = false;
 				$response["message"] = "Order added successfully";
 				echoRespnse(201, $response);				
 				}else{
 				$response["error"] = true;
-				$response["message"] = "Order creation failed";	
-				echoRespnse(200, $response);
+				$response["message"] = "Order added successfully";	
+				echoRespnse(201, $response);
 			}
 		}catch(Exception $e){
 			$response["error"] = true;
