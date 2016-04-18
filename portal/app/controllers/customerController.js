@@ -1,5 +1,5 @@
 // JavaScript Document
-controllers.customerController = function($scope, customerFactory, customerAddFactory){
+controllers.customerController = function($scope, customerFactory, customerAddFactory, Notification){
 	$scope.partnerGridOptions = {
 		columnDefs: [
 		  { name: 'company_type', displayName: 'Partner Type', headerCellClass: 'HeaderStyle1',	
@@ -25,6 +25,7 @@ controllers.customerController = function($scope, customerFactory, customerAddFa
 	 
 	customerFactory.query().$promise.then(function(data){
 		$scope.partnerGridOptions.data = data.companies
+		Notification.success('Data retrieved!');
 	})
 	
 	$scope.partnerGridOptions.onRegisterApi = function(gridApi){

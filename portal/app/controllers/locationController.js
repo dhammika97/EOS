@@ -1,7 +1,8 @@
 // JavaScript Document
-controllers.locationController = function($scope, locationFactory, locationAddFactory){
+controllers.locationController = function($scope, locationFactory, locationAddFactory, Notification){
 	locationFactory.query().$promise.then(function(data){
-		$scope.locationGridOptions.data = data.locations	
+		$scope.locationGridOptions.data = data.locations
+		Notification.success('Data retrieved!');	
 	})
 	$scope.locationGridOptions = {
 		columnDefs: [

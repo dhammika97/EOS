@@ -1,5 +1,5 @@
 // JavaScript Document
-controllers.userController = function($scope, userFactory, customerFactory, userAddFactory){
+controllers.userController = function($scope, userFactory, customerFactory, userAddFactory, Notification){
 	customerFactory.query().$promise.then(function(data){
 		$scope.companies = data.companies
 		$scope.userGridOptions = {
@@ -43,6 +43,7 @@ controllers.userController = function($scope, userFactory, customerFactory, user
 		$scope.userGridOptions.columnDefs[3].cellFilter = 'griddropdown'
 		userFactory.query().$promise.then(function(data){
 			$scope.userGridOptions.data = data.users;
+			Notification.success('Data retrieved!');
 		})
 		
 	})
