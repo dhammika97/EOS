@@ -681,7 +681,7 @@ class DbHandler {
 			$i++;
 		}
 		$db = new database();
-		$table = 'tmpdata';
+		$table = 'dataview';
 		$rows ='*';
 		//$where = 'company_type = 2';
 		$db->selectJson($table,$rows,$where,'','');
