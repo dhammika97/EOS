@@ -54,7 +54,7 @@ private $numrows;
 		if($limit!=""){
 			$q .= ' limit '.$limit;
 		}
-		//echo $q;
+			//echo $q;
 		$query = mysqli_query($this->con,$q);
 		$numRows = mysqli_num_rows($query);
 		$this->numrows = $numRows;

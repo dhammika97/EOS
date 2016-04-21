@@ -34,7 +34,7 @@ class DbHandler {
         $rows = 'audit_login_date_time';
         $where = 'audit_login_user_email = "' . $user_email . '"';
 		$order = 'audit_login_date_time DESC';
-		$limit = '1';
+		$limit = '1,1';
         $db->select($table, $rows, $where, $order, $limit);
         $user_last_login = $db->getResults();
         return $user_last_login;
@@ -60,7 +60,7 @@ class DbHandler {
 		(isset($params['user']) ? $user = $params['user'] : $user = "" );
 		(isset($params['status']) ? $status = $params['status'] : $status = "" );
 		(isset($params['update_id']) ? $update_id = $params['update_id'] : $update_id = "");
-		(isset($params['old_value']) ? $old_value = $params['old_value'] : $old_value = "" );
+		//(isset($params['old_value']) ? $old_value = $params['old_value'] : $old_value = "" );
 		(isset($params['new_value']) ? $new_value = $params['new_value'] : $new_value = "" );
 		switch($params['action']){
 			case 'login':
@@ -72,23 +72,24 @@ class DbHandler {
 				$db->insert($tables,$values,$rows);
 			break;
 			case 'create':
+				$out = array();
+				$out = explode(',',$new_value);
+				//echo json_encode($out);
 				$tables = 'audit_create';
 				$values = "'".$table."',
-							'".strval($new_value)."',
+							'".json_encode($out)."',
 							'".$user."'";
 				$rows = "audit_create_table,
 						 audit_values,
 						 audit_user";
-				$db->insert($tables,$values,$rows);
+				//$db->insert($tables,$values,$rows);
 			break;
 			case 'update':
 				$tables = 'audit_update';
 				$values = "'".$table."',
-							'".$old_value."',
 							'".$new_value."',
 							'".$user."'";
 				$rows = "audit_update_table,
-						 update_old_value,
 						 update_new_value,
 						 update_log_user";
 				$db->insert($tables,$values,$rows);
@@ -157,14 +158,7 @@ class DbHandler {
 		
 		(isset($user['user_contactNo']) ? $user_contactNo = $user['user_contactNo'] : $user_contactNo = "" );
 		
-		$values = "'".$user['user_name']."',
-                      '".md5 ($user['user_password'])."',
-                      '".strtoupper(md5(uniqid(rand(), true)))."', 
-					  '".$user['user_email']."', 
-					  '".$user['user_type']."',
-                      '".$user['user_company']."',
-                      '".$user_contactNo."',
-                      '1'";		
+		$values = "'".$user['user_name']."','".md5 ($user['user_password'])."','".strtoupper(md5(uniqid(rand(), true)))."','".$user['user_email']."','".$user['user_type']."','".$user['user_company']."','".$user_contactNo."','1'";		
 					  
 		$rows   = "user_name,
                    user_password,
@@ -178,16 +172,10 @@ class DbHandler {
 		global $user_id;
 		
 		if($db->insert($table,$values,$rows) ){
-			$tmp = explode(',',$values);
-			$str ='';
-			for($i=0; $i<count($tmp); $i++){
-				$str .= $tmp[$i].',';
-			}
-			echo json_decode($str);
 			$params['table'] = $table;
 			$params['action'] = 'create';
 			$params['user'] = $user_id;
-			$params['new_value'] = json_decode($str);
+			$params['new_value'] = $values;
 			$this->auditLogEntry($params);
 			return $db->getInsertId();
 		}else{
@@ -201,7 +189,7 @@ class DbHandler {
 		$rows  = $user ;
 		$where = 'user_id = "'.$user_update_id.'"';
 		global $user_id;
-		$params['old_value'] = $this->GetUserDetail($user_update_id);
+		//$params['old_value'] = $this->GetUserDetail($user_update_id);
 		if($db->update($table,$rows,$where) ){
 			$params['table'] = $table;
 			$params['action'] = 'update';
@@ -583,8 +571,6 @@ class DbHandler {
 	}
 	
 	public function createSingleOrder($order){
-		$db = new database();
-		$table  = "orders";
 		
 		if(!isset($order['order_company_id'])){
 			 throw new Exception('Company sould be selected!');
@@ -606,9 +592,15 @@ class DbHandler {
 			 throw new Exception('Stack cannot be blank!');
 		}
 		
-		//(isset($order['order_comments']) ? $order_comments = $order['order_comments'] : $order_comments = "" );
 		
 		global $user_id;
+		//$user = $this->GetUserDetail($user_id);
+		$db = new database();
+		$table = 'users';
+		$rows ='*';
+		$where = 'user_id = "'.$user_id.'"';	
+		$db->select($table,$rows,$where,'','');
+		$user = $db->getResults();
 		
 		$values = "'".$order['order_company_id']."',
 					  '".$order['order_supplier_id']."',
@@ -618,20 +610,28 @@ class DbHandler {
 					  '".$order['order_pickup_day']."',
 					  '".$order['order_arrival_day']."',
 					  '".$order['order_stack']."',
-					  '".$user_id."',
-					  '".$order['order_stack']."'";		
-					  
+					  '".$user_id."',";
+		if($user['user_type']==1){
+			$values .= "'".'2'."'";
+		}else if($user['user_type']==2){
+			$values .= "'".'1'."'";
+		}else if($user['user_type']==3){
+			$values = "'".'1'."'";
+		}
+		$db = new database();
+		$table  = "orders";
+		
 		$rows   = "order_company_id,
-                   order_supplier_id,
-                   order_location_id,
-				   order_plant,
-				   order_pickup,
-				   order_pickup_day,
-				   order_arrival_day,
-				   order_stack,
-				   order_added_by,
-				   order_status";		
-        
+		   order_supplier_id,
+		   order_location_id,
+		   order_plant,
+		   order_pickup,
+		   order_pickup_day,
+		   order_arrival_day,
+		   order_stack,
+		   order_added_by,
+		   order_status";
+		
 		if($db->insert($table,$values,$rows) ){
 			$insertedId = $db->getInsertId();
 			if(isset($order['order_comments'])){
@@ -644,9 +644,64 @@ class DbHandler {
 								comment_description,
 								comment_user_id";
 								
-				$db->insert($tableComment,$valuesComment,$rowsComment);
-				return $insertedId;	
+				$db->insert($tableComment,$valuesComment,$rowsComment);	
 			}
+			//print_r($user);
+			//mail to requester
+				$headers  = 'MIME-Version: 1.0' . "\r\n";
+				$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+				$headers .= 'From: HEOS - Hybrid Logistics <info@hybridlogistics.ca>' . "\r\n";
+				$content['user_name'] = $user['user_name'];
+				$content['to'] = $user['user_email'];
+				$content['mailType'] = "newOrderRequester";
+				sendMail($content, $headers);
+			
+			//mail to company 
+				$db = new database();
+				$table = 'company';
+				$rows ='*';
+				$where = 'company_id = "'.$order['order_company_id'].'"';	
+				$db->select($table,$rows,$where,'','');
+				$company = $db->getResults();
+			
+			//print_r($company);
+			if($user['user_type']==2){
+				$headers  = 'MIME-Version: 1.0' . "\r\n";
+				$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+				$headers .= 'From: HEOS - Hybrid Logistics <info@hybridlogistics.ca>' . "\r\n";
+				$headers .= 'Cc: dhammika97@gmail.com' . "\r\n";
+				$content['company_contact_name'] = $company['company_contact_name'];
+				$content['to'] = $company['company_email'];
+				$content['mailType'] = "newOrderOwn";
+				sendMail($content, $headers);
+			}else{
+				$headers  = 'MIME-Version: 1.0' . "\r\n";
+				$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+				$headers .= 'From: HEOS - Hybrid Logistics <info@hybridlogistics.ca>' . "\r\n";
+				$headers .= 'Cc: dhammika97@gmail.com' . "\r\n";
+				$content['company_contact_name'] = $company['company_contact_name'];
+				$content['to'] = $company['company_email'];
+				$content['mailType'] = "newOrderOther";
+				sendMail($content, $headers);
+			}
+			//mail to supplier
+				$db = new database();
+				$table = 'company';
+				$rows ='*';
+				$where = 'company_id = "'.$order['order_supplier_id'].'"';	
+				$db->select($table,$rows,$where,'','');
+				$supplier = $db->getResults();
+			
+				$headers  = 'MIME-Version: 1.0' . "\r\n";
+				$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+				$headers .= 'From: HEOS - Hybrid Logistics <info@hybridlogistics.ca>' . "\r\n";
+				$content['company_contact_name'] = $supplier['company_contact_name'];
+				$content['to'] = $supplier['company_email'];
+				$content['mailType'] = "newOrderSupplier";
+				sendMail($content, $headers);
+			
+			
+			return $insertedId;
 		}else{
 			return false;
 		}
@@ -665,6 +720,8 @@ class DbHandler {
 				$location = $value;
 			}elseif($key == 'order_company_id'){
 				$customer_id = $value;
+			}elseif($key == 'order_supplier_id'){
+				$supplier_id = $value;
 			}
 			
 			
@@ -677,9 +734,13 @@ class DbHandler {
 			if(isset($customer_id)){
 				$where .= 'AND 	order_company_id = '.$customer_id ;
 			}
+			if(isset($supplier_id)){
+				$where .= 'AND 	order_supplier_id = '.$supplier_id ;
+			}
 			
 			$i++;
 		}
+		$where .= ' AND order_status != 4';
 		$db = new database();
 		$table = 'dataview';
 		$rows ='*';
@@ -687,6 +748,18 @@ class DbHandler {
 		$db->selectJson($table,$rows,$where,'','');
 		$orders_list = $db->getJson();
 		return $orders_list;
+	}
+	
+	public function updateOrder($order_id, $order){
+		$db = new database();	
+		$table = 'orders';
+		$rows  = $order;
+		$where = 'order_id = "'.$order_id.'"';
+		if($db->update($table,$rows,$where) ){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 }

@@ -53,4 +53,95 @@ function validateEmail($email) {
     }
 }
 
+function sendMail($content, $headers){
+    switch ($content['mailType']) {
+	case 'newOrderRequester':
+	$subject ='Hybrid Logistics - New order request!';
+	$message = '
+	
+				<html>
+				<body>
+					<p>
+					Hi '.$content['user_name'].',
+					</p>
+					<p>
+					Your oder request has added succesfully to the system.<br> 
+					Thank you for connecting with Hybrid Logistics<br>
+					</p>
+					<p>
+						Best Regards!<br>
+						Team Hybrid
+					</p>
+					  
+				</body>
+				</html>';
+	break;
+	case 'newOrderOwn':
+	$subject ='Hybrid Logistics - New order request!';
+	$message = '
+	
+				<html>
+				<body>
+					<p>
+					Hi '.$content['company_contact_name'].',
+					</p>
+					<p>
+					Your oder request has added succesfully to the system.<br> 
+					Thank you for connecting with Hybrid Logistics<br>
+					</p>
+					<p>
+						Best Regards!<br>
+						Team Hybrid
+					</p>
+					  
+				</body>
+				</html>';
+	break;
+	case 'newOrderOther':
+	$subject ='Hybrid Logistics - New order request!';
+	$message = '
+	
+				<html>
+				<body>
+					<p>
+					Hi '.$content['company_contact_name'].',
+					</p>
+					<p>
+					New oder request has been added to the system. Please review and ACCEPT.<br> 
+					Thank you for connecting with Hybrid Logistics<br>
+					</p>
+					<p>
+						Best Regards!<br>
+						Team Hybrid
+					</p>
+					  
+				</body>
+				</html>';
+	break;
+	case 'newOrderSupplier':
+	$subject ='Hybrid Logistics - New order request!';
+	$message = '
+	
+				<html>
+				<body>
+					<p>
+					Hi '.$content['company_contact_name'].',
+					</p>
+					<p>
+					New oder request has been added to the system.<br> 
+					Thank you for connecting with Hybrid Logistics<br>
+					</p>
+					<p>
+						Best Regards!<br>
+						Team Hybrid
+					</p>
+					  
+				</body>
+				</html>';
+	break;
+	} 
+	if(mail($content['to'], $subject, $message, $headers)) return true; else return false;
+}
+
+
 ?>

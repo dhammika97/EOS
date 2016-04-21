@@ -1,58 +1,76 @@
 // JavaScript Document
-controllers.supplierDashController = function($scope){
-	var myData = [
-		{
-			"Customer": "Magna",
-			"Plant": "Newmarket",
-			"Pick-Up": "Yes",
-			"Pick-Up Date": "02 April 2016",
-			"Arrival Date": "13 April 2016",
-			"Stack": "Yes",
-			"Comments": "02/10/16 10:00 SHEIKHA: Found Issues with gty",
-			"Product": "",
-			"Skid Count": "",
-			"Dimension": "",
-			"Freight Class": "",
-			"Stackable": "",
-			"Weight": "",
-			"Status": "PENDING",
-		},
-		{
-			"Customer": "Magna",
-			"Plant": "Newmarket",
-			"Pick-Up": "Yes",
-			"Pick-Up Date": "13 April 2016",
-			"Arrival Date": "18 April 2016",
-			"Stack": "Yes",
-			"Comments": "02/10/16 10:00 SHEIKHA: Found Issues with gty",
-			"Product": "",
-			"Skid Count": "",
-			"Dimension": "",
-			"Freight Class": "",
-			"Stackable": "",
-			"Weight": "",
-			"Status": "PENDING",
-		}
-	];
+controllers.supplierDashController = function($scope, supplierDashFactory, locationFactory, Notification, updateOrderFactory){
 	
-	$scope.gridOptions = {
+	$scope.supplierGridOptions = {
 		columnDefs: [
-			  { field: 'Customer', headerCellClass: 'HeaderStyle1', width: "10%",    },
-			  { field: 'Plant', headerCellClass: 'HeaderStyle1' },
-			  { field: 'Pick-Up', headerCellClass: 'HeaderStyle1' },
-			  { field: 'Pick-Up Date', headerCellClass: 'HeaderStyle1' },
-			  { field: 'Arrival Date', headerCellClass: 'HeaderStyle1' },
-			  { field: 'Stack', headerCellClass: 'HeaderStyle1' },
-			  { field: 'Comments', headerCellClass: 'HeaderStyle1' },
-			  { field: 'Product', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
-			  { field: 'Skid Count', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
-			  { field: 'Dimension', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
-			  { field: 'Freight Class', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
-			  { field: 'Stackable', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1'},
-			  { field: 'Weight', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1'},
-			  { field: 'Status', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 bold'},
+			  { name:'company', displayName: 'Customer', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
+			  { name:'order_plant', displayName: 'Plant', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
+			  { name:'order_pickup', displayName: 'Pick-Up', headerCellClass: 'HeaderStyle1', cellFilter: 'mapPickup', width: '80', enableCellEdit: false },
+			  { name:'order_pickup_day', displayName: 'Pick-Up Date', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
+			  { name:'order_arrival_day', displayName: 'Arrival Date', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
+			  { name:'order_stack', displayName: 'Stack', headerCellClass: 'HeaderStyle1', cellFilter: 'mapPickup' , width: '80', enableCellEdit: false },
+			  { name:'order_comments', displayName: 'Comments', headerCellClass: 'HeaderStyle1', width:200 , enableCellEdit: false},
+			  { name:'order_product', displayName: 'Product', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
+			  { name:'order_skid_count', displayName: 'Skid Count', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
+			  { name:'order_dimensions', displayName: 'Dimension', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
+			  { name:'order_freight_class', displayName: 'Freight Class', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
+			  { name:'order_stackable', displayName: 'Stackable', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1'},
+			  { name:'order_weight', displayName: 'Weight', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1'},
+			  { name:'order_supplier_status', displayName: 'Status', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 bold', 	cellFilter: 'mapSuplierStatus',
+			  	editDropdownOptionsArray: [
+					{ id: 0, status: 'Pending' },
+					{ id: 1, status: 'Accepted' }
+				],
+				editableCellTemplate: 'ui-grid/dropdownEditor',
+				editDropdownValueLabel: 'status', 
+				editDropdownIdLabel: 'id'},
 			  ]		  
 		};
-	$scope.gridOptions.data = myData;
+	
+	var curr = new Date;
+	var firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
+	var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay()+6));
+	//$scope.currentWeek = week.getMonth()+1+'/'+week.getDate()+'/'+week.getFullYear()
+	$scope.firstDate = firstday.getFullYear()+'-'+(firstday.getMonth()+1)+'-'+firstday.getDate()
+	$scope.lastDate = lastday.getFullYear()+'-'+(lastday.getMonth()+1)+'-'+lastday.getDate()
+	
+	locationFactory.query().$promise.then(function(data){
+		$scope.locationsList = data.locations
+		$scope.countryFilter = 0
+		
+		supplierDashFactory.query({'order_pickup_start':$scope.firstDate, 'order_pickup_end':$scope.lastDate, 'order_supplier_id':$scope.userCompanyID}).$promise.then(function(data){
+			$scope.supplierGridOptions.data = data.orders
+			Notification.success('Data retrieved!');
+			$scope.noData = false;
+		},function(data){
+			$scope.supplierGridOptions.data = {}
+			Notification.error(data.data.message);
+			$scope.noData = true;	
+		});
+	})
+	
+	$scope.getCountryFiltered = function(){
+		supplierDashFactory.query({'order_location_id':$scope.countryFilter,'order_pickup_start':$scope.firstDate, 'order_pickup_end':$scope.lastDate, 'order_supplier_id':$scope.userCompanyID}).$promise.then(function(data){
+			$scope.supplierGridOptions.data = data.orders
+			Notification.success('Data retrieved!');
+			$scope.noData = false;
+		},function(data){
+			$scope.supplierGridOptions.data = {}
+			Notification.error(data.data.message);	
+			$scope.noData = true;
+		});	
+	}
+	
+	$scope.supplierGridOptions.onRegisterApi = function(gridApi){
+		$scope.gridApi = gridApi;
+		gridApi.edit.on.afterCellEdit($scope, function(rowEntity, colDef, newValue, oldValue) {
+			if(newValue != oldValue){
+				var tmpVar = '{"'+colDef.name+'":"'+newValue+'"}'
+				var obj = JSON.parse(tmpVar)
+				updateOrderFactory.updateOrder(rowEntity.order_id,obj)
+				//console.log(rowEntity)
+			}
+		});
+	}
 	
 }

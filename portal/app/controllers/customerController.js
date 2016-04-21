@@ -25,7 +25,7 @@ controllers.customerController = function($scope, customerFactory, customerAddFa
 	 
 	customerFactory.query().$promise.then(function(data){
 		$scope.partnerGridOptions.data = data.companies
-		Notification.success('Data retrieved!');
+		//Notification.success('Data retrieved!');
 	})
 	
 	$scope.partnerGridOptions.onRegisterApi = function(gridApi){
