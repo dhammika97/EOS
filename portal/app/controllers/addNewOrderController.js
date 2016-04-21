@@ -2,8 +2,17 @@
 controllers.addNewOrderController = function($scope, getOrderDetailsFactory){
 	$scope.isHideCustomer = true
 	$scope.order = {}
+	
+	$scope.isHideSupplier = true
+	
+	$scope.minDate = new Date().toString();
+	
 	if($scope.userCompanyType == 2){
 		$scope.isHideCustomer = false	
+	}
+	if($scope.userCompanyType == 3){
+		$scope.isHideSupplier = false
+		$scope.order.order_supplier_id = $scope.userCompanyID
 	}
 	
 	getOrderDetailsFactory.suppliers.query().$promise.then(function(data){

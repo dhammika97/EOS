@@ -681,6 +681,7 @@ $app->get('/access', 'authenticate', function() use($app) {
 			$response['userCompany']=$company['company_name'];
 			$response['cType']=$company['company_type'];
 			$response['cID']=$result['user_company'];
+			if(isset($login['audit_login_date_time']))
 			$response['lastLogin'] = $login['audit_login_date_time'];
 			echoRespnse(200, $response);
 		}
@@ -710,8 +711,8 @@ $app->post('/orders', 'authenticate', function() use ($app) {
 				echoRespnse(201, $response);				
 				}else{
 				$response["error"] = true;
-				$response["message"] = "Order added successfully";	
-				echoRespnse(201, $response);
+				$response["message"] = "Order creation failed";	
+				echoRespnse(200, $response);
 			}
 		}catch(Exception $e){
 			$response["error"] = true;
@@ -745,6 +746,27 @@ $app->get('/orders', 'authenticate', function() use($app) {
 		}
 });
 
+/**
+ * Update order 
+ * url - /orders
+ * method - PUT
+ * params -user object, order_id */
+$app->put('/order/:id', 'authenticate', function($order_id) use ($app) {
+		$request = $app->request();
+		$DbHandler = new DbHandler();
+		$response = array();
+		$order =  $request->getBody();
+		$result = $DbHandler->updateOrder($order_id, $order);
+		if ($result) {
+			$response["error"] = false;
+			$response["message"] = "Order updated successfully";
+			echoRespnse(200, $response);
+		} else {                
+			$response["error"] = true;
+			$response["message"] = "Order failed to update. Please try again!";
+			echoRespnse(400, $response);
+		}
+});
 
 $app->run();
 		

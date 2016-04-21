@@ -43,7 +43,7 @@ controllers.userController = function($scope, userFactory, customerFactory, user
 		$scope.userGridOptions.columnDefs[3].cellFilter = 'griddropdown'
 		userFactory.query().$promise.then(function(data){
 			$scope.userGridOptions.data = data.users;
-			Notification.success('Data retrieved!');
+			//Notification.success('Data retrieved!');
 		})
 		
 	})
@@ -54,7 +54,9 @@ controllers.userController = function($scope, userFactory, customerFactory, user
 		$scope.gridApi = gridApi;
 		gridApi.edit.on.afterCellEdit($scope, function(rowEntity, colDef, newValue, oldValue) {
 			if(newValue != oldValue){
-				userAddFactory.updateUser(rowEntity.user_id,rowEntity)
+				var tmpVar = '{"'+colDef.field+'":"'+newValue+'"}'
+				var obj = JSON.parse(tmpVar)
+				userAddFactory.updateUser(rowEntity.user_id,obj)
 			}
 		});
 	}

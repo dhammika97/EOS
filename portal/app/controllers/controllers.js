@@ -5,8 +5,12 @@ controllers.masterController = function($scope, $location, $window, auth){
 	auth.query().$promise.then(function(data){
 	//console.log('now only data came' + new Date())
 	var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-	var d = new Date(data.lastLogin)
-	$scope.lastLogin = monthNames[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear()+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()
+	if(data.lastLogin!=null){
+		var d = new Date(data.lastLogin)
+		$scope.lastLogin = monthNames[d.getMonth()]+' '+d.getDate()+', '+d.getFullYear()+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds()
+	}else{
+		$scope.lastLogin = ''	
+	}
 	$scope.username = data.userName
 	$scope.userType = data.userType
 	$scope.userCompany = data.userCompany
@@ -153,9 +157,10 @@ App.controller(controllers)
 })
 .filter('mapOrderStatus', function() {
   var userHash = {
-    1: 'PENDING',
+    1: 'ACCEPTED',
 	2: 'PENDING',
-	3: 'PENDING',
+	3: 'CANCELED',
+	4: 'CLOSED',
   };
  
   return function(input) {

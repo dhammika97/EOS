@@ -7,6 +7,7 @@ var App = angular.module('heos', [
 	'ui.grid.edit',
 	'ui.grid.rowEdit', 
 	'ui.grid.cellNav',
+	'ui.grid.resizeColumns',
 	'ui-notification',
 	'720kb.datepicker'
 ])

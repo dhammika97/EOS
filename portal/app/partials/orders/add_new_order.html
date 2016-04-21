@@ -33,7 +33,7 @@
    </select>
    </div>
    
-   <div class="form-group" ng-class="{ 'has-error' :orderForm.order_supplier.$invalid && submitted}">
+   <div class="form-group" ng-show="isHideSupplier" ng-class="{ 'has-error' :orderForm.order_supplier.$invalid && submitted}">
    <label for="txtsuplier">Suplier</label>
       <select class="form-control" id="txtsuplier" name="order_supplier" ng-model="order.order_supplier_id" ng-options="obj.company_id as obj.company_name for obj in companies" required>
       <option></option>
@@ -63,14 +63,14 @@
    
    <div class="form-group" ng-class="{ 'has-error' :orderForm.order_pickup_date.$invalid && submitted}">
    <label for="txtPickupDate">Pick-Up Date</label>
-   <datepicker date-format="yyyy/MM/dd" date-min-limit="minDate">
+   <datepicker date-format="yyyy/MM/dd" date-min-limit="{{minDate}}">
    	<input class="form-control" name="order_pickup_date" ng-model="order.order_pickup_day"  required/>
    </datepicker>
    </div>
    
    <div class="form-group" ng-class="{ 'has-error' :orderForm.order_arrival_date.$invalid && submitted}">
    <label for="txtArrivalDate">Arrival Day</label>
-   <datepicker date-format="yyyy/MM/dd" date-min-limit="">
+   <datepicker date-format="yyyy/MM/dd" date-min-limit="{{minDate}}">
    	<input class="form-control" name="order_arrival_date" ng-model="order.order_arrival_day"  required/>
    </datepicker>
    </div>
