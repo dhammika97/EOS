@@ -768,6 +768,161 @@ $app->put('/order/:id', 'authenticate', function($order_id) use ($app) {
 		}
 });
 
+
+/**
+ * Get all plants
+ * url - /plants
+ * method - GET
+ * params - api Key*/
+
+$app->get('/plants', 'authenticate', function() use($app) {
+		$request = \Slim\Slim::getInstance()->request();
+		$params = $request->params();    
+    
+		$response = array();
+		$DbHandler = new DbHandler();		
+		$result = $DbHandler->getAllPlants($params);
+		if (!$result) {
+			$response["error"] = TRUE;
+			$response["message"] = "The requested resource doesn't exists";
+			echoRespnse(404, $response);
+		} else {
+			$response["error"] = false;
+			$response['plants']=json_decode($result);
+			echoRespnse(200, $response);
+		}
+});
+
+/**
+ * get plants details
+ * url - /plants/:id
+ * method - GET
+ * params - plants id */ 
+$app->GET('/plants/:id', 'authenticate', function($location_id) use($app) {
+		$DbHandler = new DbHandler();
+		$response = array();
+		$row = $DbHandler->getLocationDetail($location_id);
+		if ($row != NULL) {
+			$response["error"] = false;
+			$response["location"] = json_decode($row);
+			echoRespnse(200, $response);
+		} else {
+			$response["error"] = true;
+			$response["message"] = "The requested resource doesn't exists";
+			echoRespnse(404, $response);
+		}
+}); 
+
+/**
+ * Create plants 
+ * url - /plants
+ * method - POST
+ * params -plants object*/
+
+$app->post('/plants', 'authenticate', function() use ($app) {
+		$location  = array();
+		$response = array();
+		$request = $app->request();
+		$DbHandler = new DbHandler();
+
+		$location = $request->getBody();		
+		//verifyRequiredParams(array("user_email", "user_password"));
+		try{
+			//echo $DbHandler->createLocation($location);
+			if($DbHandler->createPlant($location)){
+				$response["error"] = false;
+				$response["message"] = "Plant created successfully";
+				echoRespnse(201, $response);				
+				}else{
+				$response["error"] = true;
+				$response["message"] = "Plant creation failed";	
+				echoRespnse(200, $response);
+			}
+		}catch(Exception $e){
+			$response["error"] = true;
+			$response["message"] = $e->getMessage();
+			echoRespnse(400, $response);
+		}
+		
+});
+		
+/**
+ * Update plants 
+ * url - /plants
+ * method - PUT
+ * params - plants object */
+$app->put('/plants/:id', 'authenticate', function($location_id) use ($app) {
+		$request = $app->request();
+		$DbHandler = new DbHandler();
+		$response = array();
+		$location =  $request->getBody();
+		$result = $DbHandler->updatePlant($location_id, $location);
+		if ($result) {
+			$response["error"] = false;
+			$response["message"] = "Plant updated successfully";
+			echoRespnse(200, $response);
+		} else {                
+			$response["error"] = true;
+			$response["message"] = "Plant failed to update. Please try again!";
+			echoRespnse(400, $response);
+		}
+});
+ 					
+/**
+ * Delete plant
+ * url - /plants/:id
+ * method - DELETE
+ * params - plant id */ 
+$app->delete('/plants/:id', 'authenticate', function($location_id) use($app) {
+		$DbHandler = new DbHandler();
+		$response = array();
+		$result = $DbHandler->deleteLocation($location_id);
+		
+		if ($result) {			
+			$response["error"] = false;
+			$response["message"] = "Location deleted succesfully";
+			echoRespnse(200, $response);
+		} else {
+			$response["error"] = true;
+			$response["message"] = "Location failed to delete. ";
+			echoRespnse(400, $response);
+		}
+});
+
+/**
+ * Create COMMENT 
+ * url - /comment
+ * method - POST
+ * params -comment object*/
+
+$app->post('/comment', 'authenticate', function() use ($app) {
+		$comment  = array();
+		$response = array();
+		$request = $app->request();
+		$DbHandler = new DbHandler();
+
+		$comment = $request->getBody();		
+		//verifyRequiredParams(array("user_email", "user_password"));
+		try{
+			//echo $DbHandler->createLocation($location);
+			if($DbHandler->addComment($comment)){
+				$response["error"] = false;
+				$response["message"] = "Comment added successfully";
+				echoRespnse(201, $response);				
+				}else{
+				$response["error"] = true;
+				$response["message"] = "Comment adding failed";	
+				echoRespnse(200, $response);
+			}
+		}catch(Exception $e){
+			$response["error"] = true;
+			$response["message"] = $e->getMessage();
+			echoRespnse(400, $response);
+		}
+		
+});
+
+
 $app->run();
 		
 		

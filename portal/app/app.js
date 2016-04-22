@@ -9,7 +9,8 @@ var App = angular.module('heos', [
 	'ui.grid.cellNav',
 	'ui.grid.resizeColumns',
 	'ui-notification',
-	'720kb.datepicker'
+	'720kb.datepicker',
+	'vesparny.fancyModal'
 ])
 	
 window.routes =
@@ -73,14 +74,25 @@ window.routes =
         controller: 'locationAddController', 
         requireLogin: true,
 		accessType:1
-    }/*,
+    },/*,
 	"/logistics": {
         templateUrl: 'app/partials/partners_grid.html', 
         controller: '', 
         requireLogin: true,
 		accessType:1
     }*/
-	,
+	"/plants": {
+        templateUrl: 'app/partials/plant/plants_grid.html', 
+        controller: 'plantController', 
+        requireLogin: true,
+		accessType:1
+    },
+	"/add-new-plant": {
+        templateUrl: 'app/partials/plant/plant_add.html', 
+        controller: 'plantAddController', 
+        requireLogin: true,
+		accessType:1
+    },
     "/accounts": {
         templateUrl: 'app/partials/accounts/accounts_wrapper.html', 
         controller: '', 
@@ -143,6 +155,9 @@ App.config(function ($routeProvider, $httpProvider, $locationProvider) {
 			}
 		}
 	});
+})
+.service('Common', function () {
+    return {};
 })
 /*var getUser = function () {
     var ArrayCookies = document.cookie.split(';')

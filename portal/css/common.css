@@ -405,3 +405,9 @@ label.has-error{
 .Header_right_top{ padding-right:10px}
 
 .btn{ font-size:1em}
+
+.ui-grid-menu .ui-grid-menu-inner ul li:last-child {
+    display: none !important;
+}
+.HeaderStyle1{ background:#2E323D; border:1px solid #CCC; border-collapse:collapse; border-bottom:none}
+.HeaderStyle2{ background:#4A5264;  border:1px solid #CCC; border-collapse:collapse; border-bottom:none}

@@ -49,7 +49,10 @@
    
    <div class="form-group" ng-class="{ 'has-error' :orderForm.order_plant.$invalid && submitted}">
    <label for="txtplant">Plant</label>
-   <input type="text" class="form-control" name="order_plant" ng-model="order.order_plant" required>
+   <select class="form-control" name="order_plant" ng-model="order.order_plant" ng-options="obj.plant_name as obj.plant_name for obj in plants" required>
+      <option></option>
+      </select>
+   <!--<input type="text" class="form-control" name="order_plant" ng-model="order.order_plant" required>-->
    </div>
    
    <div class="form-group" ng-class="{ 'has-error' :orderForm.order_pickup.$invalid && submitted}">
