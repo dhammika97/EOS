@@ -635,16 +635,10 @@ class DbHandler {
 		if($db->insert($table,$values,$rows) ){
 			$insertedId = $db->getInsertId();
 			if(isset($order['order_comments'])){
-				$tableComment = "order_comment";
-				$valuesComment = "'".$insertedId."',
-								  '".$order['order_comments']."',
-								  '".$user_id."'";
-								  
-				$rowsComment = "comment_order_id,
-								comment_description,
-								comment_user_id";
-								
-				$db->insert($tableComment,$valuesComment,$rowsComment);	
+				
+				$params['comment_order_id']=$insertedId;
+				$params['comment_description'] = $order['order_comments'];
+				$comment = $this->addComment($params);
 			}
 			//print_r($user);
 			//mail to requester
@@ -707,6 +701,23 @@ class DbHandler {
 		}
 	}
 	
+	public function addComment($params){
+		global $user_id;
+		//print_r($params);
+		$db = new database();
+		$tableComment = "order_comment";
+		$valuesComment = "'".$params['comment_order_id']."',
+						  '".$params['comment_description']."',
+						  '".$user_id."'";
+						  
+		$rowsComment = "comment_order_id,
+						comment_description,
+						comment_user_id";
+						
+		$db->insert($tableComment,$valuesComment,$rowsComment);
+		return true;
+	}
+	
 	
 	public function getAllOrders($params){
 		$where = '';
@@ -760,6 +771,82 @@ class DbHandler {
 		}else{
 			return false;
 		}
+	}
+	
+	public function createPlant($location){
+		$db = new database();
+		$table  = "plants";
+		if(!isset($location['plant_name'])){
+			 throw new Exception('Plant name cannot be blank!.');
+		}
+		(isset($location['plant_description']) ? $plant_description = $location['plant_description'] : $plant_description = "");
+		$values = "'".$location['plant_name']."',
+				'".$plant_description."'";					  
+		$rows   = "plant_name, 
+				   plant_description";
+		
+		if($db->insert($table,$values,$rows)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public function getAllPlants($params){
+		$where = '';
+		$i = 1;
+		foreach($params as $key => $value){
+			if($i != count($params) )
+			$where .= $key .'='.$value.' AND ';
+			else
+			$where .= $key .'='.$value;
+			$i++;
+		}
+		$db = new database();
+		$table = 'plants';
+		$rows ='*';	
+		$db->selectJson($table,$rows,$where,'','');
+		$location_list = $db->getJson();
+		return $location_list;
+	}
+	
+	public function updatePlant($location_id, $locations){
+		$db = new database();	
+		$table = 'plants';
+		$rows  = $locations ;
+		$where = 'plant_id = "'.$location_id.'"';
+		if($db->update($table,$rows,$where) ){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	public function deletePlant($location_id){
+		$db = new database();
+		/*$table1 = 'location';
+		$rows1 ='location_id';
+		$where1 = 'location_id = "'.$location_id.'"';
+		$db->select($table1,$rows1,$where1,'','');
+		$NumRows = $db->getNumRows();	
+		if( $NumRows > 1 ){
+			return false;
+		}*/
+		$table = 'location';
+		$where = 'location_id = "'.$location_id.'" ';
+		if ($db->delete($table,$where) ){
+			return true;
+		}
+	}
+	
+	public function getPlantDetail($location_id){
+		$db = new database();
+		$table = 'location';
+		$rows ='*';
+		$where = 'location_id = "'.$location_id.'"';
+		$db->selectJson($table,$rows,$where,'','');
+		$page = $db->getJson();
+		return $page;
 	}
 	
 }

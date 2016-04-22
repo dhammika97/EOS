@@ -4,8 +4,9 @@ controllers.addNewOrderController = function($scope, getOrderDetailsFactory){
 	$scope.order = {}
 	
 	$scope.isHideSupplier = true
-	
-	$scope.minDate = new Date().toString();
+	var date = new Date()
+	date.setDate(date.getDate() - 1)
+	$scope.minDate = date.toString();
 	
 	if($scope.userCompanyType == 2){
 		$scope.isHideCustomer = false	
@@ -24,6 +25,10 @@ controllers.addNewOrderController = function($scope, getOrderDetailsFactory){
 	
 	getOrderDetailsFactory.customers.query().$promise.then(function(data){
 		$scope.customers = data.companies
+	})
+	
+	getOrderDetailsFactory.plants.query().$promise.then(function(data){
+		$scope.plants = data.plants
 	})
 	
 	$scope.setDefaultCustomer = function(){

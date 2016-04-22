@@ -1,0 +1,21 @@
+<!--  Title  -->
+<div class="WR_PageTitle">
+<h1><i class="fa fa-chevron-circle-right"></i> Plants</h1>
+</div>
+<!--  Title  -->
+
+<!--  Grid Buttons  -->
+<div class="WR_GridButtons">
+<input name="" type="button" value="+ Add New" class="btn btn-green" ng-click="go('add-new-plant')">
+</div>
+<!--  Grid Buttons  -->
+
+<!--  ANGULAR GRID  -->
+<div>
+<div id="grid1" ui-grid="plantGridOptions" ui-grid-edit class="grid"></div>
+</div>
+<!--  ANGULAR GRID  -->
+<script type="text/javascript">
+	var tmp = $(window).height() - $('#header').height() - $('#footer').height()-220
+	$('.grid').css({'height':tmp})
+</script>
