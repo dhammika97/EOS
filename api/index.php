@@ -681,6 +681,7 @@ $app->get('/access', 'authenticate', function() use($app) {
 			$response['userCompany']=$company['company_name'];
 			$response['cType']=$company['company_type'];
 			$response['cID']=$result['user_company'];
+			$response['sId']=$result['user_id'];
 			if(isset($login['audit_login_date_time']))
 			$response['lastLogin'] = $login['audit_login_date_time'];
 			echoRespnse(200, $response);

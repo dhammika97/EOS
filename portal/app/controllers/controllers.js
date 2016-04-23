@@ -16,6 +16,7 @@ controllers.masterController = function($scope, $location, $window, auth){
 	$scope.userCompany = data.userCompany
 	$scope.userCompanyID = data.cID
 	$scope.userCompanyType = data.cType
+	$scope.userId = data.sId
 })
 		
 	$scope.go = function(path){
