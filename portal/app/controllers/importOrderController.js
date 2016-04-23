@@ -55,7 +55,7 @@ controllers.importOrderController = function($scope, getOrderDetailsFactory, Fil
 	$scope.saveAll = function(){
 		//console.log($scope.GridOptions.data)
 		importOrderFactory.importFile($scope.GridOptions.data)
-		$scope.isDisabled = true
+		//$scope.isDisabled = true
 	}
 	
 	$scope.cancelAll = function(){
