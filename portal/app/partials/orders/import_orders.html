@@ -12,24 +12,24 @@
 <div class="col-md-12">
 
 <!-- Error Messages -->
-<div class="bg-danger wr_error_messages" ng-show="plantForm.$invalid && submitted">
+<div class="bg-danger wr_error_messages" ng-show="importForm.$invalid && submitted">
 <ul class="lst-errors">
-<li ng-show="plantForm.plant_name.$invalid && submitted">Plant name could not be blank!</li>
+<li ng-show="importForm.customer.$invalid && submitted">Please select a company!</li>
+<li ng-show="importForm.file.$invalid && submitted">Please select a file to upload!</li>
 </ul>
 </div>
 <!-- Error Messages -->
-
-<form name="plantForm" class="form-inline" ng-keypress="keyPress($event)" ng-submit="addPlant(plantForm.$valid)" novalidate>
+<form name="importForm" class="form-inline" ng-keypress="keyPress($event)" ng-submit="uploadCSV(importForm.$valid)" novalidate>
    
-   <div class="form-group" ng-class="{ 'has-error' : plantForm.plant_name.$invalid && submitted}">
+   <div class="form-group" ng-show="isHideCustomer" ng-class="{ 'has-error' : importForm.customer.$invalid && submitted}">
    <label for="txtCompany" >Customer </label>
-   <select class="form-control" required>
+   <select class="form-control" required ng-model="importData.company_id" name="customer" ng-options="obj.company_id as obj.company_name for obj in customers ">
    </select>
    </div>
    
-   <div class="form-group" >
+   <div class="form-group" ng-class="{ 'has-error' : importForm.file.$invalid && submitted}">
    <label for="txtfullname">Select File</label>
-   <input type="file" class="form-control" id="txtfullname" ng-model="order.plant_description" >
+   <input type="file" class="form-control" nv-file-select=""  uploader="uploader" name="file" ng-model="importData.file_name" options="{'alias':'file_name'}" >
    </div>
    
    <button type="submit" class="btn btn-green btn-form" >Submit</button>
