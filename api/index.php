@@ -742,7 +742,7 @@ $app->get('/orders', 'authenticate', function() use($app) {
 			echoRespnse(404, $response);
 		} else {
 			$response["error"] = false;
-			$response['orders']=json_decode($result);
+			$response['orders']=$result;
 			echoRespnse(200, $response);
 		}
 });
