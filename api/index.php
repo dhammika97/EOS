@@ -967,29 +967,25 @@ $app->get('/orders/:id', 'authenticate', function($order_id) use($app) {
 		}
 });
 
-// $app->get('/batch_import/:id', 'authenticate', function($batch_id) use ($app) {
-	
-// 	$DbHandler = new DbHandler();
+$app->get('/getMe', 'authenticate', function() use($app) {
+		$request = \Slim\Slim::getInstance()->request();
+		$params = $request->params();    
+    	global $user_id;
 
-// 	try{
-// 		if($result = $DbHandler->get_imported_data($batch_id)){
-// 			$response["error"] = false;
-// 			$response["message"] = "Imported data";
-// 			$response["imported_data"] = $result; 
-// 			echoRespnse(201, $response);				
-// 		}else{
-// 			$response["error"] = true;
-// 			$response["message"] = "Imposrt failed";
-// 			$response["imported_data"] = null;	
-// 			echoRespnse(200, $response);
-// 		}
-// 	}catch(Exception $e){
-// 		$response["error"] = true;
-// 		$response["message"] = $e->getMessage();
-// 		echoRespnse(400, $response);
-// 	}
+		$response = array();
+		$DbHandler = new DbHandler();		
+		$result = $DbHandler->getUserById($user_id);
+		if (!$result) {
+			$response["error"] = TRUE;
+			$response["message"] = "The requested resource doesn't exists";
+			echoRespnse(404, $response);
+		} else {
+			$response["error"] = false;
+			$response['user_details']=json_decode($result);
+			echoRespnse(200, $response);
+		}
+});
 
-// });
 
 $app->run();
 		
