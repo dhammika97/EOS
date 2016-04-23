@@ -254,7 +254,7 @@ margin-right:0px
 	text-align: right;
 	margin-bottom: 10px
 }
-.btn{border-radius:3px ; border:none; }
+.btn{border-radius:0px ; border:none; }
 
 .btn-green {
 	background: #2FA889;
@@ -406,18 +406,13 @@ label.has-error{
 
 .btn{ font-size:1em}
 
+.ui-grid-menu .ui-grid-menu-inner ul li:last-child {
+    display: none !important;
+}
+.HeaderStyle1{ background:#2E323D; border:1px solid #CCC; border-collapse:collapse; border-bottom:none}
+.HeaderStyle2{ background:#4A5264;  border:1px solid #CCC; border-collapse:collapse; border-bottom:none}
+
 .commentBox{
- width:450px !important;
- height:80px;
-}
-
-.dataTbl td, .dataTbl th{ padding:5px}
-.dataTbl th{ background:#E1E1E1}
-
-.ui-notification{
-	border-radius:4px;
-}
-
-.ui-notification>.message{
-	padding:10px;
+	width:450px !important;
+	height:80px;
 }

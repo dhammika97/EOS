@@ -1,9 +1,9 @@
 .grid {
-  width: 100%;
+  width: 100%; 
 }
 
 
-.ui-grid-header-cell-wrapper{ background:#2E323D !important; color:#fff; font-weight:normal; font-size:13px;  border:none }
+.ui-grid-header-cell-wrapper{ background:#2E323D !important; color:#fff; font-weight:normal; font-size:0.929em;  border:none }
 .ui-grid-header-cell{ padding:10px; border:none}
 .ui-grid { border:none}
 .ui-grid-cell {  }
@@ -16,5 +16,18 @@
 
 .HeaderStyle1{ background:#2E323D}
 .HeaderStyle2{ background:#4A5264}
-.CellClassStyle1{ background:#FFE599 !important}
+
+.ui-grid-row:nth-child(even) .ui-grid-cell {  background-color: #E8EAEE; }
+.ui-grid-row:nth-child(even) .CellClassStyle1{ background:#FFE599 !important}
+.ui-grid-row:nth-child(odd) .CellClassStyle1{ background:#FFD966 !important}
+.ui-grid-row:last-child .CellClassStyle1{  background:RED}
+
+
 .bold{ font-weight:bold !important;}
+
+
+.ui-grid-cell-contents{ white-space:normal}
+
+.ui-grid-menu .ui-grid-menu-inner ul li:last-child {
+    display: none !important;
+}
