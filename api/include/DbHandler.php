@@ -570,7 +570,7 @@ class DbHandler {
 		}
 	}
 	
-	public function createSingleOrder($order, $temp = null){
+	public function createSingleOrder($order, $temp = null, $batch_id = null){
 		
 		if(!isset($order['order_company_id'])){
 			 throw new Exception('Company sould be selected!');
@@ -620,10 +620,6 @@ class DbHandler {
 		}
 		$db = new database();
 		$table  = "orders";
-		if($temp)
-		{
-			$table  = "orders_temp";
-		}
 			
 		$rows   = "order_company_id,
 		   order_supplier_id,
@@ -635,6 +631,14 @@ class DbHandler {
 		   order_stack,
 		   order_added_by,
 		   order_status";
+
+		if($temp)
+		{
+			
+			$table  = "orders_temp";
+			$values .= ",'".$batch_id."'";
+			$rows = $rows.", order_batch" ;
+		}   
 		
 		if($db->insert($table,$values,$rows) ){
 			$insertedId = $db->getInsertId();
@@ -888,14 +892,14 @@ class DbHandler {
 	}
 	public function import_csv($request)
 	{	
-		$file = fopen("uploads/".$request['file_name'].".csv","r"); //file name come from the reuest
+		$file = fopen("uploads/".$request['file_name'],"r"); //file name come from the reuest
         $incri = 0;
         $num_orders = 0;
         $order = array();
         $company_id = $request['company_id'];
         $location = '';
         global $user_id;
-
+        $batch_id = strtoupper(md5(uniqid(rand(), true)));
         $user_details = json_decode($this->GetUserDetail($user_id));
         $user_type =  $user_details[0]->user_type;
         if(!$company_id)
@@ -925,15 +929,20 @@ class DbHandler {
 
 		  		if(!empty($location_id) && !empty($suplier_id))
 		  		{
-		  			$order[$incri]['order_company_id'] 	= $company_id['company_id'];
+		  			$order[$incri]['order_company_id'] 	= $company_id;
 					$order[$incri]['order_supplier_id'] = $suplier_id['supplier_id'];
 					$order[$incri]['order_location_id'] = $location_id['location_id'];
 					$order[$incri]['order_plant']		= $single_line[4];
-					$order[$incri]['order_pickup']		= $single_line[5];
+					$order[$incri]['order_pickup']		= 0;
 					$order[$incri]['order_pickup_day']  = $single_line[6];
 					$order[$incri]['order_arrival_day'] = $single_line[7];
 					$order[$incri]['order_stack'] = 0;	
 					$order[$incri]['order_status'] = 0;
+
+					if($single_line[5] == 'Yes')
+					{
+						$order[$incri]['order_pickup'] = 1;
+					}
 				
 					if($user_type == 2)
 					{
@@ -949,14 +958,14 @@ class DbHandler {
 						$order['order_comments'] = $single_line[9]; 
 					}
 					
-					$this->createSingleOrder($order[$incri], true);
+					$this->createSingleOrder($order[$incri], true, $batch_id);
 				} 		
 		  	$incri++;	
 			}
 			
 		}
 
-		return true;
+		return $batch_id;
 	}
 
 	public function getSingleOrderDetails($order_id)
@@ -968,6 +977,17 @@ class DbHandler {
 		$db->selectJson($table,$rows,$where,'','');
 		$orders_list = $db->getJson();
 		return $orders_list;
+	}
+
+	public function get_imported_data($batch_id)
+	{ 
+		$db = new database();
+		$table = 'orders_temp';
+		$rows = '*';
+		$where = 'order_batch = "'.$batch_id.'"';
+		$db->select($table,$rows,$where,'','');
+		$orders_temp = $db->getResults();
+		return $orders_temp;
 	}
 }
 ?>

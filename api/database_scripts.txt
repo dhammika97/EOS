@@ -1,0 +1,80 @@
+CREATE VIEW 
+dataview_temp AS
+SELECT o.order_id, 
+c.company_name as company , 
+o.order_company_id, 
+o.order_supplier_id, 
+sc.company_name as supplier, 
+o.order_location_id, 
+l.location_name as location, 
+o.order_plant, 
+o.order_pickup, 
+o.order_pickup_day, 
+o.order_arrival_day, 
+o.order_stack, 
+o.order_supplier_status, 
+o.order_product, 
+o.order_skid_count, 
+o.order_dimensions, 
+o.order_freight_class,
+o.order_stackable,
+o.order_weight,
+o.order_assign_to,
+o.order_assign_date,
+o.order_assigned_by,
+o.order_status, 
+o.order_batch,
+GROUP_CONCAT(oc.comment_dateTime, ' ', u.user_name, ' ', oc.comment_description SEPARATOR ',') AS order_comments from orders_temp o
+left outer join order_comment oc on 
+oc.comment_order_id = o.order_id
+inner join location l ON
+l.location_id = o.order_location_id
+inner join company c ON
+c.company_id = o.order_company_id
+INNER JOIN company sc ON
+sc.company_id = o.order_supplier_id
+LEFT OUTER JOIN users u ON
+u.user_id = oc.comment_user_id
+GROUP BY o.order_id
+ORDER BY o.order_pickup_day
+
+
+
+CREATE VIEW 
+dataview AS
+SELECT o.order_id, 
+c.company_name as company , 
+o.order_company_id, 
+o.order_supplier_id, 
+sc.company_name as supplier, 
+o.order_location_id, 
+l.location_name as location, 
+o.order_plant, 
+o.order_pickup, 
+o.order_pickup_day, 
+o.order_arrival_day, 
+o.order_stack, 
+o.order_supplier_status, 
+o.order_product, 
+o.order_skid_count, 
+o.order_dimensions, 
+o.order_freight_class,
+o.order_stackable,
+o.order_weight,
+o.order_assign_to,
+o.order_assign_date,
+o.order_assigned_by,
+o.order_status, 
+GROUP_CONCAT(oc.comment_dateTime, ' ', u.user_name, ' ', oc.comment_description SEPARATOR ',') AS order_comments from orders o
+left outer join order_comment oc on 
+oc.comment_order_id = o.order_id
+inner join location l ON
+l.location_id = o.order_location_id
+inner join company c ON
+c.company_id = o.order_company_id
+INNER JOIN company sc ON
+sc.company_id = o.order_supplier_id
+LEFT OUTER JOIN users u ON
+u.user_id = oc.comment_user_id
+GROUP BY o.order_id
+ORDER BY o.order_pickup_day
