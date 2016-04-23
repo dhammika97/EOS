@@ -103,6 +103,11 @@ window.routes =
         templateUrl: 'app/partials/orders/add_new_order.html', 
         controller: 'addNewOrderController', 
         requireLogin: true
+    },
+    "/import-orders": {
+        templateUrl: 'app/partials/orders/import_orders.html', 
+        controller: '', 
+        requireLogin: true
     }
 };
 
@@ -159,6 +164,17 @@ App.config(function ($routeProvider, $httpProvider, $locationProvider) {
 .service('Common', function () {
     return {};
 })
+.config(function(NotificationProvider) {
+        NotificationProvider.setOptions({
+            /*delay: 200000,
+            startTop: 20,
+            startRight: 10,
+            verticalSpacing: 20,
+            horizontalSpacing: 20,
+            positionX: 'left',*/
+            positionY: 'bottom'
+        });
+    });
 /*var getUser = function () {
     var ArrayCookies = document.cookie.split(';')
     for (i = 0; i < ArrayCookies.length; i++) {

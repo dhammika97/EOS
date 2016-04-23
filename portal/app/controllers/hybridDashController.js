@@ -23,7 +23,7 @@ controllers.hybridDashController = function($scope, hybridDashFactory, locationF
 	$scope.common = Common
 	$scope.openDefault = function(data){
 	
-	$scope.common.modalInstance=$fancyModal.open({ template : '<div><form name="commentForm" class="form-inline" ng-keypress="keyPress($event)" ng-submit="addComment(commentForm.$valid)" novalidate><div class="form-group" ng-class="{ \'has-error\' : commentForm.comment_description.$invalid && submitted}"><label for="txtCompany" >Comment </label><textarea class="form-control"  name="comment_description" ng-model="comment.comment_description" required></textarea></div><button type="submit" class="btn btn-green btn-form" >Add Comment</button></form></div>',controller : 'popUpController' });
+	$scope.common.modalInstance=$fancyModal.open({ template : '<div><form name="commentForm" class="form-inline" ng-keypress="keyPress($event)" ng-submit="addComment(commentForm.$valid)" novalidate><div class="form-group" ng-class="{ \'has-error\' : commentForm.comment_description.$invalid && submitted}"><label for="txtCompany" >Comment </label><textarea class="commentBox"  name="comment_description" ng-model="comment.comment_description" required></textarea></div><button type="submit" class="btn btn-green btn-form" >Add Comment</button></form></div>',controller : 'popUpController' });
 	
 	$scope.common.comment = {}	
 	$scope.common.comment.comment_order_id = data
@@ -68,7 +68,7 @@ controllers.hybridDashController = function($scope, hybridDashFactory, locationF
 	
 }
 
-controllers.popUpController = function($scope, Common, commentFactory,Notification,$location){
+controllers.popUpController = function($scope, Common, commentFactory, Notification){
 	$scope.common = Common
 	
 	$scope.keyPress = function(e){
@@ -84,7 +84,7 @@ controllers.popUpController = function($scope, Common, commentFactory,Notificati
 			commentFactory.save($scope.common.comment).$promise.then(function(data){
 				Notification.success(data.message)
 				$scope.common.modalInstance.close()
-				$location.path('/asdasd')
+				window.location.replace('portal/')
 			},function(data){
 				Notification.error(data.data.message)
 			})

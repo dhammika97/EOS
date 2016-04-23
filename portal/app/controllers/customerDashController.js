@@ -1,14 +1,22 @@
 // JavaScript Document
-controllers.customerDashController = function($scope, locationFactory, customerDashFactory, Notification, updateOrderFactory){
+controllers.customerDashController = function($scope, locationFactory, customerDashFactory, Notification, updateOrderFactory, Common,$fancyModal){
+	//row.entity.supplier
+	var supplierTemplate = '<div class="ui-grid-cell-contents" >'
+	supplierTemplate += '<span ng-if="row.entity.order_supplier_status == 0 "> {{row.entity.supplier}} </span>'
+	supplierTemplate += '<span ng-if="row.entity.order_supplier_status == 1 "> <a href="" ng-click="grid.appScope.openDetails(row.entity.order_id)">{{row.entity.supplier}}</a> </span>'
+	supplierTemplate += '</div>'
+	
+	var commentTemplate = '<div class="ui-grid-cell-contents" >{{row.entity.order_comments}} <a href="" ng-click="grid.appScope.openDefault(row.entity.order_id)"><i class="fa fa-plus-circle"></i> Add Comment</a></div>'
+	
 	$scope.gridOptions = {
 		columnDefs: [
-		  { name: 'supplier', displayName: 'Supplier', headerCellClass: 'HeaderStyle1' , width: "15%", enableCellEdit: false},
+		  { name: 'supplier', displayName: 'Supplier', headerCellClass: 'HeaderStyle1' , width: "15%", enableCellEdit: false, cellTemplate:supplierTemplate},
 		  { name: 'order_plant', displayName: 'Plant', headerCellClass: 'HeaderStyle1', enableCellEdit: false},
 		  { name: 'order_pickup', displayName: 'Pick-Up', headerCellClass: 'HeaderStyle1', cellFilter: 'mapPickup', width: '80', enableCellEdit: false},
 		  { name: 'order_pickup_day', displayName: 'Pick-Up Date', headerCellClass: 'HeaderStyle1', enableCellEdit: false},
 		  { name: 'order_arrival_day', displayName: 'Arrival Date', headerCellClass: 'HeaderStyle1', enableCellEdit: false},
 		  { name: 'order_stack', displayName: 'Stack', headerCellClass: 'HeaderStyle1', cellFilter: 'mapPickup' , width: '80', enableCellEdit: false},
-		  { name: 'order_comments', displayName: 'Comments', headerCellClass: 'HeaderStyle1', width: "250" , enableCellEdit: false},
+		  { name: 'order_comments', displayName: 'Comments', headerCellClass: 'HeaderStyle1', width: "250" , enableCellEdit: false, cellTemplate: commentTemplate},
 		  { name: 'order_supplier_status', displayName: 'Supplier Status', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 bold', cellFilter: 'mapSuplierStatus', enableCellEdit: false},
 		  { name: 'order_assign_to', displayName: 'Assigned To', headerCellClass: 'HeaderStyle2' ,cellClass:'CellClassStyle1', enableCellEdit: false },
 		  { name: 'order_assign_date', displayName: 'Date', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1', enableCellEdit: false },
@@ -76,4 +84,21 @@ controllers.customerDashController = function($scope, locationFactory, customerD
 	//'order_pickup_start':$scope.firstDate, 'order_pickup_end':$scope.lastDate, 'order_company_id':$scope.userCompanyID
 	//'order_pickup_start':$scope.firstDate, 'order_pickup_end':$scope.lastDate, 'order_company_id':$scope.userCompanyID
 	//'order_location_id':$scope.countryFilter,
+	
+	$scope.common = Common
+	$scope.openDefault = function(data){
+	
+	$scope.common.modalInstance=$fancyModal.open({ template : '<div><form name="commentForm" class="form-inline" ng-keypress="keyPress($event)" ng-submit="addComment(commentForm.$valid)" novalidate><div class="form-group" ng-class="{ \'has-error\' : commentForm.comment_description.$invalid && submitted}"><label for="txtCompany" >Comment </label><textarea class="commentBox"  name="comment_description" ng-model="comment.comment_description" required></textarea></div><button type="submit" class="btn btn-green btn-form" >Add Comment</button></form></div>',controller : 'popUpController' });
+	
+	$scope.common.comment = {}	
+	$scope.common.comment.comment_order_id = data
+	
+	}
+	
+	var detailsTemplate = 	'<div><div class="WR_PageTitle"><h1><i class="fa fa-chevron-circle-right"></i> Logistic Details</h1></div><table width="470" border="1" class="dataTbl"><tr><th scope="row">Product</th><td>Sample Product</td></tr><tr><th scope="row">Skid Count</th><td>Sample Skid Count</td></tr><tr><th scope="row">Dimension</th><td>Sample Dimension</td></tr><tr><th scope="row">Freight Class</th><td>Sample Freight Class</td></tr><tr><th scope="row">Stackable</th><td>Sample Stackable</td></tr><tr><th scope="row">Weight</th><td>Sample Weight</td></tr><tr><th scope="row">Status</th><td>Sample Status</td></tr></table></div>'
+	
+	$scope.openDetails = function(e){
+		console.log(e)
+		$fancyModal.open({ template : detailsTemplate})
+	}
 }
