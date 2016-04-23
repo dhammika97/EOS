@@ -10,7 +10,8 @@ var App = angular.module('heos', [
 	'ui.grid.resizeColumns',
 	'ui-notification',
 	'720kb.datepicker',
-	'vesparny.fancyModal'
+	'vesparny.fancyModal',
+	'angularFileUpload'
 ])
 	
 window.routes =
@@ -106,7 +107,7 @@ window.routes =
     },
     "/import-orders": {
         templateUrl: 'app/partials/orders/import_orders.html', 
-        controller: '', 
+        controller: 'importOrderController', 
         requireLogin: true
     }
 };

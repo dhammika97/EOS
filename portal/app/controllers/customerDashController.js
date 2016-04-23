@@ -98,7 +98,15 @@ controllers.customerDashController = function($scope, locationFactory, customerD
 	var detailsTemplate = 	'<div><div class="WR_PageTitle"><h1><i class="fa fa-chevron-circle-right"></i> Logistic Details</h1></div><table width="470" border="1" class="dataTbl"><tr><th scope="row">Product</th><td>Sample Product</td></tr><tr><th scope="row">Skid Count</th><td>Sample Skid Count</td></tr><tr><th scope="row">Dimension</th><td>Sample Dimension</td></tr><tr><th scope="row">Freight Class</th><td>Sample Freight Class</td></tr><tr><th scope="row">Stackable</th><td>Sample Stackable</td></tr><tr><th scope="row">Weight</th><td>Sample Weight</td></tr><tr><th scope="row">Status</th><td>Sample Status</td></tr></table></div>'
 	
 	$scope.openDetails = function(e){
-		console.log(e)
-		$fancyModal.open({ template : detailsTemplate})
+		$scope.common.orderDetail = {}	
+		$scope.common.orderDetail.comment_order_id = e
+		$fancyModal.open({ template : detailsTemplate, controller:'detailsPopupController'})
 	}
+}
+
+controllers.detailsPopupController = function($scope, Common, hybridDashFactory){
+	$scope.common = Common
+	console.log($scope.common.orderDetail.comment_order_id)
+	
+	
 }
