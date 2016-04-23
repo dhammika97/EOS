@@ -1,6 +1,7 @@
 // JavaScript Document
 controllers.importOrderController = function($scope, getOrderDetailsFactory, FileUploader, importOrderFactory, tmpDataFactory){
 	$scope.isHideCustomer = true
+	$scope.isDisabled = true
 	$scope.importData = {}
 	
 	$scope.GridOptions = {
@@ -42,11 +43,23 @@ controllers.importOrderController = function($scope, getOrderDetailsFactory, Fil
 						$scope.submitted = false
 						$scope.importData = {}
 						$scope.GridOptions.data=data.batch
+						$scope.isDisabled = false
 					})
 				}
 					
 			}
 			
 		}
+	}
+	
+	$scope.saveAll = function(){
+		//console.log($scope.GridOptions.data)
+		importOrderFactory.importFile($scope.GridOptions.data)
+		$scope.isDisabled = true
+	}
+	
+	$scope.cancelAll = function(){
+		$scope.GridOptions.data=''
+		window.location.replace('../portal/import-orders')
 	}
 }

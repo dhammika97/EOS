@@ -46,3 +46,13 @@
 </div>
 </div>
 <!--  FORM  --> 
+<!-- Footer Buttons -->
+              <div class="WR_Buttons" id="navbuttons">
+              <input name="" type="button" value="SAVE ALL" class="btn btn-blue" ng-disabled="isDisabled" ng-click="saveAll()">
+              <input name="" type="button" value="CANCEL" class="btn btn-green2" ng-disabled="isDisabled" ng-click="cancelAll()">
+              </div>
+              <!-- Footer Buttons -->
+<script type="text/javascript">
+	var tmp = $(window).height() - $('#header').height() - $('#footer').height()-380
+	$('.grid').css({'height':tmp})
+</script>
