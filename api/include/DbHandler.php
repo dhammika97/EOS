@@ -892,7 +892,7 @@ class DbHandler {
         $incri = 0;
         $num_orders = 0;
         $order = array();
-        $company_id = $this->getCompanyIdByName($request['company_name']);
+        $company_id = $request['company_id'];
         $location = '';
         global $user_id;
 
@@ -957,6 +957,17 @@ class DbHandler {
 		}
 
 		return true;
+	}
+
+	public function getSingleOrderDetails($order_id)
+	{
+		$db = new database();
+		$table = 'dataview';
+		$rows ='*';
+		$where = 'order_id = '.$order_id;
+		$db->selectJson($table,$rows,$where,'','');
+		$orders_list = $db->getJson();
+		return $orders_list;
 	}
 }
 ?>

@@ -921,7 +921,7 @@ $app->post('/comment', 'authenticate', function() use ($app) {
 		}
 		
 });
-
+	
 $app->post('/import_csv', 'authenticate', function() use ($app) {
 	
 	$DbHandler = new DbHandler();
@@ -945,6 +945,49 @@ $app->post('/import_csv', 'authenticate', function() use ($app) {
 	}
 
 });
+
+$app->post('/upload_csv', 'authenticate', function() use ($app) {
+	
+	$DbHandler = new DbHandler();
+	$request = $app->request()->getBody();
+	
+
+	try{
+		if($DbHandler->import_csv($request)){
+			$response["error"] = false;
+			$response["message"] = "Spread sheet successfully imported";
+			echoRespnse(201, $response);				
+		}else{
+			$response["error"] = true;
+			$response["message"] = "Imposrt failed";	
+			echoRespnse(200, $response);
+		}
+	}catch(Exception $e){
+		$response["error"] = true;
+		$response["message"] = $e->getMessage();
+		echoRespnse(400, $response);
+	}
+
+});
+
+$app->get('/orders/:id', 'authenticate', function($order_id) use($app) {
+		$request = \Slim\Slim::getInstance()->request();
+		$params = $request->params();    
+    	
+		$response = array();
+		$DbHandler = new DbHandler();		
+		$result = $DbHandler->getSingleOrderDetails($order_id);
+		if (!$result) {
+			$response["error"] = TRUE;
+			$response["message"] = "The requested resource doesn't exists";
+			echoRespnse(404, $response);
+		} else {
+			$response["error"] = false;
+			$response['orders']=json_decode($result);
+			echoRespnse(200, $response);
+		}
+});
+
 
 $app->run();
 		
