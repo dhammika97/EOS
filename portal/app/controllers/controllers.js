@@ -114,20 +114,6 @@ App.controller(controllers)
     }
   };
 })
-.filter('griddropdown', function () {
-    return function (input, map, idField, valueField, initial) {
-        if (typeof map !== "undefined") {
-            for (var i = 0; i < map.length; i++) {
-                if (map[i][idField] == input) {
-                    return map[i][valueField];
-                }
-            }
-        } else if (initial) {
-            return initial;
-        }
-        return input;
-    };
-})
 .filter('mapPickup', function() {
   var userHash = {
     1: 'Yes',
@@ -171,4 +157,19 @@ App.controller(controllers)
       return userHash[input];
     }
   };
+})
+.filter('griddropdown', function () {
+    return function (input, map, idField, valueField, initial) {
+		console.log(initial)
+        if (typeof map !== "undefined") {
+            for (var i = 0; i < map.length; i++) {
+                if (map[i][idField] == input) {
+                    return map[i][valueField];
+                }
+            }
+        } else if (initial) {
+            return initial;
+        }
+        return input;
+    };
 })

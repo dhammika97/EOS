@@ -112,7 +112,7 @@ window.routes =
     },
     "/change-password": {
         templateUrl: 'app/partials/my_profile/change_password.html', 
-        controller: '', 
+        controller: 'changePasswordController', 
         requireLogin: true
     },
     "/my-profile": {
