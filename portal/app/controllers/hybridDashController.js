@@ -1,11 +1,6 @@
 // JavaScript Document
 controllers.hybridDashController = function($scope, hybridDashFactory, locationFactory, Notification, $fancyModal,Common){
-	var commentTemplate = '<div class="ui-grid-cell-contents" > {{grid.appScope.tmp(row.entity.order_comments)}}<a href="" ng-click="grid.appScope.openDefault(row.entity.order_id)"><i class="fa fa-plus-circle"></i> Add Comment</a></div>'
-	//{{row.entity.order_comments}}
-	$scope.tmp = function(e){
-		//console.log(e)
-		return e
-	}
+	var commentTemplate = '<div class="ui-grid-cell-contents" > <span ng-repeat="item in row.entity.comments">{{item}}</br></span><a href="" ng-click="grid.appScope.openDefault(row.entity.order_id)"><i class="fa fa-plus-circle"></i> Add Comment</a></div>'
 	$scope.gridOptions = {
 		columnDefs: [
 		  { name: 'company', displayName: 'Customer', headerCellClass: 'HeaderStyle1', width: "12%" },

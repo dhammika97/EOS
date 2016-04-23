@@ -1,6 +1,6 @@
 // JavaScript Document
 controllers.supplierDashController = function($scope, supplierDashFactory, locationFactory, Notification, updateOrderFactory, Common, $fancyModal){
-	
+	var commentTemplate = '<div class="ui-grid-cell-contents" > <span ng-repeat="item in row.entity.comments">{{item}}</br></span><a href="" ng-click="grid.appScope.openDefault(row.entity.order_id)"><i class="fa fa-plus-circle"></i> Add Comment</a></div>'
 	$scope.supplierGridOptions = {
 		columnDefs: [
 			  { name:'company', displayName: 'Customer', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
@@ -9,7 +9,7 @@ controllers.supplierDashController = function($scope, supplierDashFactory, locat
 			  { name:'order_pickup_day', displayName: 'Pick-Up Date', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
 			  { name:'order_arrival_day', displayName: 'Arrival Date', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
 			  { name:'order_stack', displayName: 'Stack', headerCellClass: 'HeaderStyle1', cellFilter: 'mapPickup' , width: '80', enableCellEdit: false },
-			  { name:'order_comments', displayName: 'Comments', headerCellClass: 'HeaderStyle1', width:200 , enableCellEdit: false, cellTemplate: '<div class="ui-grid-cell-contents" >{{row.entity.order_comments}} <a href="" ng-click="grid.appScope.openDefault(row.entity.order_id)"><i class="fa fa-plus-circle"></i> Add Comment</a></div>'},
+			  { name:'order_comments', displayName: 'Comments', headerCellClass: 'HeaderStyle1', width:250 , enableCellEdit: false, cellTemplate: commentTemplate},
 			  { name:'order_product', displayName: 'Product', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
 			  { name:'order_skid_count', displayName: 'Skid Count', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
 			  { name:'order_dimensions', displayName: 'Dimension', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },

@@ -936,9 +936,10 @@ $app->post('/batch_import', 'authenticate', function() use ($app) {
 			$response["batch"] = $batch;
 			echoRespnse(201, $response);				
 		}else{
+			$response["batch"] = $batch;
 			$response["error"] = true;
 			$response["message"] = "Imposrt failed";	
-			$response["batch"] = null;
+			//$response["batch"] = null;
 			echoRespnse(200, $response);
 		}
 	}catch(Exception $e){

@@ -6,7 +6,7 @@ controllers.customerDashController = function($scope, locationFactory, customerD
 	supplierTemplate += '<span ng-if="row.entity.order_supplier_status == 1 "> <a href="" ng-click="grid.appScope.openDetails(row.entity.order_id)">{{row.entity.supplier}}</a> </span>'
 	supplierTemplate += '</div>'
 	
-	var commentTemplate = '<div class="ui-grid-cell-contents" >{{row.entity.order_comments}} <a href="" ng-click="grid.appScope.openDefault(row.entity.order_id)"><i class="fa fa-plus-circle"></i> Add Comment</a></div>'
+	var commentTemplate = '<div class="ui-grid-cell-contents" > <span ng-repeat="item in row.entity.comments">{{item}}</br></span><a href="" ng-click="grid.appScope.openDefault(row.entity.order_id)"><i class="fa fa-plus-circle"></i> Add Comment</a></div>'
 	
 	$scope.gridOptions = {
 		columnDefs: [
