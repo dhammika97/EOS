@@ -19,7 +19,7 @@ if ( !empty( $_FILES ) ) {
 	    echo $json;
 	} else {
 	    if (move_uploaded_file($_FILES["file_name"]["tmp_name"], $target_file)) {
-	       	$response = array('error' => True, 'message' => 'File successfully uploaded', 'file_name' => $target_file);
+	       	$response = array('error' => True, 'message' => 'File successfully uploaded', 'file_name' => $unique.'.'.$imageFileType);
 		    $json = json_encode($response);
 		    echo $json;
 	    } else {
