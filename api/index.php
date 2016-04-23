@@ -968,7 +968,7 @@ $app->get('/orders/:id', 'authenticate', function($order_id) use($app) {
 		}
 });
 
-$app->get('/getMe', 'authenticate', function() use($app) {
+$app->get('/profile', 'authenticate', function() use($app) {
 		$request = \Slim\Slim::getInstance()->request();
 		$params = $request->params();    
     	global $user_id;
@@ -987,6 +987,27 @@ $app->get('/getMe', 'authenticate', function() use($app) {
 		}
 });
 
+$app->put('/profile', 'authenticate', function() use($app) {
+		$request = \Slim\Slim::getInstance()->request();
+		$request =  $request->params(); 
+		$profile['user_name']      = $request['user_name']; 
+		$profile['user_contactNo'] = $request['user_contactNo'];
+
+    	global $user_id;
+		$response = array();
+
+		$DbHandler = new DbHandler();		
+		$result = $DbHandler->updateUser($user_id, $profile);
+		if (!$result) {
+			$response["error"] = TRUE;
+			$response["message"] = "Couldn't update user";
+			echoRespnse(404, $response);
+		} else {
+			$response["error"] = false;
+			$response['user_details']=json_decode($result);
+			echoRespnse(200, $response);
+		}
+});
 
 $app->run();
 		

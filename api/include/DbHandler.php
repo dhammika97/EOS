@@ -974,6 +974,8 @@ class DbHandler {
 		  	
 			}	
 		}
+		fclose($file);
+		unlink($file);
 		return $order;
 	}
 
