@@ -988,8 +988,8 @@ $app->get('/profile', 'authenticate', function() use($app) {
 });
 
 $app->put('/profile', 'authenticate', function() use($app) {
-		$request = \Slim\Slim::getInstance()->request();
-		$request =  $request->params(); 
+		
+		$request = $app->request()->getBody();
 		$profile['user_name']      = $request['user_name']; 
 		$profile['user_contactNo'] = $request['user_contactNo'];
 
