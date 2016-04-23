@@ -4,7 +4,7 @@ controllers.supplierDashController = function($scope, supplierDashFactory, locat
 	$scope.supplierGridOptions = {
 		columnDefs: [
 			  { name:'company', displayName: 'Customer', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
-			  { name:'order_plant', displayName: 'Plant', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
+			  { name:'order_plant', displayName: 'Consignee', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
 			  { name:'order_pickup', displayName: 'Pick-Up', headerCellClass: 'HeaderStyle1', cellFilter: 'mapPickup', width: '80', enableCellEdit: false },
 			  { name:'order_pickup_day', displayName: 'Pick-Up Date', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
 			  { name:'order_arrival_day', displayName: 'Arrival Date', headerCellClass: 'HeaderStyle1', enableCellEdit: false },

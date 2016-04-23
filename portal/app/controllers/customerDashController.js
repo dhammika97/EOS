@@ -11,7 +11,7 @@ controllers.customerDashController = function($scope, locationFactory, customerD
 	$scope.gridOptions = {
 		columnDefs: [
 		  { name: 'supplier', displayName: 'Supplier', headerCellClass: 'HeaderStyle1' , width: "15%", enableCellEdit: false, cellTemplate:supplierTemplate},
-		  { name: 'order_plant', displayName: 'Plant', headerCellClass: 'HeaderStyle1', enableCellEdit: false},
+		  { name: 'order_plant', displayName: 'Consignee', headerCellClass: 'HeaderStyle1', enableCellEdit: false},
 		  { name: 'order_pickup', displayName: 'Pick-Up', headerCellClass: 'HeaderStyle1', cellFilter: 'mapPickup', width: '80', enableCellEdit: false},
 		  { name: 'order_pickup_day', displayName: 'Pick-Up Date', headerCellClass: 'HeaderStyle1', enableCellEdit: false},
 		  { name: 'order_arrival_day', displayName: 'Arrival Date', headerCellClass: 'HeaderStyle1', enableCellEdit: false},
@@ -95,18 +95,29 @@ controllers.customerDashController = function($scope, locationFactory, customerD
 	
 	}
 	
-	var detailsTemplate = 	'<div><div class="WR_PageTitle"><h1><i class="fa fa-chevron-circle-right"></i> Logistic Details</h1></div><table width="470" border="1" class="dataTbl"><tr><th scope="row">Product</th><td>Sample Product</td></tr><tr><th scope="row">Skid Count</th><td>Sample Skid Count</td></tr><tr><th scope="row">Dimension</th><td>Sample Dimension</td></tr><tr><th scope="row">Freight Class</th><td>Sample Freight Class</td></tr><tr><th scope="row">Stackable</th><td>Sample Stackable</td></tr><tr><th scope="row">Weight</th><td>Sample Weight</td></tr><tr><th scope="row">Status</th><td>Sample Status</td></tr></table></div>'
+	var detailsTemplate = 	'<div><div class="WR_PageTitle"><h1><i class="fa fa-chevron-circle-right"></i> Logistic Details</h1></div><table width="470" border="1" class="dataTbl"><tr><th scope="row" width="150">Product</th><td>{{order.order_product}}</td></tr><tr><th scope="row">Skid Count</th><td>{{order.order_skid_count}}</td></tr><tr><th scope="row">Dimension</th><td>{{order.order_dimensions}}</td></tr><tr><th scope="row">Freight Class</th><td>{{order.order_freight_class}}</td></tr><tr><th scope="row">Stackable</th><td>{{order.order_stackable}}</td></tr><tr><th scope="row">Weight</th><td>{{order.order_weight}}</td></tr></table></div>'
 	
 	$scope.openDetails = function(e){
 		$scope.common.orderDetail = {}	
-		$scope.common.orderDetail.comment_order_id = e
+		$scope.common.orderDetail.order_id = e
 		$fancyModal.open({ template : detailsTemplate, controller:'detailsPopupController'})
 	}
 }
 
-controllers.detailsPopupController = function($scope, Common, hybridDashFactory){
+controllers.detailsPopupController = function($scope, Common, orderDetailFactory){
 	$scope.common = Common
-	console.log($scope.common.orderDetail.comment_order_id)
-	
-	
+	$scope.order={}
+	var id = $scope.common.orderDetail.order_id
+	//orderDetailFactory.getOrderDetails($scope.common.orderDetail.order_id)
+	orderDetailFactory.get({id:id}).$promise.then(function(data){
+		
+		$scope.order.order_product=data.orders[0].order_product
+		$scope.order.order_skid_count=data.orders[0].order_skid_count
+		$scope.order.order_dimensions=data.orders[0].order_dimensions
+		$scope.order.order_freight_class = data.orders[0].order_freight_class
+		$scope.order.order_stackable=data.orders[0].order_stackable
+		$scope.order.order_weight=data.orders[0].order_weight
+		//console.log($scope.order)
+		//console.log(data)
+	})
 }

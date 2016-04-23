@@ -6,8 +6,8 @@ controllers.plantController = function($scope, plantFactory, plantAddFactory, No
 	})
 	$scope.plantGridOptions = {
 		columnDefs: [
-			{ field: 'plant_name', displayName:'Plant Name', headerCellClass: 'HeaderStyle1'},
-			{ field: 'plant_description', displayName: 'Plant Description', headerCellClass: 'HeaderStyle1'  }
+			{ field: 'plant_name', displayName:'Consignee Name', headerCellClass: 'HeaderStyle1'},
+			{ field: 'plant_description', displayName: 'Consignee Description', headerCellClass: 'HeaderStyle1'  }
 		]
 	};
 	

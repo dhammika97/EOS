@@ -5,7 +5,7 @@ controllers.hybridDashController = function($scope, hybridDashFactory, locationF
 		columnDefs: [
 		  { name: 'company', displayName: 'Customer', headerCellClass: 'HeaderStyle1', width: "12%" },
 		  { name: 'supplier', displayName: 'Supplier', headerCellClass: 'HeaderStyle1' , width: "12%"},
-		  { name: 'order_plant', displayName: 'Plant', headerCellClass: 'HeaderStyle1'},
+		  { name: 'order_plant', displayName: 'Consignee', headerCellClass: 'HeaderStyle1'},
 		  { name: 'order_pickup', displayName: 'Pick-Up', headerCellClass: 'HeaderStyle1', cellFilter: 'mapPickup', width: '80'},
 		  { name: 'order_pickup_day', displayName: 'Pick-Up Date', headerCellClass: 'HeaderStyle1'},
 		  { name: 'order_arrival_day', displayName: 'Arrival Date', headerCellClass: 'HeaderStyle1'},
@@ -15,7 +15,7 @@ controllers.hybridDashController = function($scope, hybridDashFactory, locationF
 		  { name: 'order_assign_to', displayName: 'Assigned To', headerCellClass: 'HeaderStyle2' ,cellClass:'CellClassStyle1' },
 		  { name: 'order_assign_date', displayName: 'Date', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
 		  { name: 'order_assigned_by', displayName: 'By', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1'},
-		  { name: 'order_status', displayName: 'Status', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1', cellFilter: 'mapOrderStatus'},
+		  { name: 'order_status', displayName: 'Customer Status', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1', cellFilter: 'mapOrderStatus'},
 		  ]
 		  
 		};
