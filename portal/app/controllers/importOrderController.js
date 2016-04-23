@@ -1,5 +1,5 @@
 // JavaScript Document
-controllers.importOrderController = function($scope, getOrderDetailsFactory, FileUploader){
+controllers.importOrderController = function($scope, getOrderDetailsFactory, FileUploader, importOrderFactory){
 	$scope.isHideCustomer = true
 	$scope.importData = {}
 	if($scope.userCompanyType == 2){
@@ -23,10 +23,12 @@ controllers.importOrderController = function($scope, getOrderDetailsFactory, Fil
 			if(uploader.queue.length !=0){
 				uploader.uploadAll()
 				uploader.onCompleteItem = function(fileItem, response, status, headers){
-					console.log(response)
-					//plantAddFactory.createPlant($scope.plant)
-					//$scope.submitted = false
-					//$scope.location = {}	
+					//console.log(response)
+					//console.log($scope.importData)
+					$scope.importData.file_name=response.file_name
+					importOrderFactory.importFile($scope.importData)
+					$scope.submitted = false
+					$scope.importData = {}	
 				}
 					
 			}
