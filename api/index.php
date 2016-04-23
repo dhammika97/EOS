@@ -922,6 +922,29 @@ $app->post('/comment', 'authenticate', function() use ($app) {
 		
 });
 
+$app->post('/import_csv', 'authenticate', function() use ($app) {
+	
+	$DbHandler = new DbHandler();
+	$request = $app->request()->getBody();
+	
+
+	try{
+		if($DbHandler->import_csv($request)){
+			$response["error"] = false;
+			$response["message"] = "Spread sheet successfully imported";
+			echoRespnse(201, $response);				
+		}else{
+			$response["error"] = true;
+			$response["message"] = "Imposrt failed";	
+			echoRespnse(200, $response);
+		}
+	}catch(Exception $e){
+		$response["error"] = true;
+		$response["message"] = $e->getMessage();
+		echoRespnse(400, $response);
+	}
+
+});
 
 $app->run();
 		

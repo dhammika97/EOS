@@ -301,7 +301,7 @@ class DbHandler {
 	}
 	
 	
-	public function checkLogin($user_email, $user_password) {
+	public function checkLogin($user_email, $user_password) {  
 		$db = new database();
 		$params = array();	
 		$table = 'users';
@@ -310,7 +310,7 @@ class DbHandler {
 		
 		$db->select($table,$rows,$where,'','');
 		$logged_User = $db->getResults();
-		
+
 		if ($logged_User != NULL) {
 			$params['action'] = 'login';
 			$params['new_value'] = $user_email;
@@ -570,7 +570,7 @@ class DbHandler {
 		}
 	}
 	
-	public function createSingleOrder($order){
+	public function createSingleOrder($order, $temp = null){
 		
 		if(!isset($order['order_company_id'])){
 			 throw new Exception('Company sould be selected!');
@@ -620,7 +620,11 @@ class DbHandler {
 		}
 		$db = new database();
 		$table  = "orders";
-		
+		if($temp)
+		{
+			$table  = "orders_temp";
+		}
+			
 		$rows   = "order_company_id,
 		   order_supplier_id,
 		   order_location_id,
@@ -848,6 +852,111 @@ class DbHandler {
 		$page = $db->getJson();
 		return $page;
 	}
+
+	private function getSuplierIdByName($name)
+	{
+		$db = new database();
+		$table = 'supplier';
+		$rows ='supplier_id';
+		$where = 'supplier_name = "'.$name.'"';
+		$db->select($table,$rows,$where,'','');
+		$supplier_id = $db->getResults();
+		return $supplier_id;
+	}
 	
+	private function getCompanyIdByName($name)
+	{
+		$db = new database();
+		$table = 'company';
+		$rows ='company_id';
+		$where = 'company_name = "'.$name.'"';
+		$db->select($table,$rows,$where,'','');
+		$company_id = $db->getResults();
+		return $company_id;
+	}
+
+	private function getLocationIdByName($name)
+	{
+
+		$db = new database();
+		$table = 'location';
+		$rows ='location_id';
+		$where = 'location_name = "'.$name.'"';
+		$db->select($table,$rows,$where,'','');
+		$location_id = $db->getResults(); 
+		return $location_id;
+	}
+	public function import_csv($request)
+	{	
+		$file = fopen("uploads/".$request['file_name'].".csv","r"); //file name come from the reuest
+        $incri = 0;
+        $num_orders = 0;
+        $order = array();
+        $company_id = $this->getCompanyIdByName($request['company_name']);
+        $location = '';
+        global $user_id;
+
+        $user_details = json_decode($this->GetUserDetail($user_id));
+        $user_type =  $user_details[0]->user_type;
+        if(!$company_id)
+        {
+        	return false;
+        }
+
+		while(! feof($file))
+		{
+		  	$single_line = fgetcsv($file); 
+
+		  	if(!empty($single_line[1]))
+		  	{
+		  		$location = $single_line[1];
+		  	}
+
+		  	if(empty($single_line[0]) && empty($single_line[1]) && empty($single_line[2]) && !empty($single_line[3]))
+		  	{
+		  		$num_orders++;
+		  		/*
+		  		* fetching suplier_id
+		  		*/
+		  		
+
+		  		$suplier_id = $this->getSuplierIdByName($single_line[3]);
+		  		$location_id = $this->getLocationIdByName($location);
+
+		  		if(!empty($location_id) && !empty($suplier_id))
+		  		{
+		  			$order[$incri]['order_company_id'] 	= $company_id['company_id'];
+					$order[$incri]['order_supplier_id'] = $suplier_id['supplier_id'];
+					$order[$incri]['order_location_id'] = $location_id['location_id'];
+					$order[$incri]['order_plant']		= $single_line[4];
+					$order[$incri]['order_pickup']		= $single_line[5];
+					$order[$incri]['order_pickup_day']  = $single_line[6];
+					$order[$incri]['order_arrival_day'] = $single_line[7];
+					$order[$incri]['order_stack'] = 0;	
+					$order[$incri]['order_status'] = 0;
+				
+					if($user_type == 2)
+					{
+						$order[$incri]['order_status'] = 1;
+					}
+					if($single_line[8] == 'Yes')
+					{
+						$order[$incri]['order_stack'] = 1;
+					}
+
+					if($single_line[9] != '' && $single_line[9] != '--')
+					{
+						$order['order_comments'] = $single_line[9]; 
+					}
+					
+					$this->createSingleOrder($order[$incri], true);
+				} 		
+		  	$incri++;	
+			}
+			
+		}
+
+		return true;
+	}
 }
 ?>
