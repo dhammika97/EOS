@@ -1044,6 +1044,29 @@ $app->put('/password', 'authenticate', function() use($app) {
 		} 
 });
 
+$app->post('/batch_save', 'authenticate', function() use ($app) {
+	
+	$DbHandler = new DbHandler();
+	$request = $app->request()->getBody();
+	
+	try{
+		if($batch = $DbHandler->batch_save($request)){
+			$response["error"] = false;
+			$response["message"] = "Batch successfully saved";
+			echoRespnse(201, $response);				
+		}else{
+			$response["batch"] = $batch;
+			$response["error"] = true;
+			$response["message"] = "Batch save failed";	
+			echoRespnse(200, $response);
+		}
+	}catch(Exception $e){
+		$response["error"] = true;
+		$response["message"] = $e->getMessage();
+		echoRespnse(400, $response);
+	}
+
+});
 
 $app->run();
 		

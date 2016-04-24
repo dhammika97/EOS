@@ -1046,5 +1046,14 @@ class DbHandler {
 			return 0;
 		}
    }
+
+   public function batch_save($orders)
+   {
+   		foreach ($orders as $order) {
+   			$this->createSingleOrder($order, $temp = null, $batch_id = null);
+   		}
+   		
+   		return true;
+   }
 }
 ?>
