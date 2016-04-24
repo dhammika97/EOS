@@ -22,8 +22,9 @@ controllers.userController = function($scope, userFactory, customerFactory, user
 					editableCellTemplate: 'ui-grid/dropdownEditor',
 					editDropdownValueLabel: 'company_name', 
 					editDropdownIdLabel: 'company_id',
+					editDropdownOptionsArray:$scope.companies,
 					//cellFilter: 'mapCompany',
-					//cellFilter: "griddropdown:editDropdownOptionsArray:editDropdownIdLabel:editDropdownValueLabel:row.entity.user_company.user_company"
+					cellFilter: "griddropdown:editDropdownOptionsArray:editDropdownIdLabel:editDropdownValueLabel:row.entity.user_company"
 				 },
 				{ field: 'user_contactNo', displayName:'Contact No.', headerCellClass: 'HeaderStyle1' },
 				{ field: 'user_status', displayName:'Status', headerCellClass: 'HeaderStyle1',
@@ -37,8 +38,8 @@ controllers.userController = function($scope, userFactory, customerFactory, user
 				}
 			]
 		};
-		
-		$scope.userGridOptions.columnDefs[3].editDropdownOptionsArray = data.companies
+		//console.log($scope.companies)
+		//$scope.userGridOptions.columnDefs[3].editDropdownOptionsArray = $scope.companies
 		$scope.userGridOptions.columnDefs[5].cellFilter='mapStatus'
 		$scope.userGridOptions.columnDefs[3].cellFilter = 'griddropdown'
 		userFactory.query().$promise.then(function(data){

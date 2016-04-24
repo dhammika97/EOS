@@ -7,14 +7,17 @@ App.factory('importOrderFactory',function($resource, Notification){
 	})
 	
 	factory.importFile = function(params){
-		orders.save(params).$promise.then(function(data){
-			Notification.success(data.message);
-			document.importForm.reset()
-			$('input').blur();
-		},function(data){
-			Notification.success(data.data.message);
-		})
+		return orders.save(params)
 	}
 	
 	return factory
+})
+
+App.factory('tmpDataFactory',function($resource, Notification){
+	
+	var orders = $resource('../api/batch_import/:id',{},{
+		save: {method: 'POST'}
+	})
+	
+	return orders
 })

@@ -871,9 +871,9 @@ class DbHandler {
 	private function getSuplierIdByName($name)
 	{
 		$db = new database();
-		$table = 'supplier';
-		$rows ='supplier_id,supplier_name';
-		$where = 'supplier_name = "'.$name.'"';
+		$table = 'company';
+		$rows ='company_id,company_name';
+		$where = 'company_name = "'.$name.'" AND company_type = 3';
 		$db->select($table,$rows,$where,'','');
 		$supplier_id = $db->getResults();
 		return $supplier_id;
@@ -915,7 +915,7 @@ class DbHandler {
         $user_type =  $user_details[0]->user_type;
         if(!$company_id)
         {
-        	return false;
+        	//return false;
         }
 
 		while(! feof($file))
@@ -934,15 +934,13 @@ class DbHandler {
 		  		* fetching suplier_id
 		  		*/
 		  		
-
 		  		$suplier_id = $this->getSuplierIdByName($single_line[3]);
 		  		$location_id = $this->getLocationIdByName($location);
-
 		  		if(!empty($location_id) && !empty($suplier_id))
 		  		{
 		  			$order[$incri]['order_company_id'] 	= $company_id;
-					$order[$incri]['order_supplier_id'] = $suplier_id['supplier_id'];
-					$order[$incri]['order_supplier_name'] 	= $suplier_id['supplier_name'];
+					$order[$incri]['order_supplier_id'] = $suplier_id['company_id'];
+					$order[$incri]['order_supplier_name'] 	= $suplier_id['company_name'];
 					$order[$incri]['order_location_id'] = $location_id['location_id'];
 					$order[$incri]['order_location_name'] = $location_id['location_name'];
 					$order[$incri]['order_plant']		= $single_line[4];

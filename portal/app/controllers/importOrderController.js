@@ -1,7 +1,21 @@
 // JavaScript Document
-controllers.importOrderController = function($scope, getOrderDetailsFactory, FileUploader, importOrderFactory){
+controllers.importOrderController = function($scope, getOrderDetailsFactory, FileUploader, importOrderFactory, tmpDataFactory){
 	$scope.isHideCustomer = true
 	$scope.importData = {}
+	
+	$scope.GridOptions = {
+		columnDefs: [
+		  { name: 'order_supplier_name', displayName: 'Supplier', headerCellClass: 'HeaderStyle1' , width: "15%"},
+		  { name: 'order_plant', displayName: 'Consignee', headerCellClass: 'HeaderStyle1'},
+		  { name: 'order_pickup', displayName: 'Pick-Up', headerCellClass: 'HeaderStyle1', cellFilter: 'mapPickup', width: '80'},
+		  { name: 'order_pickup_day', displayName: 'Pick-Up Date', headerCellClass: 'HeaderStyle1'},
+		  { name: 'order_arrival_day', displayName: 'Arrival Date', headerCellClass: 'HeaderStyle1'},
+		  { name: 'order_stack', displayName: 'Stack', headerCellClass: 'HeaderStyle1', cellFilter: 'mapPickup' , width: '80'}
+		  ]
+		  
+	};
+	
+	
 	if($scope.userCompanyType == 2){
 		$scope.isHideCustomer = false	
 		$scope.importData.company_id = $scope.userCompanyID
@@ -23,12 +37,12 @@ controllers.importOrderController = function($scope, getOrderDetailsFactory, Fil
 			if(uploader.queue.length !=0){
 				uploader.uploadAll()
 				uploader.onCompleteItem = function(fileItem, response, status, headers){
-					//console.log(response)
-					//console.log($scope.importData)
 					$scope.importData.file_name=response.file_name
-					importOrderFactory.importFile($scope.importData)
-					$scope.submitted = false
-					$scope.importData = {}	
+					tmpDataFactory.save($scope.importData).$promise.then(function(data){
+						$scope.submitted = false
+						$scope.importData = {}
+						$scope.GridOptions.data=data.batch
+					})
 				}
 					
 			}

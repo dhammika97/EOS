@@ -681,6 +681,7 @@ $app->get('/access', 'authenticate', function() use($app) {
 			$response['userCompany']=$company['company_name'];
 			$response['cType']=$company['company_type'];
 			$response['cID']=$result['user_company'];
+			$response['sId']=$result['user_id'];
 			if(isset($login['audit_login_date_time']))
 			$response['lastLogin'] = $login['audit_login_date_time'];
 			echoRespnse(200, $response);
@@ -935,9 +936,10 @@ $app->post('/batch_import', 'authenticate', function() use ($app) {
 			$response["batch"] = $batch;
 			echoRespnse(201, $response);				
 		}else{
+			$response["batch"] = $batch;
 			$response["error"] = true;
 			$response["message"] = "Imposrt failed";	
-			$response["batch"] = null;
+			//$response["batch"] = null;
 			echoRespnse(200, $response);
 		}
 	}catch(Exception $e){
@@ -1016,8 +1018,8 @@ $app->put('/password', 'authenticate', function() use($app) {
 		if(md5($request['new_password']) != md5($request['confirm_password']))
 		{
 			$response["error"] = true;
-			$response["message"] = "Password confirmation failed";
-			echoRespnse(200, $response);
+			$response["message"] = "New Password & Confirm Password mis-matched";
+			echoRespnse(409, $response);
 			exit();
 		}
 
@@ -1028,12 +1030,12 @@ $app->put('/password', 'authenticate', function() use($app) {
 			
 			$response["error"] = true;
 			$response["message"] = "Couldn't change password";
-			echoRespnse(404, $response);
+			echoRespnse(409, $response);
 		} else if($result == 3){
 			
 			$response["error"] = true;
 			$response["message"] = "Couldn't change password, wrong old Password";
-			echoRespnse(201, $response);
+			echoRespnse(409, $response);
 		} else {
 				
 			$response["error"] = false;

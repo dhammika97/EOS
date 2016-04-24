@@ -109,6 +109,16 @@ window.routes =
         templateUrl: 'app/partials/orders/import_orders.html', 
         controller: 'importOrderController', 
         requireLogin: true
+    },
+    "/change-password": {
+        templateUrl: 'app/partials/my_profile/change_password.html', 
+        controller: 'changePasswordController', 
+        requireLogin: true
+    },
+    "/my-profile": {
+        templateUrl: 'app/partials/my_profile/my_profile.html', 
+        controller: 'myProfileController', 
+        requireLogin: true
     }
 };
 
@@ -166,16 +176,16 @@ App.config(function ($routeProvider, $httpProvider, $locationProvider) {
     return {};
 })
 .config(function(NotificationProvider) {
-        NotificationProvider.setOptions({
-            /*delay: 200000,
-            startTop: 20,
-            startRight: 10,
-            verticalSpacing: 20,
-            horizontalSpacing: 20,
-            positionX: 'left',*/
-            positionY: 'bottom'
-        });
-    });
+	NotificationProvider.setOptions({
+		/*delay: 200000,
+		startTop: 20,
+		startRight: 10,
+		verticalSpacing: 20,
+		horizontalSpacing: 20,
+		positionX: 'left',*/
+		positionY: 'bottom'
+	});
+})
 /*var getUser = function () {
     var ArrayCookies = document.cookie.split(';')
     for (i = 0; i < ArrayCookies.length; i++) {
