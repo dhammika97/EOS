@@ -1013,7 +1013,39 @@ class DbHandler {
       $db->selectJson($table,$rows,$where,'','');
       $logged_User = $db->getjson();
  	  return $logged_User;
+   }
 
+   public function changePassword($user_update_id, $request)
+   {
+   		$db = new database();	
+		$table = 'users';
+		$rows  = array('user_password' => md5($request['new_password']));
+		$where = 'user_id = "'.$user_update_id.'"';
+		$rows_select = 'user_password';
+
+		$db->select($table,$rows_select,$where,'','');
+		$user_password = $db->getResults();
+		
+		$original_old_password = $user_password['user_password'];
+
+		if($original_old_password != md5($request['old_password']))
+		{
+			return 3;
+		}
+
+		$db = new database();	
+		if($db->update($table,$rows,$where) ){
+			$params['table'] = $table;
+			$params['action'] = 'change_password';
+			$params['user'] = $user_update_id;
+			$params['update_id'] = $user_update_id;
+			$params['new_value']= json_encode($rows);
+			$params['status'] = 1;
+			$this->auditLogEntry($params);
+			return 1;
+		}else{
+			return 0;
+		}
    }
 }
 ?>
