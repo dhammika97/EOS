@@ -764,9 +764,20 @@ class DbHandler {
 		$table = 'dataview';
 		$rows ='*';
 		//$where = 'company_type = 2';
-		$db->selectJson($table,$rows,$where,'','');
-		$orders_list = $db->getJson();
-		return $orders_list;
+		$db->select($table,$rows,$where,'','');
+		$orders_list = $db->getResults();
+
+		$inc = 0;
+		foreach ($orders_list as $key => $order) 
+		{
+			$comments = explode(',', $order['order_comments']);
+			$orders[$inc] = $order;
+			$orders[$inc]['comments'] = $comments; 
+
+			$inc++;
+		}
+		
+		return $orders;
 	}
 	
 	public function updateOrder($order_id, $order){
