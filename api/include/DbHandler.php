@@ -903,7 +903,8 @@ class DbHandler {
 	}
 	public function import_csv($request)
 	{	
-		$file = fopen("uploads/".$request['file_name'],"r"); //file name come from the reuest
+		$file_path = "uploads/".$request['file_name'] ;
+		$file = fopen($file_path,"r"); //file name come from the reuest
         $incri = 0;
         $num_orders = 0;
         $order = array();
@@ -975,7 +976,7 @@ class DbHandler {
 			}	
 		}
 		fclose($file);
-		unlink($file);
+		unlink($file_path);
 		return $order;
 	}
 
