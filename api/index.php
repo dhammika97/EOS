@@ -1002,7 +1002,7 @@ $app->put('/profile', 'authenticate', function() use($app) {
 			echoRespnse(404, $response);
 		} else {
 			$response["error"] = false;
-			$response['user_details']=json_decode($result);
+			$response["message"] = "User successfully updated";
 			echoRespnse(200, $response);
 		}
 });
