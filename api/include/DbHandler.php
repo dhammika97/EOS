@@ -1000,5 +1000,18 @@ class DbHandler {
 		$orders_temp = $db->getResults();
 		return $orders_temp;
 	}
+
+	public function getUserById($user_id) {
+      $db = new database();
+	  // fetching user by id
+      $table = 'users';
+      $rows ='user_name, user_email, user_contactNo';
+      $where = 'user_id= "'.$user_id.'"';
+    
+      $db->selectJson($table,$rows,$where,'','');
+      $logged_User = $db->getjson();
+ 	  return $logged_User;
+
+   }
 }
 ?>
