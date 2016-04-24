@@ -15,15 +15,19 @@ App.factory('commentFactory',function($resource){
 		save: {method: 'POST'}
     });
 	
-	/*factory.addComment = function(params){
-		comment.save(params).$promise.then(function(data){
-			Notification.success(data.message);
-			//document.locationForm.reset()
-			//$('input').blur();	
-		},function(data){
-			Notification.error(data.data.message);
-		})	
-	}*/
-	
 	return comment
+})
+
+App.factory('orderDetailFactory',function($resource){
+	var order = $resource('../api/orders/:id', {}, {
+		get: { method: 'GET', params: { id: '@id' } }
+    })	
+	
+	/*factory.getOrderDetails = function(id){
+		order.get({id:id}).$promise.then(function(e){
+			console.log(e.orders)
+			$scope.product = e.orders.order_product
+		})
+	}*/
+	return order
 })
