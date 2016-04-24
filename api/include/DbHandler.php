@@ -861,7 +861,7 @@ class DbHandler {
 	{
 		$db = new database();
 		$table = 'supplier';
-		$rows ='supplier_id';
+		$rows ='supplier_id,supplier_name';
 		$where = 'supplier_name = "'.$name.'"';
 		$db->select($table,$rows,$where,'','');
 		$supplier_id = $db->getResults();
@@ -872,7 +872,7 @@ class DbHandler {
 	{
 		$db = new database();
 		$table = 'company';
-		$rows ='company_id';
+		$rows ='company_id,company_name';
 		$where = 'company_name = "'.$name.'"';
 		$db->select($table,$rows,$where,'','');
 		$company_id = $db->getResults();
@@ -884,7 +884,7 @@ class DbHandler {
 
 		$db = new database();
 		$table = 'location';
-		$rows ='location_id';
+		$rows ='location_id, location_name';
 		$where = 'location_name = "'.$name.'"';
 		$db->select($table,$rows,$where,'','');
 		$location_id = $db->getResults(); 
@@ -931,7 +931,9 @@ class DbHandler {
 		  		{
 		  			$order[$incri]['order_company_id'] 	= $company_id;
 					$order[$incri]['order_supplier_id'] = $suplier_id['supplier_id'];
+					$order[$incri]['order_supplier_name'] 	= $suplier_id['supplier_name'];
 					$order[$incri]['order_location_id'] = $location_id['location_id'];
+					$order[$incri]['order_location_name'] = $location_id['location_name'];
 					$order[$incri]['order_plant']		= $single_line[4];
 					$order[$incri]['order_pickup']		= 0;
 					$order[$incri]['order_pickup_day']  = $single_line[6];
@@ -957,15 +959,13 @@ class DbHandler {
 					{
 						$order['order_comments'] = $single_line[9]; 
 					}
-					
-					$this->createSingleOrder($order[$incri], true, $batch_id);
+				$incri++;			
+					//$this->createSingleOrder($order[$incri], true, $batch_id);
 				} 		
-		  	$incri++;	
-			}
-			
+		  	
+			}	
 		}
-
-		return $batch_id;
+		return $order;
 	}
 
 	public function getSingleOrderDetails($order_id)
