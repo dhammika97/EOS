@@ -1007,6 +1007,42 @@ $app->put('/profile', 'authenticate', function() use($app) {
 		}
 });
 
+$app->put('/password', 'authenticate', function() use($app) {
+		
+		$request = $app->request()->getBody();
+		global $user_id;
+		$response = array();
+		
+		if(md5($request['new_password']) != md5($request['confirm_password']))
+		{
+			$response["error"] = true;
+			$response["message"] = "Password confirmation failed";
+			echoRespnse(200, $response);
+			exit();
+		}
+
+		$DbHandler = new DbHandler();		
+		$result = $DbHandler->changePassword($user_id, $request);
+
+		if ($result == 0) {
+			
+			$response["error"] = true;
+			$response["message"] = "Couldn't change password";
+			echoRespnse(404, $response);
+		} else if($result == 3){
+			
+			$response["error"] = true;
+			$response["message"] = "Couldn't change password, wrong old Password";
+			echoRespnse(201, $response);
+		} else {
+				
+			$response["error"] = false;
+			$response["message"] = "Password successfully updated";
+			echoRespnse(200, $response);
+		} 
+});
+
+
 $app->run();
 		
 		
