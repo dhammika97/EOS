@@ -6,8 +6,19 @@ App.factory('importOrderFactory',function($resource, Notification){
 		save: {method: 'POST'}
 	})
 	
+	var saveBatch = $resource('../api/batch_save/:id',{},{
+		save: {method: 'POST'}
+	})
+	
+	
 	factory.importFile = function(params){
-		return orders.save(params)
+		saveBatch.save(params).$promise.then(function(data){
+			Notification.success(data.message)
+		})
+	}
+	
+	factory.exportData = function(params){
+		return 
 	}
 	
 	return factory
@@ -21,3 +32,4 @@ App.factory('tmpDataFactory',function($resource, Notification){
 	
 	return orders
 })
+

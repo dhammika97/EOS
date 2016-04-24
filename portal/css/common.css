@@ -261,6 +261,11 @@ margin-right:0px
 	color: #fff;
 	min-width: 100px; 
 }
+.btn-green2 {
+	background: #2FA889;
+	color: #fff;
+	padding: 8px 20px 
+}
 .btn-green:hover {
 	background: #237C66;
 	color: #fff

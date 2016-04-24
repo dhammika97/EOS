@@ -14,7 +14,14 @@ controllers.supplierDashController = function($scope, supplierDashFactory, locat
 			  { name:'order_skid_count', displayName: 'Skid Count', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
 			  { name:'order_dimensions', displayName: 'Dimension', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
 			  { name:'order_freight_class', displayName: 'Freight Class', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
-			  { name:'order_stackable', displayName: 'Stackable', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1'},
+			  { name:'order_stackable', displayName: 'Stackable', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1',cellFilter: 'mapPickup',
+			  	editDropdownOptionsArray: [
+					{ id: 1, status: 'Yes' },
+					{ id: 2, status: 'No' }
+				],
+				editableCellTemplate: 'ui-grid/dropdownEditor',
+				editDropdownValueLabel: 'status', 
+				editDropdownIdLabel: 'id'},
 			  { name:'order_weight', displayName: 'Weight', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1'},
 			  { name:'order_supplier_status', displayName: 'Status', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 bold', 	cellFilter: 'mapSuplierStatus',
 			  	editDropdownOptionsArray: [
