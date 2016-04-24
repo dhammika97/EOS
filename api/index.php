@@ -929,13 +929,15 @@ $app->post('/batch_import', 'authenticate', function() use ($app) {
 	
 
 	try{
-		if($DbHandler->import_csv($request)){
+		if($batch_id = $DbHandler->import_csv($request)){
 			$response["error"] = false;
 			$response["message"] = "Spread sheet successfully imported";
+			$response["batch_id"] = $batch_id;
 			echoRespnse(201, $response);				
 		}else{
 			$response["error"] = true;
 			$response["message"] = "Imposrt failed";	
+			$response["batch_id"] = null;
 			echoRespnse(200, $response);
 		}
 	}catch(Exception $e){
@@ -964,6 +966,29 @@ $app->get('/orders/:id', 'authenticate', function($order_id) use($app) {
 		}
 });
 
+$app->get('/batch_import/:id', 'authenticate', function($batch_id) use ($app) {
+	
+	$DbHandler = new DbHandler();
+
+	try{
+		if($result = $DbHandler->get_imported_data($batch_id)){
+			$response["error"] = false;
+			$response["message"] = "Imported data";
+			$response["imported_data"] = $result; 
+			echoRespnse(201, $response);				
+		}else{
+			$response["error"] = true;
+			$response["message"] = "Imposrt failed";
+			$response["imported_data"] = null;	
+			echoRespnse(200, $response);
+		}
+	}catch(Exception $e){
+		$response["error"] = true;
+		$response["message"] = $e->getMessage();
+		echoRespnse(400, $response);
+	}
+
+});
 
 $app->run();
 		

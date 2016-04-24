@@ -8,10 +8,10 @@ if ( !empty( $_FILES ) ) {
 	$imageFileType = pathinfo($file,PATHINFO_EXTENSION);
 	$target_file = $target_dir .$unique.'.'.$imageFileType;
 
-	/*if($imageFileType != "csv") {
+	if($imageFileType != "csv") {
 	    
 	    $uploadOk = 0;
-	}*/
+	}
 
 	if ($uploadOk == 0) {
 	   $response = array('error' => True, 'message' => 'File type not support');
