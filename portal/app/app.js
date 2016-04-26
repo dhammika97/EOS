@@ -8,10 +8,12 @@ var App = angular.module('heos', [
 	'ui.grid.rowEdit', 
 	'ui.grid.cellNav',
 	'ui.grid.resizeColumns',
+	'ui.grid.cellNav',
 	'ui-notification',
 	'720kb.datepicker',
 	'vesparny.fancyModal',
-	'angularFileUpload'
+	'angularFileUpload',
+	'angular-loading-bar'
 ])
 	
 window.routes =
@@ -186,6 +188,9 @@ App.config(function ($routeProvider, $httpProvider, $locationProvider) {
 		positionY: 'bottom'
 	});
 })
+.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
+	cfpLoadingBarProvider.latencyThreshold = 100;
+}])
 /*var getUser = function () {
     var ArrayCookies = document.cookie.split(';')
     for (i = 0; i < ArrayCookies.length; i++) {

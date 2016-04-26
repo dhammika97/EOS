@@ -13,13 +13,13 @@ controllers.customerController = function($scope, customerFactory, customerAddFa
 			  { company_type: 2, company_type_name: 'Customer' },
 			  { company_type: 3, company_type_name: 'Supplier' },
 			  { company_type: 4, company_type_name: 'Logistic' }
-			]
+			],enableCellEditOnFocus:true, cellClass:'cellEditable'
 		  },
-		  { name: 'company_name', displayName: 'Company Name', headerCellClass: 'HeaderStyle1'},
-		  { name: 'company_contact_name', displayName: 'Contact Full Name', headerCellClass: 'HeaderStyle1' },
-		  { name: 'company_contact_no', displayName: 'Contact Phone No.', headerCellClass: 'HeaderStyle1'},
-		  { name: 'company_email', displayName: 'Email Address', headerCellClass: 'HeaderStyle1' },
-		  { name: 'company_alternate_contact', displayName: 'Alternate Contact', headerCellClass: 'HeaderStyle1'}
+		  { name: 'company_name', displayName: 'Company Name', headerCellClass: 'HeaderStyle1',enableCellEditOnFocus:true, cellClass:'cellEditable'},
+		  { name: 'company_contact_name', displayName: 'Contact Full Name', headerCellClass: 'HeaderStyle1',enableCellEditOnFocus:true , cellClass:'cellEditable'},
+		  { name: 'company_contact_no', displayName: 'Contact Phone No.', headerCellClass: 'HeaderStyle1',enableCellEditOnFocus:true, cellClass:'cellEditable'},
+		  { name: 'company_email', displayName: 'Email Address', headerCellClass: 'HeaderStyle1',enableCellEditOnFocus:true , cellClass:'cellEditable'},
+		  { name: 'company_alternate_contact', displayName: 'Alternate Contact', headerCellClass: 'HeaderStyle1',enableCellEditOnFocus:true, cellClass:'cellEditable'}
 		  ]
 		};
 	 
