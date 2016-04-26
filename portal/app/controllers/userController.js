@@ -4,8 +4,8 @@ controllers.userController = function($scope, userFactory, customerFactory, user
 		$scope.companies = data.companies
 		$scope.userGridOptions = {
 			columnDefs: [
-				{ field: 'user_name', displayName:'Display Name', headerCellClass: 'HeaderStyle1'},
-				{ field: 'user_email', displayName: 'Email', headerCellClass: 'HeaderStyle1'  },
+				{ field: 'user_name', displayName:'Display Name', headerCellClass: 'HeaderStyle1', cellClass:'cellEditable',enableCellEditOnFocus:true},
+				{ field: 'user_email', displayName: 'Email', headerCellClass: 'HeaderStyle1', cellClass:'cellEditable',enableCellEditOnFocus:true  },
 				{ field: 'user_type', displayName:'User Type', headerCellClass: 'HeaderStyle1',
 					//filter: {},
 					cellFilter: 'mapUserType',
@@ -16,7 +16,7 @@ controllers.userController = function($scope, userFactory, customerFactory, user
 					],
 					editableCellTemplate: 'ui-grid/dropdownEditor',
 					editDropdownValueLabel: 'user_type_name', 
-					editDropdownIdLabel: 'user_type'
+					editDropdownIdLabel: 'user_type', cellClass:'cellEditable',enableCellEditOnFocus:true
 				 },
 				{ field: 'user_company', displayName:'Company', headerCellClass: 'HeaderStyle1',
 					editableCellTemplate: 'ui-grid/dropdownEditor',
@@ -24,9 +24,9 @@ controllers.userController = function($scope, userFactory, customerFactory, user
 					editDropdownIdLabel: 'company_id',
 					editDropdownOptionsArray:$scope.companies,
 					//cellFilter: 'mapCompany',
-					cellFilter: "griddropdown:editDropdownOptionsArray:editDropdownIdLabel:editDropdownValueLabel:row.entity.user_company"
+					cellFilter: "companyDropdown:this", cellClass:'cellEditable',enableCellEditOnFocus:true
 				 },
-				{ field: 'user_contactNo', displayName:'Contact No.', headerCellClass: 'HeaderStyle1' },
+				{ field: 'user_contactNo', displayName:'Contact No.', headerCellClass: 'HeaderStyle1', cellClass:'cellEditable',enableCellEditOnFocus:true },
 				{ field: 'user_status', displayName:'Status', headerCellClass: 'HeaderStyle1',
 					editDropdownOptionsArray: [
 					  { user_status: 1, name: 'Active' },
@@ -34,14 +34,14 @@ controllers.userController = function($scope, userFactory, customerFactory, user
 					],
 					editableCellTemplate: 'ui-grid/dropdownEditor',
 					editDropdownValueLabel: 'name', 
-					editDropdownIdLabel: 'user_status'
+					editDropdownIdLabel: 'user_status', cellClass:'cellEditable',enableCellEditOnFocus:true
 				}
 			]
 		};
 		//console.log($scope.companies)
 		//$scope.userGridOptions.columnDefs[3].editDropdownOptionsArray = $scope.companies
 		$scope.userGridOptions.columnDefs[5].cellFilter='mapStatus'
-		$scope.userGridOptions.columnDefs[3].cellFilter = 'griddropdown'
+		//$scope.userGridOptions.columnDefs[3].cellFilter = 'griddropdown'
 		userFactory.query().$promise.then(function(data){
 			$scope.userGridOptions.data = data.users;
 			//Notification.success('Data retrieved!');

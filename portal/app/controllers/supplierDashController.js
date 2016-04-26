@@ -1,7 +1,23 @@
 // JavaScript Document
 controllers.supplierDashController = function($scope, supplierDashFactory, locationFactory, Notification, updateOrderFactory, Common, $fancyModal){
 	var commentTemplate = '<div class="ui-grid-cell-contents" > <span ng-repeat="item in row.entity.comments">{{item}}</br></span><a href="" ng-click="grid.appScope.openDefault(row.entity.order_id)"><i class="fa fa-plus-circle"></i> Add Comment</a></div>'
+	$scope.canEdit = function(){
+		return false
+	}
 	$scope.supplierGridOptions = {
+		enableCellEditOnFocus:true,
+		cellEditableCondition: function($scope){
+			if($scope.row.entity.order_status==1 && $scope.row.entity.order_supplier_status!=1){
+				//console.log('client accepted')
+				return true
+			}else if($scope.row.entity.order_supplier_status==1 && $scope.row.entity.order_status==1){
+				//console.log('client accepted && suplier accepted')
+				return false
+			}else{
+				//console.log('else')
+				return false	
+			}
+		},
 		columnDefs: [
 			  { name:'company', displayName: 'Customer', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
 			  { name:'order_plant', displayName: 'Consignee', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
@@ -10,11 +26,11 @@ controllers.supplierDashController = function($scope, supplierDashFactory, locat
 			  { name:'order_arrival_day', displayName: 'Arrival Date', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
 			  { name:'order_stack', displayName: 'Stack', headerCellClass: 'HeaderStyle1', cellFilter: 'mapPickup' , width: '80', enableCellEdit: false },
 			  { name:'order_comments', displayName: 'Comments', headerCellClass: 'HeaderStyle1', width:250 , enableCellEdit: false, cellTemplate: commentTemplate},
-			  { name:'order_product', displayName: 'Product', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
-			  { name:'order_skid_count', displayName: 'Skid Count', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
-			  { name:'order_dimensions', displayName: 'Dimension', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
-			  { name:'order_freight_class', displayName: 'Freight Class', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1' },
-			  { name:'order_stackable', displayName: 'Stackable', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1',cellFilter: 'mapPickup',
+			  { name:'order_product', displayName: 'Product', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 cellEditable'},
+			  { name:'order_skid_count', displayName: 'Skid Count', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 cellEditable'},
+			  { name:'order_dimensions', displayName: 'Dimension', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 cellEditable' },
+			  { name:'order_freight_class', displayName: 'Freight Class', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 cellEditable' },
+			  { name:'order_stackable', displayName: 'Stackable', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 cellEditable',cellFilter: 'mapPickup',
 			  	editDropdownOptionsArray: [
 					{ id: 1, status: 'Yes' },
 					{ id: 2, status: 'No' }
@@ -22,8 +38,8 @@ controllers.supplierDashController = function($scope, supplierDashFactory, locat
 				editableCellTemplate: 'ui-grid/dropdownEditor',
 				editDropdownValueLabel: 'status', 
 				editDropdownIdLabel: 'id'},
-			  { name:'order_weight', displayName: 'Weight', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1'},
-			  { name:'order_supplier_status', displayName: 'Status', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 bold', 	cellFilter: 'mapSuplierStatus',
+			  { name:'order_weight', displayName: 'Weight', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 cellEditable'},
+			  { name:'order_supplier_status', displayName: 'Status', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 bold cellEditable', 	cellFilter: 'mapSuplierStatus',
 			  	editDropdownOptionsArray: [
 					{ id: 0, status: 'Pending' },
 					{ id: 1, status: 'Accepted' }
@@ -33,6 +49,8 @@ controllers.supplierDashController = function($scope, supplierDashFactory, locat
 				editDropdownIdLabel: 'id'},
 			  ]		  
 		};
+		
+		
 	
 	var curr = new Date;
 	var firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));

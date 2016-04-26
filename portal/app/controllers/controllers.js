@@ -158,18 +158,9 @@ App.controller(controllers)
     }
   };
 })
-.filter('griddropdown', function () {
-    return function (input, map, idField, valueField, initial) {
-		console.log(initial)
-        if (typeof map !== "undefined") {
-            for (var i = 0; i < map.length; i++) {
-                if (map[i][idField] == input) {
-                    return map[i][valueField];
-                }
-            }
-        } else if (initial) {
-            return initial;
-        }
-        return input;
-    };
+.filter('companyDropdown', function(){
+	return function(value, scope){
+		//console.log(scope)
+		return scope.row.entity.company_name
+	}	
 })

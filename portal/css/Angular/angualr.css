@@ -31,3 +31,15 @@
 .ui-grid-menu .ui-grid-menu-inner ul li:last-child {
     display: none !important;
 }
+.ui-grid-row:nth-child(odd) .cellEditable:hover, 
+.ui-grid-row:nth-child(even) .cellEditable:hover{
+	background:#FFFC81 !important;
+	box-shadow:0 0 7px #3366FF inset, 0 0 7px #fff inset;
+}
+.ui-grid-cell-focus{
+	background:transparent !important;
+}
+div.ui-grid-cell input, div.ui-grid-cell select  {
+ /* background:transparent !important;
+  border:none !important;*/
+}

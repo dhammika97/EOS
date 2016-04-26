@@ -9,7 +9,7 @@ class database{
 private $db_host = "localhost";
 private $db_user = "usr_heos";
 private $db_pass = "123456";
-private $db_name = "hybrid_eos";
+private $db_name = "hybrid_eos"; 
 
 //require_once 'Config.php';
 

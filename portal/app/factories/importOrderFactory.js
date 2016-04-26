@@ -1,5 +1,5 @@
 // JavaScript Document
-App.factory('importOrderFactory',function($resource, Notification){
+App.factory('importOrderFactory',function($resource, Notification,$location){
 	var factory = {}
 	
 	var orders = $resource('../api/batch_import/:id',{},{
@@ -14,6 +14,7 @@ App.factory('importOrderFactory',function($resource, Notification){
 	factory.importFile = function(params){
 		saveBatch.save(params).$promise.then(function(data){
 			Notification.success(data.message)
+			$location.path('/')
 		})
 	}
 	

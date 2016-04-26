@@ -9,6 +9,12 @@ controllers.customerDashController = function($scope, locationFactory, customerD
 	var commentTemplate = '<div class="ui-grid-cell-contents" > <span ng-repeat="item in row.entity.comments">{{item}}</br></span><a href="" ng-click="grid.appScope.openDefault(row.entity.order_id)"><i class="fa fa-plus-circle"></i> Add Comment</a></div>'
 	
 	$scope.gridOptions = {
+		/*cellEditableCondition: function($scope){
+			if($scope.row.entity.order_status==1)
+			return false
+			else
+			return true
+		},*/
 		columnDefs: [
 		  { name: 'supplier', displayName: 'Supplier', headerCellClass: 'HeaderStyle1' , width: "15%", enableCellEdit: false, cellTemplate:supplierTemplate},
 		  { name: 'order_plant', displayName: 'Consignee', headerCellClass: 'HeaderStyle1', enableCellEdit: false},
@@ -21,7 +27,7 @@ controllers.customerDashController = function($scope, locationFactory, customerD
 		  { name: 'order_assign_to', displayName: 'Assigned To', headerCellClass: 'HeaderStyle2' ,cellClass:'CellClassStyle1', enableCellEdit: false },
 		  { name: 'order_assign_date', displayName: 'Date', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1', enableCellEdit: false },
 		  { name: 'order_assigned_by', displayName: 'By', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1', enableCellEdit: false},
-		  { name: 'order_status', displayName: 'Status', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1', 
+		  { name: 'order_status', displayName: 'Status', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1  cellEditable', 
 		  	cellFilter: 'mapOrderStatus',
 		  	editDropdownOptionsArray: [
 				{ id: 1, status: 'Accepted' },
@@ -31,7 +37,8 @@ controllers.customerDashController = function($scope, locationFactory, customerD
 			],
 			editableCellTemplate: 'ui-grid/dropdownEditor',
 			editDropdownValueLabel: 'status', 
-			editDropdownIdLabel: 'id'}
+			editDropdownIdLabel: 'id',
+			enableCellEditOnFocus:true}
 		  ]
 		  
 	};

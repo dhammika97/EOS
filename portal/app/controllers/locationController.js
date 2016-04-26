@@ -6,9 +6,9 @@ controllers.locationController = function($scope, locationFactory, locationAddFa
 	})
 	$scope.locationGridOptions = {
 		columnDefs: [
-			{ field: 'location_name', displayName:'Location Name', headerCellClass: 'HeaderStyle1'},
-			{ field: 'location_description', displayName: 'Location Description', headerCellClass: 'HeaderStyle1'  },
-			{ field: 'location_cordinates', displayName:'Location Cordinates', headerCellClass: 'HeaderStyle1' },
+			{ field: 'location_name', displayName:'Location Name', headerCellClass: 'HeaderStyle1',enableCellEditOnFocus:true, cellClass:'cellEditable'},
+			{ field: 'location_description', displayName: 'Location Description', headerCellClass: 'HeaderStyle1',enableCellEditOnFocus:true, cellClass:'cellEditable'  },
+			{ field: 'location_cordinates', displayName:'Location Cordinates', headerCellClass: 'HeaderStyle1',enableCellEditOnFocus:true, cellClass:'cellEditable' },
 		]
 	};
 	

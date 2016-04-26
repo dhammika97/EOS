@@ -118,8 +118,8 @@ class DbHandler {
 			$i++;
 		}
 		$db = new database();
-		$table = 'users';
-		$rows ='user_id, user_name, user_email, user_type, user_company, user_contactNo, user_status';	
+		$table = 'users u inner join company c on c.company_id = u.user_company';
+		$rows ='user_id, user_name, user_email, user_type, user_company, company_name, user_contactNo, user_status';	
 		$db->selectJson($table,$rows,$where,'','','');
 		$user_list = $db->getJson();
 		return $user_list;
@@ -589,7 +589,7 @@ class DbHandler {
 		}elseif(!isset($order['order_stack'])){
 			 throw new Exception('Stack cannot be blank!');
 		}elseif(!isset($order['order_status'])){
-			 throw new Exception('Stack cannot be blank!');
+			 throw new Exception('Status cannot be blank!');
 		}
 		
 		
@@ -616,7 +616,7 @@ class DbHandler {
 		}else if($user['user_type']==2){
 			$values .= "'".'1'."'";
 		}else if($user['user_type']==3){
-			$values = "'".'1'."'";
+			$values .= "'".'2'."'";
 		}
 		$db = new database();
 		$table  = "orders";
@@ -632,13 +632,13 @@ class DbHandler {
 		   order_added_by,
 		   order_status";
 
-		if($temp)
+		/*if($temp)
 		{
 			
 			$table  = "orders_temp";
 			$values .= ",'".$batch_id."'";
 			$rows = $rows.", order_batch" ;
-		}   
+		}  */ 
 		
 		if($db->insert($table,$values,$rows) ){
 			$insertedId = $db->getInsertId();
@@ -729,6 +729,7 @@ class DbHandler {
 	
 	public function getAllOrders($params){
 		$where = '';
+		$orders = array();
 		$i = 1;
 		foreach($params as $key => $value){
 			if($key == 'order_pickup_end'){
