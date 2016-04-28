@@ -514,6 +514,30 @@ $app->delete('/company/:id', 'authenticate', function($company_id) use($app) {
  * method - GET
  * params - api Key*/
 
+$app->get('/carriers', 'authenticate', function() use($app) {
+		$request = \Slim\Slim::getInstance()->request();
+		$params = $request->params();    
+    
+		$response = array();
+		$DbHandler = new DbHandler();		
+		$result = $DbHandler->getAllCarriers($params);
+		if (!$result) {
+			$response["error"] = TRUE;
+			$response["message"] = "The requested resource doesn't exists";
+			echoRespnse(404, $response);
+		} else {
+			$response["error"] = false;
+			$response['companies']=json_decode($result);
+			echoRespnse(200, $response);
+		}
+});
+
+/**
+ * Get all Customers
+ * url - /supplier
+ * method - GET
+ * params - api Key*/
+
 $app->get('/customers', 'authenticate', function() use($app) {
 		$request = \Slim\Slim::getInstance()->request();
 		$params = $request->params();    

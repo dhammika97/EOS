@@ -26,11 +26,36 @@ controllers.supplierDashController = function($scope, supplierDashFactory, locat
 			  { name:'order_arrival_day', displayName: 'Arrival Date', headerCellClass: 'HeaderStyle1', enableCellEdit: false },
 			  { name:'order_stack', displayName: 'Stack', headerCellClass: 'HeaderStyle1', cellFilter: 'mapPickup' , width: '80', enableCellEdit: false },
 			  { name:'order_comments', displayName: 'Comments', headerCellClass: 'HeaderStyle1', width:250 , enableCellEdit: false, cellTemplate: commentTemplate},
-			  { name:'order_product', displayName: 'Product', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 cellEditable'},
-			  { name:'order_skid_count', displayName: 'Skid Count', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 cellEditable'},
-			  { name:'order_dimensions', displayName: 'Dimension', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 cellEditable' },
-			  { name:'order_freight_class', displayName: 'Freight Class', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 cellEditable' },
-			  { name:'order_stackable', displayName: 'Stackable', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 cellEditable',cellFilter: 'mapPickup',
+			  { name:'order_product', displayName: 'Product', headerCellClass: 'HeaderStyle2' ,cellClass:function(grid, row, col, rowRenderIndex, colRenderIndex){
+			  	if (row.entity.order_status == 1 && row.entity.order_supplier_status==0) {
+					return 'CellClassStyle1 cellEditable';
+				}
+				return 'CellClassStyle1'  
+			}},
+			  { name:'order_skid_count', displayName: 'Skid Count', headerCellClass: 'HeaderStyle2' ,cellClass:function(grid, row, col, rowRenderIndex, colRenderIndex){
+			  	if (row.entity.order_status == 1 && row.entity.order_supplier_status==0) {
+					return 'CellClassStyle1 cellEditable';
+				}
+				return 'CellClassStyle1'  
+			}},
+			  { name:'order_dimensions', displayName: 'Dimension', headerCellClass: 'HeaderStyle2' ,cellClass:function(grid, row, col, rowRenderIndex, colRenderIndex){
+			  	if (row.entity.order_status == 1 && row.entity.order_supplier_status==0) {
+					return 'CellClassStyle1 cellEditable';
+				}
+				return 'CellClassStyle1'  
+			} },
+			  { name:'order_freight_class', displayName: 'Freight Class', headerCellClass: 'HeaderStyle2' ,cellClass:function(grid, row, col, rowRenderIndex, colRenderIndex){
+			  	if (row.entity.order_status == 1 && row.entity.order_supplier_status==0) {
+					return 'CellClassStyle1 cellEditable';
+				}
+				return 'CellClassStyle1'  
+			}},
+			  { name:'order_stackable', displayName: 'Stackable', headerCellClass: 'HeaderStyle2' ,cellClass:function(grid, row, col, rowRenderIndex, colRenderIndex){
+			  	if (row.entity.order_status == 1 && row.entity.order_supplier_status==0) {
+					return 'CellClassStyle1 cellEditable';
+				}
+				return 'CellClassStyle1'  
+			},cellFilter: 'mapPickup',
 			  	editDropdownOptionsArray: [
 					{ id: 1, status: 'Yes' },
 					{ id: 2, status: 'No' }
@@ -38,8 +63,18 @@ controllers.supplierDashController = function($scope, supplierDashFactory, locat
 				editableCellTemplate: 'ui-grid/dropdownEditor',
 				editDropdownValueLabel: 'status', 
 				editDropdownIdLabel: 'id'},
-			  { name:'order_weight', displayName: 'Weight', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 cellEditable'},
-			  { name:'order_supplier_status', displayName: 'Status', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1 bold cellEditable', 	cellFilter: 'mapSuplierStatus',
+			  { name:'order_weight', displayName: 'Weight', headerCellClass: 'HeaderStyle2' ,cellClass:function(grid, row, col, rowRenderIndex, colRenderIndex){
+			  	if (row.entity.order_status == 1 && row.entity.order_supplier_status==0) {
+					return 'CellClassStyle1 cellEditable';
+				}
+				return 'CellClassStyle1'  
+			}},
+			  { name:'order_supplier_status', displayName: 'Status', headerCellClass: 'HeaderStyle2' ,cellClass:function(grid, row, col, rowRenderIndex, colRenderIndex){
+			  	if (row.entity.order_status == 1 && row.entity.order_supplier_status==0) {
+					return 'CellClassStyle1 cellEditable';
+				}
+				return 'CellClassStyle1'  
+			}, 	cellFilter: 'mapSuplierStatus',
 			  	editDropdownOptionsArray: [
 					{ id: 0, status: 'Pending' },
 					{ id: 1, status: 'Accepted' }

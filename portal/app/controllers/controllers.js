@@ -160,7 +160,7 @@ App.controller(controllers)
 })
 .filter('companyDropdown', function(){
 	return function(value, scope){
-		//console.log(scope)
-		return scope.row.entity.company_name
+		//console.log(scope.row.entity.company)
+		//return scope.row.entity.company
 	}	
 })
