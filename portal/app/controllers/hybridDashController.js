@@ -65,34 +65,18 @@ controllers.hybridDashController = function($scope, hybridDashFactory, locationF
 	$scope.firstDate = firstday.getFullYear()+'-'+(firstday.getMonth()+1)+'-'+firstday.getDate()
 	$scope.lastDate = lastday.getFullYear()+'-'+(lastday.getMonth()+1)+'-'+lastday.getDate()
 	
-	
+	//$scope.autoRefresh = true
 	locationFactory.query().$promise.then(function(data){
 		$scope.locationsList = data.locations
 		$scope.countryFilter = 0
-		
-		hybridDashFactory.orders.query({'order_pickup_start':$scope.firstDate, 'order_pickup_end':$scope.lastDate}).$promise.then(function(data){
-			$scope.gridOptions.data = data.orders
-			Notification.success('Data retrieved!');
-			$scope.noData = false;
-		},function(data){
-			$scope.gridOptions.data = {}
-			Notification.error(data.data.message);
-			$scope.noData = true;	
-		});
+		$scope.getData($scope.firstDate, $scope.lastDate, $scope.countryFilter)
+		$scope.refreshData()
 	})
 	
 
 	})
 		$scope.getCountryFiltered = function(){
-		hybridDashFactory.orders.query({'order_location_id':$scope.countryFilter,'order_pickup_start':$scope.firstDate, 'order_pickup_end':$scope.lastDate}).$promise.then(function(data){
-			$scope.gridOptions.data = data.orders
-			Notification.success('Data retrieved!');
-			$scope.noData = false;
-		},function(data){
-			$scope.gridOptions.data = {}
-			Notification.error(data.data.message);	
-			$scope.noData = true;
-		});	
+		$scope.getData($scope.firstDate, $scope.lastDate, $scope.countryFilter)
 	}
 	
 	var detailsTemplate = 	'<div><div class="WR_PageTitle"><h1><i class="fa fa-chevron-circle-right"></i> Logistic Details</h1></div><table width="470" border="1" class="dataTbl"><tr><th scope="row" width="150">Product</th><td>{{order.order_product}}</td></tr><tr><th scope="row">Skid Count</th><td>{{order.order_skid_count}}</td></tr><tr><th scope="row">Dimension</th><td>{{order.order_dimensions}}</td></tr><tr><th scope="row">Freight Class</th><td>{{order.order_freight_class}}</td></tr><tr><th scope="row">Stackable</th><td>{{order.order_stackable}}</td></tr><tr><th scope="row">Weight</th><td>{{order.order_weight}}</td></tr></table></div>'
@@ -101,6 +85,62 @@ controllers.hybridDashController = function($scope, hybridDashFactory, locationF
 		$scope.common.orderDetail = {}	
 		$scope.common.orderDetail.order_id = e
 		$fancyModal.open({ template : detailsTemplate, controller:'detailsPopupController'})
+	}
+	
+	
+	$scope.getData = function(startDate, endDate, Location){
+		if(Location=='undefined')
+		Location = 0
+		hybridDashFactory.orders.query({'order_pickup_start':startDate, 'order_pickup_end':endDate, 'order_location_id':Location}).$promise.then(function(data){
+			$scope.gridOptions.data = data.orders
+			Notification.success('Data retrieved!');
+			$scope.noData = false;
+		},function(data){
+			$scope.gridOptions.data = {}
+			Notification.error(data.data.message);
+			$scope.noData = true;	
+		});
+	}
+	
+	var timer
+	$scope.refreshData = function(){
+		$scope.autoRefresh = true
+		timer = setTimeout(function(){
+		$scope.getData($scope.firstDate, $scope.lastDate, $scope.countryFilter, $scope.countryFilter)
+			$scope.refreshData()	
+		},1000*60*3)	
+	}
+	
+	$scope.$on('$destroy', function() {
+		$scope.stopRefresh()  
+	});
+	$scope.stopRefresh = function(){
+		clearTimeout(timer)
+		$scope.autoRefresh = false
+	}
+	
+	$scope.nextWeek = function(){
+		//console.log($scope.firstDate+' 0 '+$scope.lastDate)
+		var tmpS = new Date($scope.firstDate)
+		var tmpL = new Date($scope.lastDate)
+		firstday = new Date(tmpS.setDate(tmpS.getDate()-tmpS.getDay()+7))
+		lastday = new Date(tmpL.setDate(tmpL.getDate()-tmpL.getDay()+13))
+		$scope.firstDate = firstday.getFullYear()+'-'+(firstday.getMonth()+1)+'-'+firstday.getDate()
+		$scope.lastDate = lastday.getFullYear()+'-'+(lastday.getMonth()+1)+'-'+lastday.getDate()
+		//console.log($scope.firstDate+' 0 '+$scope.lastDate)
+		$scope.getData($scope.firstDate, $scope.lastDate, $scope.countryFilter)
+	}
+	
+	$scope.previousWeek = function(){
+		//console.log($scope.firstDate+' 0 '+$scope.lastDate)
+		var tmpS = new Date($scope.firstDate)
+		var tmpL = new Date($scope.lastDate)
+		firstday = new Date(tmpS.setDate(tmpS.getDate()-tmpS.getDay()-7))
+		lastday = new Date(tmpL.setDate(tmpL.getDate()-tmpL.getDay()-1))
+		$scope.firstDate = firstday.getFullYear()+'-'+(firstday.getMonth()+1)+'-'+firstday.getDate()
+		$scope.lastDate = lastday.getFullYear()+'-'+(lastday.getMonth()+1)+'-'+lastday.getDate()
+		//console.log($scope.firstDate+' 0 '+$scope.lastDate)
+		$scope.getData($scope.firstDate, $scope.lastDate, $scope.countryFilter)
 	}
 }
 
