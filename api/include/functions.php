@@ -65,12 +65,11 @@ function sendMail($content, $headers){
 					Hi '.$content['user_name'].',
 					</p>
 					<p>
-					Your oder request has added succesfully to the system.<br> 
-					Thank you for connecting with Hybrid Logistics<br>
+					You have an item requiring action on HEOS. Please login and action accordingly.<br/>
 					</p>
 					<p>
-						Best Regards!<br>
-						Team Hybrid
+					Thank you<br/>
+					Hybrid HEOS System<br/>
 					</p>
 					  
 				</body>
@@ -86,12 +85,11 @@ function sendMail($content, $headers){
 					Hi '.$content['company_contact_name'].',
 					</p>
 					<p>
-					Your oder request has added succesfully to the system.<br> 
-					Thank you for connecting with Hybrid Logistics<br>
+					You have an item requiring action on HEOS. Please login and action accordingly.<br/>
 					</p>
 					<p>
-						Best Regards!<br>
-						Team Hybrid
+					Thank you<br/>
+					Hybrid HEOS System<br/>
 					</p>
 					  
 				</body>
@@ -107,12 +105,11 @@ function sendMail($content, $headers){
 					Hi '.$content['company_contact_name'].',
 					</p>
 					<p>
-					New oder request has been added to the system. Please review and ACCEPT.<br> 
-					Thank you for connecting with Hybrid Logistics<br>
+					You have an item requiring action on HEOS. Please login and action accordingly.<br/>
 					</p>
 					<p>
-						Best Regards!<br>
-						Team Hybrid
+					Thank you<br/>
+					Hybrid HEOS System<br/>
 					</p>
 					  
 				</body>
@@ -128,12 +125,11 @@ function sendMail($content, $headers){
 					Hi '.$content['company_contact_name'].',
 					</p>
 					<p>
-					New oder request has been added to the system.<br> 
-					Thank you for connecting with Hybrid Logistics<br>
+					You have an item requiring action on HEOS. Please login and action accordingly.<br/>
 					</p>
 					<p>
-						Best Regards!<br>
-						Team Hybrid
+					Thank you<br/>
+					Hybrid HEOS System<br/>
 					</p>
 					  
 				</body>

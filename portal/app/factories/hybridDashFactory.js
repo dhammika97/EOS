@@ -1,10 +1,17 @@
 // JavaScript Document
 App.factory('hybridDashFactory',function($resource){
-	var orders = $resource('../api/orders/:id', {}, {
+	
+	factory = {}
+	
+	factory.orders = $resource('../api/orders/:id', {}, {
 		query: {method: 'GET', params: {}, isArray: false}
     });
 	
-	return orders
+	factory.carriers = $resource('../api/carriers/:id', {}, {
+		query: {method: 'GET', params: {}, isArray: false}
+    });
+	
+	return factory
 		
 })
 

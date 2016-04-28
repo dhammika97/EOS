@@ -539,6 +539,25 @@ class DbHandler {
 		return $supplier_list;
 	}
 	
+	public function getAllCarriers($params){
+		$where = '';
+		$i = 1;
+		foreach($params as $key => $value){
+			if($i != count($params) )
+			$where .= $key .'='.$value.' AND ';
+			else
+			$where .= $key .'='.$value;
+			$i++;
+		}
+		$db = new database();
+		$table = 'company';
+		$rows ='*';
+		$where = 'company_type = 4';
+		$db->selectJson($table,$rows,$where,'','');
+		$supplier_list = $db->getJson();
+		return $supplier_list;
+	}
+	
 	public function getSuplierDetail($supplier_id){
 		$db = new database();
 		$table = 'supplier';
@@ -650,13 +669,13 @@ class DbHandler {
 			}
 			//print_r($user);
 			//mail to requester
-				$headers  = 'MIME-Version: 1.0' . "\r\n";
+				/*$headers  = 'MIME-Version: 1.0' . "\r\n";
 				$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 				$headers .= 'From: HEOS - Hybrid Logistics <info@hybridlogistics.ca>' . "\r\n";
 				$content['user_name'] = $user['user_name'];
 				$content['to'] = $user['user_email'];
 				$content['mailType'] = "newOrderRequester";
-				sendMail($content, $headers);
+				sendMail($content, $headers);*/
 			
 			//mail to company 
 				$db = new database();
@@ -667,16 +686,16 @@ class DbHandler {
 				$company = $db->getResults();
 			
 			//print_r($company);
-			if($user['user_type']==2){
+			/*if($user['user_type']==2){*/
 				$headers  = 'MIME-Version: 1.0' . "\r\n";
 				$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 				$headers .= 'From: HEOS - Hybrid Logistics <info@hybridlogistics.ca>' . "\r\n";
-				$headers .= 'Cc: dhammika97@gmail.com' . "\r\n";
+				$headers .= 'Cc: dhammika97@gmail.com' . "\r\n";// needs to Cc info@gybridlogistics.ca
 				$content['company_contact_name'] = $company['company_contact_name'];
 				$content['to'] = $company['company_email'];
 				$content['mailType'] = "newOrderOwn";
 				sendMail($content, $headers);
-			}else{
+			/*}else{
 				$headers  = 'MIME-Version: 1.0' . "\r\n";
 				$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 				$headers .= 'From: HEOS - Hybrid Logistics <info@hybridlogistics.ca>' . "\r\n";
@@ -685,7 +704,7 @@ class DbHandler {
 				$content['to'] = $company['company_email'];
 				$content['mailType'] = "newOrderOther";
 				sendMail($content, $headers);
-			}
+			}*/
 			//mail to supplier
 				$db = new database();
 				$table = 'company';
