@@ -29,7 +29,7 @@
    
    <div class="form-group" ng-class="{ 'has-error' : importForm.file.$invalid && submitted}">
    <label for="txtfullname">Select File</label>
-   <input type="file" class="form-control" nv-file-select=""  uploader="uploader" name="file" ng-model="importData.file_name" options="{'alias':'file_name'}" >
+   <input type="file" class="form-control" nv-file-select="" accept=".csv"  uploader="uploader" name="file" ng-model="importData.file_name" options="{'alias':'file_name'}" >
    </div>
    
    <button type="submit" class="btn btn-green btn-form" >Submit</button>

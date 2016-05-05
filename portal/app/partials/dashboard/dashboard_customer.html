@@ -1,6 +1,6 @@
 <!--  Title  -->
 <div class="WR_PageTitle">
-<h1><i class="fa fa-chevron-circle-right"></i> <a href="#">Scheduled Events Week {{firstDate}} / {{lastDate}}</a> <!--<span class="small">(Generated 1/8/2016 11:48)</span>--></h1>
+<h1><i class="fa fa-chevron-circle-right"></i> <a href="#">Scheduled Events Week {{firstDate}} / {{lastDate}}</a> <input type="button" value="<<" class="btn" title="Previous Week" ng-click="previousWeek()"> <input title="Next Week" type="button" value=">>" class="btn" ng-click="nextWeek()"><!--<span class="small">(Generated 1/8/2016 11:48)</span>--></h1>
 </div>
 <!--  Title  -->
 
@@ -13,6 +13,8 @@
         </select>
     </div>
     <div class="pull-right">
+    	<input name="" type="button" value="Stop Auto Refresh" ng-show="autoRefresh" class="btn btn-green" ng-click="stopRefresh()">
+        <input name="" type="button" value="Start Auto Refresh" ng-hide="autoRefresh" class="btn btn-green" ng-click="refreshData()">
         <input name="" type="button" value="+ New Order" class="btn btn-green" ng-click="go('add-new-order')">
         <input name="" type="button" value="+ Import" class="btn btn-green" ng-click="go('import-orders')">
     </div>
