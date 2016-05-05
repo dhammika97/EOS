@@ -25,9 +25,10 @@
     </ul>
 </div>
 
+
 <!-- Error Messages -->
 <form class="form-inline" name="orderForm" ng-keypress="keyPress($event)" ng-submit="addOrder(orderForm.$valid)" novalidate>
-   <div class="form-group" ng-show="isHideCustomer" ng-class="{ 'has-error' :orderForm.order_customer.$invalid && submitted}">
+   <div class="form-group" ng-show="isHideCustomer" ng-class="{ 'has-error' :orderForm.order_customer.$invalid && submitted}" style="display:none">
    <label for="txtcustomer">Customer</label>
    <select class="form-control" name="order_customer" ng-init="setDefaultCustomer()" ng-model="order.order_company_id" ng-options="obj.company_id as obj.company_name for obj in customers " required>
    	<option></option>

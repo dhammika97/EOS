@@ -788,16 +788,29 @@ class DbHandler {
 		$orders_list = $db->getResults();
 
 		$inc = 0;
-		foreach ($orders_list as $key => $order) 
-		{
-			$comments = explode(',', $order['order_comments']);
-			$orders[$inc] = $order;
-			$orders[$inc]['comments'] = $comments; 
-
-			$inc++;
+		if($this->is_multi_array($orders_list)){
+			//print_r($orders_list);die();
+			foreach ($orders_list as $key => $order) 
+			{
+				$comments = explode(',', $order['order_comments']);
+				$orders[$inc] = $order;
+				$orders[$inc]['comments'] = $comments; 
+	
+				$inc++;
+			}
+		}elseif(count($orders_list)>0){
+			//print_r(count($orders_list));
+			$comments = explode(',', $orders_list['order_comments']);
+			$orders[0] = $orders_list;
+			$orders[0]['comments'] = $comments; 
+			//print_r($orders_list);die();
 		}
-		
 		return $orders;
+	}
+	
+	private function is_multi_array( $arr ) {
+		rsort( $arr );
+		return isset( $arr[0] ) && is_array( $arr[0] );
 	}
 	
 	public function updateOrder($order_id, $order){

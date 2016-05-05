@@ -17,6 +17,7 @@ controllers.masterController = function($scope, $location, $window, auth){
 	$scope.userCompanyID = data.cID
 	$scope.userCompanyType = data.cType
 	$scope.userId = data.sId
+	$('#overlay').hide()
 })
 		
 	$scope.go = function(path){
