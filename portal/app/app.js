@@ -109,16 +109,14 @@ window.routes =
 		accessType:1
     },
 	"/add-new-order-customer": {
-        templateUrl: 'app/partials/orders/add_new_order.html', 
+        templateUrl: 'app/partials/orders/add_new_order_customer.html', 
         controller: 'addNewOrderController', 
-        requireLogin: true,
-		accessType:2
+        requireLogin: true
     },
 	"/add-new-order-supplier": {
-        templateUrl: 'app/partials/orders/add_new_order.html', 
+        templateUrl: 'app/partials/orders/add_new_order_supplier.html', 
         controller: 'addNewOrderController', 
-        requireLogin: true,
-		accessType:3
+        requireLogin: true
     },
     "/import-orders": {
         templateUrl: 'app/partials/orders/import_orders.html', 

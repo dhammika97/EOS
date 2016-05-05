@@ -34,7 +34,7 @@
    </select>
    </div>
    
-   <div class="form-group" ng-show="isHideSupplier" ng-class="{ 'has-error' :orderForm.order_supplier.$invalid && submitted}">
+   <div class="form-group" ng-show="isHideSupplier" ng-class="{ 'has-error' :orderForm.order_supplier.$invalid && submitted}" style="display:none">
    <label for="txtsuplier">Suplier</label>
       <select class="form-control" id="txtsuplier" name="order_supplier" ng-model="order.order_supplier_id" ng-options="obj.company_id as obj.company_name for obj in companies" required>
       <option></option>
