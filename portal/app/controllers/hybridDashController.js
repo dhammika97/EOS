@@ -68,7 +68,7 @@ controllers.hybridDashController = function($scope, hybridDashFactory, locationF
 	//$scope.autoRefresh = true
 	locationFactory.query().$promise.then(function(data){
 		$scope.locationsList = data.locations
-		$scope.countryFilter = 0
+		$scope.countryFilter = '0'
 		$scope.getData($scope.firstDate, $scope.lastDate, $scope.countryFilter)
 		$scope.refreshData()
 	})
