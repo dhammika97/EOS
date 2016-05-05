@@ -24,6 +24,7 @@
         <li ng-show="orderForm.order_stack.$invalid && submitted">Please select stack Yes/No!</li>
     </ul>
 </div>
+{{order}}
 <!-- Error Messages -->
 <form class="form-inline" name="orderForm" ng-keypress="keyPress($event)" ng-submit="addOrder(orderForm.$valid)" novalidate>
    <div class="form-group" ng-show="isHideCustomer" ng-class="{ 'has-error' :orderForm.order_customer.$invalid && submitted}">
@@ -66,14 +67,14 @@
    
    <div class="form-group" ng-class="{ 'has-error' :orderForm.order_pickup_date.$invalid && submitted}">
    <label for="txtPickupDate">Pick-Up Date</label>
-   <datepicker date-format="yyyy/MM/dd" date-min-limit="{{minDate}}">
-   	<input class="form-control" name="order_pickup_date" ng-model="order.order_pickup_day"  required/>
+   <datepicker date-format="yyyy/MM/dd" date-min-limit="{{minDate.toString()}}">
+   	<input class="form-control" name="order_pickup_date" ng-model="order.order_pickup_day" ng-change="setArrivalMin()"  required/>
    </datepicker>
    </div>
    
    <div class="form-group" ng-class="{ 'has-error' :orderForm.order_arrival_date.$invalid && submitted}">
    <label for="txtArrivalDate">Arrival Day</label>
-   <datepicker date-format="yyyy/MM/dd" date-min-limit="{{minDate}}">
+   <datepicker date-format="yyyy/MM/dd" date-min-limit="{{arrivalMindate.toString()}}" date-max-limit="{{arrivalMaxDate.toString()}}">
    	<input class="form-control" name="order_arrival_date" ng-model="order.order_arrival_day"  required/>
    </datepicker>
    </div>

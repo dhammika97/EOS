@@ -151,6 +151,18 @@ body {
 	text-decoration: none;
 }
 
+.WR_PageTitle .btn{
+	font-size: 13px;
+    background: #2E323D;
+    padding: 3px 8px 4px;
+    box-shadow: 1px 1px 3px #999;
+    color: #fff;
+    margin-top: -5px;
+}
+
+.WR_PageTitle .btn:hover{
+	background:#C0C0C0	
+}
 
 
 

@@ -7,6 +7,7 @@ controllers.addNewOrderController = function($scope, getOrderDetailsFactory){
 	var date = new Date()
 	date.setDate(date.getDate() - 1)
 	$scope.minDate = date.toString();
+	$scope.arrivalMindate = $scope.minDate
 	
 	if($scope.userCompanyType == 2){
 		$scope.isHideCustomer = false	
@@ -57,4 +58,25 @@ controllers.addNewOrderController = function($scope, getOrderDetailsFactory){
 			$scope.order = {}
 		}
 	}
+	
+	$scope.setArrivalMin = function(){
+		$scope.arrivalMindate = dateConverter($scope.order.order_pickup_day)
+		setArrivalMax()
+	}
+	var setArrivalMax = function(){
+		if($scope.order.order_pickup_day===undefined){
+			var tmpMax = new Date()
+		}else{
+			var tmpMax = dateConverter($scope.order.order_pickup_day)
+		}
+		varNumDays = 6-tmpMax.getDay()
+		tmpMax.setDate(tmpMax.getDate()+varNumDays)
+		$scope.arrivalMaxDate = tmpMax.toString()
+	}
+	var dateConverter = function(date){
+		var tmpDate = date.split('/')
+		var newDate = tmpDate[1]+'/'+tmpDate[2]+'/'+tmpDate[0]
+		return (new Date(newDate))
+	}
+	setArrivalMax()
 }

@@ -97,8 +97,43 @@ controllers.supplierDashController = function($scope, supplierDashFactory, locat
 	locationFactory.query().$promise.then(function(data){
 		$scope.locationsList = data.locations
 		$scope.countryFilter = 0
-		
-		supplierDashFactory.query({'order_pickup_start':$scope.firstDate, 'order_pickup_end':$scope.lastDate, 'order_supplier_id':$scope.userCompanyID}).$promise.then(function(data){
+		$scope.getData($scope.firstDate, $scope.lastDate, $scope.countryFilter)
+		$scope.refreshData()
+		/*supplierDashFactory.query({'order_pickup_start':$scope.firstDate, 'order_pickup_end':$scope.lastDate, 'order_supplier_id':$scope.userCompanyID}).$promise.then(function(data){
+			$scope.supplierGridOptions.data = data.orders
+			Notification.success('Data retrieved!');
+			$scope.noData = false;
+		},function(data){
+			$scope.supplierGridOptions.data = {}
+			Notification.error(data.data.message);
+			$scope.noData = true;	
+		});*/
+	})
+	
+	$scope.getCountryFiltered = function(){
+		$scope.getData($scope.firstDate, $scope.lastDate, $scope.countryFilter)
+	}
+	var timer
+	$scope.refreshData = function(){
+		$scope.autoRefresh = true
+		timer = setTimeout(function(){
+		$scope.getData($scope.firstDate, $scope.lastDate, $scope.countryFilter, $scope.countryFilter)
+			$scope.refreshData()
+		},1000*60*3)	
+	}
+	
+	$scope.$on('$destroy', function() {
+		$scope.stopRefresh()  
+	});
+	$scope.stopRefresh = function(){
+		clearTimeout(timer)
+		$scope.autoRefresh = false
+	}
+	
+	$scope.getData = function(startDate, endDate, Location){
+		if(Location=='undefined')
+		Location = 0
+		supplierDashFactory.orders.query({'order_pickup_start':startDate, 'order_pickup_end':endDate, 'order_location_id':Location, 'order_supplier_id':$scope.userCompanyID}).$promise.then(function(data){
 			$scope.supplierGridOptions.data = data.orders
 			Notification.success('Data retrieved!');
 			$scope.noData = false;
@@ -107,18 +142,28 @@ controllers.supplierDashController = function($scope, supplierDashFactory, locat
 			Notification.error(data.data.message);
 			$scope.noData = true;	
 		});
-	})
+	}
 	
-	$scope.getCountryFiltered = function(){
-		supplierDashFactory.query({'order_location_id':$scope.countryFilter,'order_pickup_start':$scope.firstDate, 'order_pickup_end':$scope.lastDate, 'order_supplier_id':$scope.userCompanyID}).$promise.then(function(data){
-			$scope.supplierGridOptions.data = data.orders
-			Notification.success('Data retrieved!');
-			$scope.noData = false;
-		},function(data){
-			$scope.supplierGridOptions.data = {}
-			Notification.error(data.data.message);	
-			$scope.noData = true;
-		});	
+	$scope.nextWeek = function(){
+		var tmpS = new Date($scope.firstDate)
+		var tmpL = new Date($scope.lastDate)
+		firstday = new Date(tmpS.setDate(tmpS.getDate()-tmpS.getDay()+7))
+		lastday = new Date(tmpL.setDate(tmpL.getDate()-tmpL.getDay()+13))
+		$scope.firstDate = firstday.getFullYear()+'-'+(firstday.getMonth()+1)+'-'+firstday.getDate()
+		$scope.lastDate = lastday.getFullYear()+'-'+(lastday.getMonth()+1)+'-'+lastday.getDate()
+		$scope.getData($scope.firstDate, $scope.lastDate, $scope.countryFilter)
+	}
+	
+	$scope.previousWeek = function(){
+		//console.log($scope.firstDate+' 0 '+$scope.lastDate)
+		var tmpS = new Date($scope.firstDate)
+		var tmpL = new Date($scope.lastDate)
+		firstday = new Date(tmpS.setDate(tmpS.getDate()-tmpS.getDay()-7))
+		lastday = new Date(tmpL.setDate(tmpL.getDate()-tmpL.getDay()-1))
+		$scope.firstDate = firstday.getFullYear()+'-'+(firstday.getMonth()+1)+'-'+firstday.getDate()
+		$scope.lastDate = lastday.getFullYear()+'-'+(lastday.getMonth()+1)+'-'+lastday.getDate()
+		//console.log($scope.firstDate+' 0 '+$scope.lastDate)
+		$scope.getData($scope.firstDate, $scope.lastDate, $scope.countryFilter)
 	}
 	
 	$scope.supplierGridOptions.onRegisterApi = function(gridApi){

@@ -1,10 +1,11 @@
 // JavaScript Document
 App.factory('supplierDashFactory',function($resource){
-	var orders = $resource('../api/orders/:id', {}, {
+	factory = {}
+	
+	factory.orders = $resource('../api/orders/:id', {}, {
 		query: {method: 'GET', params: {}, isArray: false}
     });
-	
-	return orders
+	return factory
 		
 })
 

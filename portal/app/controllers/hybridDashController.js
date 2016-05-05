@@ -107,7 +107,7 @@ controllers.hybridDashController = function($scope, hybridDashFactory, locationF
 		$scope.autoRefresh = true
 		timer = setTimeout(function(){
 		$scope.getData($scope.firstDate, $scope.lastDate, $scope.countryFilter, $scope.countryFilter)
-			$scope.refreshData()	
+			$scope.refreshData()
 		},1000*60*3)	
 	}
 	
@@ -120,14 +120,12 @@ controllers.hybridDashController = function($scope, hybridDashFactory, locationF
 	}
 	
 	$scope.nextWeek = function(){
-		//console.log($scope.firstDate+' 0 '+$scope.lastDate)
 		var tmpS = new Date($scope.firstDate)
 		var tmpL = new Date($scope.lastDate)
 		firstday = new Date(tmpS.setDate(tmpS.getDate()-tmpS.getDay()+7))
 		lastday = new Date(tmpL.setDate(tmpL.getDate()-tmpL.getDay()+13))
 		$scope.firstDate = firstday.getFullYear()+'-'+(firstday.getMonth()+1)+'-'+firstday.getDate()
 		$scope.lastDate = lastday.getFullYear()+'-'+(lastday.getMonth()+1)+'-'+lastday.getDate()
-		//console.log($scope.firstDate+' 0 '+$scope.lastDate)
 		$scope.getData($scope.firstDate, $scope.lastDate, $scope.countryFilter)
 	}
 	
