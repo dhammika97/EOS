@@ -96,7 +96,7 @@ controllers.supplierDashController = function($scope, supplierDashFactory, locat
 	
 	locationFactory.query().$promise.then(function(data){
 		$scope.locationsList = data.locations
-		$scope.countryFilter = 0
+		$scope.countryFilter = '0'
 		$scope.getData($scope.firstDate, $scope.lastDate, $scope.countryFilter)
 		$scope.refreshData()
 		/*supplierDashFactory.query({'order_pickup_start':$scope.firstDate, 'order_pickup_end':$scope.lastDate, 'order_supplier_id':$scope.userCompanyID}).$promise.then(function(data){
