@@ -1,6 +1,7 @@
 // JavaScript Document
 controllers.hybridDashController = function($scope, hybridDashFactory, locationFactory, Notification, $fancyModal, Common){
 	$scope.gridOptions = {}
+	$scope.minDate = new Date();
 	hybridDashFactory.carriers.query().$promise.then(function(data){
 		//console.log(data.companies)
 		$scope.logistics = data.companies
@@ -37,10 +38,18 @@ controllers.hybridDashController = function($scope, hybridDashFactory, locationF
 			enableCellEditOnFocus:true,
 			editableCellTemplate: 'ui-grid/dropdownEditor',
 			editDropdownValueLabel: 'company_name', 
-			editDropdownIdLabel: 'company_id',
-			cellFilter: "companyDropdown:this",
+			editDropdownIdLabel: 'company_name',
+			//cellFilter: "companyDropdown:this",
 			editDropdownOptionsArray: $scope.logistics },
-		  { name: 'order_assign_date', displayName: 'Date', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1', enableCellEdit: false },
+		  { name: 'order_assign_date', displayName: 'Date', headerCellClass: 'HeaderStyle2' , cellClass:function(grid, row, col, rowRenderIndex, colRenderIndex){
+			  	if (row.entity.order_status == 2 && row.entity.order_supplier_status==0) {
+					return 'CellClassStyle1';
+				}
+				return 'CellClassStyle1 cellEditable' }, 
+		  	type: 'date',
+			cellFilter: 'date:"yyyy-MM-dd"',
+			min: $scope.minDate
+		  },
 		  { name: 'order_assigned_by', displayName: 'By', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1', enableCellEdit: false},
 		  { name: 'order_status', displayName: 'Customer Status', headerCellClass: 'HeaderStyle2' , cellClass:'CellClassStyle1', cellFilter: 'mapOrderStatus', enableCellEdit: false},
 		  ]

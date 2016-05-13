@@ -24,7 +24,8 @@ controllers.userController = function($scope, userFactory, customerFactory, user
 					editDropdownIdLabel: 'company_id',
 					editDropdownOptionsArray:$scope.companies,
 					//cellFilter: 'mapCompany',
-					cellFilter: "companyDropdown:this", cellClass:'cellEditable',enableCellEditOnFocus:true
+					cellFilter: "companyDropdown:this", 
+					cellClass:'cellEditable',enableCellEditOnFocus:true
 				 },
 				{ field: 'user_contactNo', displayName:'Contact No.', headerCellClass: 'HeaderStyle1', cellClass:'cellEditable',enableCellEditOnFocus:true },
 				{ field: 'user_status', displayName:'Status', headerCellClass: 'HeaderStyle1',
